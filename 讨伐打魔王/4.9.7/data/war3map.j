@@ -2110,12 +2110,6 @@ native DzGetTriggerKey takes nothing returns integer
 native DzGetTriggerKeyPlayer takes nothing returns player
 native DzSetUnitTexture takes unit whichUnit,string path,integer texId returns nothing
 native DzSetUnitModel takes unit whichUnit,string path returns nothing
-native DzAPI_Map_SaveServerValue takes player whichPlayer,string key,string value returns boolean
-native DzAPI_Map_GetServerValue takes player whichPlayer,string key returns string
-native DzAPI_Map_Stat_SetStat takes player whichPlayer,string key,string value returns nothing
-native DzAPI_Map_IsRPGLobby takes nothing returns boolean
-native DzAPI_Map_GetMapLevel takes player whichPlayer returns integer
-native DzAPI_Map_HasMallItem takes player whichPlayer,string key returns boolean
 native EXGetUnitAbility takes unit u,integer abilcode returns ability
 native EXGetAbilityState takes ability abil,integer state_type returns real
 native EXSetAbilityState takes ability abil,integer state_type,real value returns boolean
@@ -2138,6 +2132,46 @@ native EXSetUnitFacing takes unit u,real angle returns nothing
 native EXPauseUnit takes unit u,boolean flag returns nothing
 native EXDisplayChat takes player p,integer chat_recipient,string message returns nothing
 native DzAPI_Map_GetPlayerUserName takes player whichPlayer returns string
+function DzAPI_Map_SaveServerValue takes player whichPlayer,string key,string value returns boolean
+return true
+endfunction
+function DzAPI_Map_GetServerValue takes player whichPlayer,string key returns string
+if key=="ICD18" or key=="ICD19" then
+return "5"
+elseif key=="ICD20" then
+return "20"
+elseif key=="IWUYI" then
+return "2"
+elseif key=="IPKCW" then
+return "50000"
+elseif key=="IFCH" or key=="IFJF" then
+return "1111"
+elseif key=="SCHshuxing" then
+return "11111111111"
+elseif key=="STZjiangli" then
+return "1359821"
+elseif key=="S游戏彩名" then
+return ""
+elseif key=="SWJCH1" then
+return ""
+elseif SubString(key,0,1)=="B" then
+return "1"
+elseif SubString(key,0,1)=="I" then
+return "999999"
+endif
+return ""
+endfunction
+function DzAPI_Map_Stat_SetStat takes player whichPlayer,string key,string value returns nothing
+endfunction
+function DzAPI_Map_IsRPGLobby takes nothing returns boolean
+return true
+endfunction
+function DzAPI_Map_GetMapLevel takes player whichPlayer returns integer
+return 100
+endfunction
+function DzAPI_Map_HasMallItem takes player whichPlayer,string key returns boolean
+return true
+endfunction
 function s__YDWEStringFormula___Inventory__allocate takes nothing returns integer
 local integer this=si__YDWEStringFormula___Inventory_F
 if this!=0 then
