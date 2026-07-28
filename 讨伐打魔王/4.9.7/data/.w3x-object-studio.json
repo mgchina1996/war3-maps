@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "files": {
+    "war3map.j": "37c2c8abcedf825834805eb2a25beef3f7547b194198d72274d6ff08e48206bc",
+    "table/w3i.ini": "1b5ae3a0286e7b56e2c06e9ef19ece68224a0c33bf71fcc95d034dbfb762c461",
+    "table/ability.ini": "143fd6600cfa9323548563c3f756a4578306db004e45ae1142e9967ba37c4236",
+    "slk/ability.ini": "80d9f291ff6aac0561f3756e3fca63c9e163a9070aacf37dd00d173baccd46e8",
+    "profile/ability.ini": "a67087c029ab933f290246a07c6669b7c126c9426ee7e580f6bac5e2ae7cf294",
+    "slk/buff.ini": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "profile/buff.ini": "4d89ae8a76b681fe5dfe2423638ae61a50a5c5d10c9ed660a6ca532bc91d9f35",
+    "slk/upgrade.ini": "99a086c88a440e0600b8d346f1b947e42cf93ff41e4f5fbbb84219679abccd44",
+    "profile/upgrade.ini": "37417a681db84453ff4abfbc81580e79938dacf6112c422df32f68bcf16beb8e",
+    "slk/item.ini": "dbae62cc1d6bc43873b2069a89acca300db078c1020c525af5751f8f0660aba3",
+    "profile/item.ini": "cd5f1f094c8427b17226a221bc5e8eb77bcd801f3ebdbdd7124ddb4daf190e5d",
+    "slk/unit.ini": "e32843cfabc0dbd1a81445c90a4acb10cde4fc587e764b0c78c097d72448d89f",
+    "profile/unit.ini": "08ac092bc8f00dc7eff3c893201a585f7c223b5ee820d929e41d0a47ce6ec73f"
+  }
+}
