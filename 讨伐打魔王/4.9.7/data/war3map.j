@@ -109950,7 +109950,7 @@ if GetItemTypeId(GetManipulatedItem())==$4930314D then
 if LoadInteger(YDHT,GetHandleId(GetOwningPlayer(GetTriggerUnit())),$1502625C)<1 then
 if DzAPI_Map_HasMallItem(GetOwningPlayer(GetTriggerUnit()),"SCCH1")==true or DzAPI_Map_HasMallItem(GetOwningPlayer(GetTriggerUnit()),"SCCH2")==true or DzAPI_Map_HasMallItem(GetOwningPlayer(GetTriggerUnit()),"SCCH3")==true or LoadBoolean(YDHT,GetHandleId(GetOwningPlayer(GetTriggerUnit())),$8D9EDC96)==true or DzAPI_Map_HasMallItem(GetOwningPlayer(GetTriggerUnit()),"XNPF1")==true then
 call SaveInteger(YDHT,GetHandleId(GetOwningPlayer(GetTriggerUnit())),$1502625C,LoadInteger(YDHT,GetHandleId(GetOwningPlayer(GetTriggerUnit())),$1502625C)+1)
-call DisplayTextToForce(LoadForceHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$DFB448FB),"|cff00ff00获得以下奖励：|r\n1次天赋B抽取次数\n10次神力完成次数\n10点天赋蓝量\n「火」「冰」「暗」「光」+2")
+call DisplayTextToForce(LoadForceHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$DFB448FB),"|cff00ff00获得以下奖励：|r\n4次天赋B抽取次数\n10次神力完成次数\n30点天赋蓝量\n「火」「冰」「暗」「光」+2")
 if LoadInteger(YDHT,GetHandleId(GetOwningPlayer(GetTriggerUnit())),$1502625C)==1 then
 call SaveInteger(YDHT,GetHandleId(GetOwningPlayer(GetTriggerUnit())),$4C50E554,LoadInteger(YDHT,GetHandleId(GetOwningPlayer(GetTriggerUnit())),$4C50E554)+2)
 call SaveInteger(YDHT,GetHandleId(GetOwningPlayer(GetTriggerUnit())),$BD395453,LoadInteger(YDHT,GetHandleId(GetOwningPlayer(GetTriggerUnit())),$BD395453)+2)
@@ -109990,9 +109990,9 @@ call ConditionalTriggerExecute(gg_trg________________________________5555_______
 else
 endif
 call SavePlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946,GetOwningPlayer(GetTriggerUnit()))
-call AdjustPlayerStateBJ(10,LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946),PLAYER_STATE_RESOURCE_FOOD_USED)
+call AdjustPlayerStateBJ(30,LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946),PLAYER_STATE_RESOURCE_FOOD_USED)
 call SaveInteger(YDHT,GetHandleId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946)),$8654D057,LoadInteger(YDHT,GetHandleId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946)),$8654D057)+10)
-call SaveInteger(YDHT,GetHandleId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946)),$684D81C3,LoadInteger(YDHT,GetHandleId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946)),$684D81C3)+1)
+call SaveInteger(YDHT,GetHandleId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946)),$684D81C3,LoadInteger(YDHT,GetHandleId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946)),$684D81C3)+4)
 if LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946)==Player(0) then
 call RemoveItemFromStockBJ($4930424C,udg_TFBshangdian[GetConvertedPlayerId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946))])
 call AddItemToStockBJ($4930424C,udg_TFBshangdian[GetConvertedPlayerId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946))],LoadInteger(YDHT,GetHandleId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946)),$684D81C3),LoadInteger(YDHT,GetHandleId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946)),$684D81C3))
