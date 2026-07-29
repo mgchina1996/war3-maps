@@ -109950,12 +109950,12 @@ if GetItemTypeId(GetManipulatedItem())==$4930314D then
 if LoadInteger(YDHT,GetHandleId(GetOwningPlayer(GetTriggerUnit())),$1502625C)<1 then
 if DzAPI_Map_HasMallItem(GetOwningPlayer(GetTriggerUnit()),"SCCH1")==true or DzAPI_Map_HasMallItem(GetOwningPlayer(GetTriggerUnit()),"SCCH2")==true or DzAPI_Map_HasMallItem(GetOwningPlayer(GetTriggerUnit()),"SCCH3")==true or LoadBoolean(YDHT,GetHandleId(GetOwningPlayer(GetTriggerUnit())),$8D9EDC96)==true or DzAPI_Map_HasMallItem(GetOwningPlayer(GetTriggerUnit()),"XNPF1")==true then
 call SaveInteger(YDHT,GetHandleId(GetOwningPlayer(GetTriggerUnit())),$1502625C,LoadInteger(YDHT,GetHandleId(GetOwningPlayer(GetTriggerUnit())),$1502625C)+1)
-call DisplayTextToForce(LoadForceHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$DFB448FB),"|cff00ff00获得以下奖励：|r\n1次天赋B抽取次数\n10次神力完成次数\n10点天赋蓝量\n「火」「冰」「暗」「光」+1")
+call DisplayTextToForce(LoadForceHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$DFB448FB),"|cff00ff00获得以下奖励：|r\n1次天赋B抽取次数\n10次神力完成次数\n10点天赋蓝量\n「火」「冰」「暗」「光」+2")
 if LoadInteger(YDHT,GetHandleId(GetOwningPlayer(GetTriggerUnit())),$1502625C)==1 then
-call SaveInteger(YDHT,GetHandleId(GetOwningPlayer(GetTriggerUnit())),$4C50E554,LoadInteger(YDHT,GetHandleId(GetOwningPlayer(GetTriggerUnit())),$4C50E554)+1)
-call SaveInteger(YDHT,GetHandleId(GetOwningPlayer(GetTriggerUnit())),$BD395453,LoadInteger(YDHT,GetHandleId(GetOwningPlayer(GetTriggerUnit())),$BD395453)+1)
-call SaveInteger(YDHT,GetHandleId(GetOwningPlayer(GetTriggerUnit())),$24AAB9AA,LoadInteger(YDHT,GetHandleId(GetOwningPlayer(GetTriggerUnit())),$24AAB9AA)+1)
-call SaveInteger(YDHT,GetHandleId(GetOwningPlayer(GetTriggerUnit())),$7C26FD13,LoadInteger(YDHT,GetHandleId(GetOwningPlayer(GetTriggerUnit())),$7C26FD13)+1)
+call SaveInteger(YDHT,GetHandleId(GetOwningPlayer(GetTriggerUnit())),$4C50E554,LoadInteger(YDHT,GetHandleId(GetOwningPlayer(GetTriggerUnit())),$4C50E554)+2)
+call SaveInteger(YDHT,GetHandleId(GetOwningPlayer(GetTriggerUnit())),$BD395453,LoadInteger(YDHT,GetHandleId(GetOwningPlayer(GetTriggerUnit())),$BD395453)+2)
+call SaveInteger(YDHT,GetHandleId(GetOwningPlayer(GetTriggerUnit())),$24AAB9AA,LoadInteger(YDHT,GetHandleId(GetOwningPlayer(GetTriggerUnit())),$24AAB9AA)+2)
+call SaveInteger(YDHT,GetHandleId(GetOwningPlayer(GetTriggerUnit())),$7C26FD13,LoadInteger(YDHT,GetHandleId(GetOwningPlayer(GetTriggerUnit())),$7C26FD13)+2)
 set udg_TFwanjia=GetOwningPlayer(GetTriggerUnit())
 call ConditionalTriggerExecute(gg_trg________________________________5555__________________u)
 else
@@ -116032,7 +116032,46 @@ set gg_trg_repel_______u=CreateTrigger()
 call DisableTrigger(gg_trg_repel_______u)
 call TriggerAddAction(gg_trg_repel_______u,function Trig_repel_______uActions)
 endfunction
+function Trig_ShenliAutoNextChatActions takes nothing returns nothing
+if LoadBoolean(YDHT,GetHandleId(GetTriggerPlayer()),StringHash("神力任务自动接取"))==false then
+call SaveBoolean(YDHT,GetHandleId(GetTriggerPlayer()),StringHash("神力任务自动接取"),true)
+call DisplayTextToPlayer(GetTriggerPlayer(),0.,0.,"|cff00ff00神力任务自动接取：已开启|r（再次输入-atll关闭）")
+else
+call SaveBoolean(YDHT,GetHandleId(GetTriggerPlayer()),StringHash("神力任务自动接取"),false)
+call DisplayTextToPlayer(GetTriggerPlayer(),0.,0.,"|cffffcc00神力任务自动接取：已关闭|r")
+endif
+endfunction
+function Trig_ShenliAutoNextCheckActions takes nothing returns nothing
+local integer i=0
+local player p
+loop
+exitwhen i>4
+set p=Player(i)
+if LoadBoolean(YDHT,GetHandleId(p),StringHash("神力任务自动接取"))==true and LoadBoolean(YDHT,GetHandleId(p),$60EEC417)==false and udg_wjyx[i]!=null and GetWidgetLife(udg_wjyx[i])>.405 then
+call UnitAddItemByIdSwapped($49304841,udg_wjyx[i])
+else
+endif
+set i=i+1
+endloop
+set p=null
+endfunction
+function InitTrig_ShenliAutoNext takes nothing returns nothing
+local trigger chatTrigger=CreateTrigger()
+local trigger checkTrigger=CreateTrigger()
+local integer i=0
+loop
+exitwhen i>4
+call TriggerRegisterPlayerChatEvent(chatTrigger,Player(i),"-atll",true)
+set i=i+1
+endloop
+call TriggerAddAction(chatTrigger,function Trig_ShenliAutoNextChatActions)
+call TriggerRegisterTimerEventPeriodic(checkTrigger,.5)
+call TriggerAddAction(checkTrigger,function Trig_ShenliAutoNextCheckActions)
+set chatTrigger=null
+set checkTrigger=null
+endfunction
 function InitCustomTriggers takes nothing returns nothing
+call InitTrig_ShenliAutoNext()
 call InitTrig_999______________________________________________u()
 call InitTrig_998__________________u()
 call InitTrig_998__________________2()
