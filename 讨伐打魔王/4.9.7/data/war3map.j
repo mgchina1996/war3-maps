@@ -9951,9 +9951,13 @@ call ModifyHeroStat(bj_HEROSTAT_STR,udg_YTheihualuo[GetConvertedPlayerId(LoadPla
 else
 call ModifyHeroStat(bj_HEROSTAT_STR,udg_YTheihualuo[GetConvertedPlayerId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946))],bj_MODIFYMETHOD_ADD,10000*udg_YTluocishu[GetConvertedPlayerId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946))]*(udg_YTluocishu[GetConvertedPlayerId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946))]*udg_YTluocishu[GetConvertedPlayerId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946))]))
 endif
+if udg_YTluocishu[GetConvertedPlayerId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946))]>80 then
+call SetUnitState(udg_YTheihualuo[GetConvertedPlayerId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946))],UNIT_STATE_MAX_LIFE,GetUnitState(udg_YTheihualuo[GetConvertedPlayerId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946))],UNIT_STATE_MAX_LIFE)*(1.+.1*I2R(udg_YTluocishu[GetConvertedPlayerId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946))]-80)))
+else
+endif
 call SetUnitLifePercentBJ(bj_lastCreatedUnit,100)
 call ModifyHeroStat(bj_HEROSTAT_INT,udg_YTheihualuo[GetConvertedPlayerId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946))],bj_MODIFYMETHOD_ADD,(5000+330*LoadInteger(YDHT,StringHash("技能难度"),$AA04A09))*udg_YTluocishu[GetConvertedPlayerId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946))])
-call SaveReal(YDHT,GetHandleId(udg_YTheihualuo[GetConvertedPlayerId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946))]),$FE9FCB0B,.15+.01*I2R(udg_YTluocishu[GetConvertedPlayerId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946))]))
+call SaveReal(YDHT,GetHandleId(udg_YTheihualuo[GetConvertedPlayerId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946))]),$FE9FCB0B,RMinBJ(.95,.15+.01*I2R(udg_YTluocishu[GetConvertedPlayerId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946))])))
 call PingMinimapLocForForce(LoadForceHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$DFB448FB),LoadLocationHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9CD60476),5.)
 call RemoveLocation(LoadLocationHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9CD60476))
 else
