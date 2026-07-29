@@ -59124,7 +59124,7 @@ set ydl_localvar_step=ydl_localvar_step+3
 call SaveInteger(YDLOC,GetHandleId(GetTriggeringTrigger()),$CFDE6C76,ydl_localvar_step)
 call SaveInteger(YDLOC,GetHandleId(GetTriggeringTrigger()),$ECE825E7,ydl_localvar_step)
 call SaveLocationHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9CD60476,GetUnitLoc(udg_AYX[34]))
-call SaveReal(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$2D1E4992,GetRandomReal(.8,1.5))
+call SaveReal(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$2D1E4992,GetRandomReal(1.5,3.))
 call SaveReal(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$65D0C72F,LoadReal(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$2D1E4992))
 if YDWEUnitHasItemOfTypeBJNull(udg_AYX[34],$4930474C)==true then
 call SaveReal(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$2D1E4992,LoadReal(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$2D1E4992)+(LoadReal(YDHT,GetHandleId(udg_AYX[34]),$C9328D65)*1.+I2R(GetHeroInt(udg_AYX[34],false))/50000.))
@@ -59176,7 +59176,7 @@ return IsUnitType(GetFilterUnit(),UNIT_TYPE_DEAD)==false and (IsUnitInGroup(GetF
 endfunction
 function Trig_YX34_________Q2Func007Func001Func013Func001Func001Func008A takes nothing returns nothing
 call DestroyEffect(AddSpecialEffectTarget("Abilities\\Spells\\Other\\Stampede\\StampedeMissileDeath.mdl",GetEnumUnit(),"chest"))
-call UnitDamageTarget(udg_AYX[34],GetEnumUnit(),.55*(1.+LoadReal(YDHT,GetHandleId(udg_AYX[34]),$3B2026CA))*LoadReal(YDLOC,GetHandleId(GetExpiredTimer()),$2D1E4992)*(1.-LoadReal(YDLOC,GetHandleId(GetExpiredTimer()),$74572E88))*I2R(GetUnitAbilityLevel(udg_AYX[34],$4130464A)*GetHeroInt(udg_AYX[34],true)),true,false,ATTACK_TYPE_NORMAL,DAMAGE_TYPE_ENHANCED,WEAPON_TYPE_WHOKNOWS)
+call UnitDamageTarget(udg_AYX[34],GetEnumUnit(),1.*(1.+LoadReal(YDHT,GetHandleId(udg_AYX[34]),$3B2026CA))*LoadReal(YDLOC,GetHandleId(GetExpiredTimer()),$2D1E4992)*(1.-LoadReal(YDLOC,GetHandleId(GetExpiredTimer()),$74572E88))*I2R(GetUnitAbilityLevel(udg_AYX[34],$4130464A)*GetHeroInt(udg_AYX[34],true)),true,false,ATTACK_TYPE_NORMAL,DAMAGE_TYPE_ENHANCED,WEAPON_TYPE_WHOKNOWS)
 endfunction
 function Trig_YX34_________Q2Func007Func001Func013Func001T takes nothing returns nothing
 local group ydl_group
@@ -59285,7 +59285,7 @@ call SaveInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$32
 else
 call DoNothing()
 endif
-call SaveReal(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$2D1E4992,GetRandomReal(.8,1.5))
+call SaveReal(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$2D1E4992,GetRandomReal(1.5,3.))
 if YDWEUnitHasItemOfTypeBJNull(udg_AYX[34],$4930474C)==true then
 call SaveReal(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$2D1E4992,LoadReal(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$2D1E4992)+(LoadReal(YDHT,GetHandleId(udg_AYX[34]),$C9328D65)*1.+I2R(GetHeroInt(udg_AYX[34],false))/50000.))
 else
@@ -59386,7 +59386,7 @@ call SaveInteger(YDLOC,GetHandleId(GetTriggeringTrigger()),$CFDE6C76,ydl_localva
 call SaveInteger(YDLOC,GetHandleId(GetTriggeringTrigger()),$ECE825E7,ydl_localvar_step)
 call SaveLocationHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9CD60476,GetSpellTargetLoc())
 call PlaySoundAtPointBJ(gg_snd_ZMdeW,100,LoadLocationHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9CD60476),0.)
-call SaveReal(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$2D1E4992,GetRandomReal(.8,1.5))
+call SaveReal(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$2D1E4992,GetRandomReal(1.5,3.))
 if YDWEUnitHasItemOfTypeBJNull(udg_AYX[34],$4930474C)==true then
 call SaveReal(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$2D1E4992,LoadReal(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$2D1E4992)+(LoadReal(YDHT,GetHandleId(udg_AYX[34]),$C9328D65)*1.+I2R(GetHeroInt(udg_AYX[34],false))/50000.))
 else
@@ -59503,7 +59503,7 @@ set ydl_timer=CreateTimer()
 call TimerStart(ydl_timer,3.,false,function Trig_YX34_________EFunc005T)
 call DestroyEffect(AddSpecialEffectTarget("war3mapImported\\e_supershinythingyblue.mdl",udg_AYX[34],"chest"))
 call YDWETimerDestroyEffect(3.3,AddSpecialEffectTarget("war3mapImported\\az_alleria_w1.mdl",udg_AYX[34],"origin"))
-call SaveReal(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$2D1E4992,GetRandomReal(.8,1.5))
+call SaveReal(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$2D1E4992,GetRandomReal(1.5,3.))
 if YDWEUnitHasItemOfTypeBJNull(udg_AYX[34],$4930474C)==true then
 call SaveReal(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$2D1E4992,LoadReal(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$2D1E4992)+(LoadReal(YDHT,GetHandleId(udg_AYX[34]),$C9328D65)*1.+I2R(GetHeroInt(udg_AYX[34],false))/50000.))
 else
@@ -59609,7 +59609,7 @@ call SaveEffectHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_ste
 call EXSetEffectSize(LoadEffectHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$4F17DB0B),1.6)
 call EXEffectMatRotateZ(LoadEffectHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$4F17DB0B),90.)
 call EXSetEffectSpeed(LoadEffectHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$4F17DB0B),1.2)
-call SaveReal(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$2D1E4992,GetRandomReal(.8,1.5))
+call SaveReal(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$2D1E4992,GetRandomReal(1.5,3.))
 if YDWEUnitHasItemOfTypeBJNull(udg_AYX[34],$4930474C)==true then
 call SaveReal(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$2D1E4992,LoadReal(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$2D1E4992)+(LoadReal(YDHT,GetHandleId(udg_AYX[34]),$C9328D65)*1.+I2R(GetHeroInt(udg_AYX[34],false))/50000.))
 else
@@ -59723,7 +59723,7 @@ call SaveInteger(YDLOC,GetHandleId(GetTriggeringTrigger()),$CFDE6C76,ydl_localva
 call SaveInteger(YDLOC,GetHandleId(GetTriggeringTrigger()),$ECE825E7,ydl_localvar_step)
 call SaveLocationHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9CD60476,GetSpellTargetLoc())
 call PlaySoundAtPointBJ(gg_snd_ZMdeD,100,LoadLocationHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9CD60476),0.)
-call SaveReal(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$2D1E4992,GetRandomReal(.8,1.5))
+call SaveReal(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$2D1E4992,GetRandomReal(1.5,3.))
 if YDWEUnitHasItemOfTypeBJNull(udg_AYX[34],$4930474C)==true then
 call SaveReal(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$2D1E4992,LoadReal(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$2D1E4992)+(LoadReal(YDHT,GetHandleId(udg_AYX[34]),$C9328D65)*1.+I2R(GetHeroInt(udg_AYX[34],false))/50000.))
 else
