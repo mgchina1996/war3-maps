@@ -7758,7 +7758,7 @@ loop
 exitwhen ydul_l>5
 call SaveInteger(YDHT,GetHandleId(ConvertedPlayer(ydul_l)),$684D81C3,2)
 call SaveInteger(YDHT,GetHandleId(ConvertedPlayer(ydul_l)),$EB1C26FA,6)
-call AdjustPlayerStateBJ(40,ConvertedPlayer(ydul_l),PLAYER_STATE_RESOURCE_FOOD_USED)
+call AdjustPlayerStateBJ(20,ConvertedPlayer(ydul_l),PLAYER_STATE_RESOURCE_FOOD_USED)
 set ydul_l=ydul_l+1
 endloop
 set ydl_timer=CreateTimer()
@@ -11576,11 +11576,11 @@ call SaveInteger(YDLOC,GetHandleId(GetTriggeringTrigger()),$CFDE6C76,ydl_localva
 call SaveInteger(YDLOC,GetHandleId(GetTriggeringTrigger()),$ECE825E7,ydl_localvar_step)
 call SaveForceHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$DFB448FB,YDWEGetForceOfPlayerNull(GetOwningPlayer(GetTriggerUnit())))
 set udg_TFjineng=GetSpellAbilityId()
-if LoadBoolean(YDHT,GetHandleId(GetOwningPlayer(GetTriggerUnit())),$A917B7BB)==false and LoadInteger(YDHT,udg_TFjineng,$3F487778)!=100 and GetPlayerState(GetOwningPlayer(GetTriggerUnit()),PLAYER_STATE_RESOURCE_FOOD_USED)>=1+LoadInteger(YDHT,udg_TFjineng,$91FFA42A) then
+if LoadBoolean(YDHT,GetHandleId(GetOwningPlayer(GetTriggerUnit())),$A917B7BB)==false and LoadInteger(YDHT,udg_TFjineng,$3F487778)!=100 and GetPlayerState(GetOwningPlayer(GetTriggerUnit()),PLAYER_STATE_RESOURCE_FOOD_USED)>=3+LoadInteger(YDHT,udg_TFjineng,$91FFA42A) then
 call SaveBoolean(YDHT,GetHandleId(GetTriggerPlayer()),$3D82A5E8,true)
 set udg_TFwanjia=GetOwningPlayer(GetTriggerUnit())
 call SaveInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$8B1FFFFC,LoadInteger(YDHT,udg_TFjineng,$3F487778))
-call AdjustPlayerStateBJ(-1-LoadInteger(YDHT,udg_TFjineng,$91FFA42A),udg_TFwanjia,PLAYER_STATE_RESOURCE_FOOD_USED)
+call AdjustPlayerStateBJ(-3-LoadInteger(YDHT,udg_TFjineng,$91FFA42A),udg_TFwanjia,PLAYER_STATE_RESOURCE_FOOD_USED)
 if LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$8B1FFFFC)!=70 and LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$8B1FFFFC)!=88 and LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$8B1FFFFC)!=40 and LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$8B1FFFFC)!=595 then
 if LoadReal(YDHT,GetHandleId(udg_TFwanjia),$7DBA16F6)>=.02 then
 call AdjustPlayerStateBJ(R2I(LoadReal(YDHT,GetHandleId(GetOwningPlayer(GetTriggerUnit())),$7DBA16F6)),GetOwningPlayer(GetTriggerUnit()),PLAYER_STATE_RESOURCE_FOOD_USED)
@@ -11636,8 +11636,8 @@ endif
 else
 endif
 call SaveInteger(YDHT,udg_TFjineng,$91FFA42A,LoadInteger(YDHT,udg_TFjineng,$91FFA42A)+1)
-if LoadInteger(YDHT,udg_TFjineng,$91FFA42A)>4 then
-call SaveInteger(YDHT,udg_TFjineng,$91FFA42A,4)
+if LoadInteger(YDHT,udg_TFjineng,$91FFA42A)>7 then
+call SaveInteger(YDHT,udg_TFjineng,$91FFA42A,7)
 else
 endif
 set udg_TFfanhui[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]=LoadInteger(YDHT,udg_TFjineng,$3F487778)
@@ -11746,7 +11746,7 @@ else
 endif
 else
 call DisplayTextToForce(LoadForceHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$DFB448FB),"该天赋无法重置,或者木头不足")
-call AdjustPlayerStateBJ(1+LoadInteger(YDHT,udg_TFjineng,$91FFA42A),GetOwningPlayer(GetTriggerUnit()),PLAYER_STATE_RESOURCE_FOOD_USED)
+call AdjustPlayerStateBJ(3+LoadInteger(YDHT,udg_TFjineng,$91FFA42A),GetOwningPlayer(GetTriggerUnit()),PLAYER_STATE_RESOURCE_FOOD_USED)
 endif
 else
 if LoadInteger(YDHT,udg_TFjineng,$3F487778)==100 then
@@ -11780,11 +11780,11 @@ call SaveInteger(YDLOC,GetHandleId(GetTriggeringTrigger()),$CFDE6C76,ydl_localva
 call SaveInteger(YDLOC,GetHandleId(GetTriggeringTrigger()),$ECE825E7,ydl_localvar_step)
 call SaveForceHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$DFB448FB,YDWEGetForceOfPlayerNull(GetOwningPlayer(GetTriggerUnit())))
 set udg_TFjineng=GetSpellAbilityId()
-if LoadBoolean(YDHT,GetHandleId(GetOwningPlayer(GetTriggerUnit())),$A917B7BB)==false and LoadInteger(YDHT,udg_TFjineng,$3F487778)!=100 and GetPlayerState(GetOwningPlayer(GetTriggerUnit()),PLAYER_STATE_RESOURCE_FOOD_USED)>=1+LoadInteger(YDHT,udg_TFjineng,$91FFA42A) then
+if LoadBoolean(YDHT,GetHandleId(GetOwningPlayer(GetTriggerUnit())),$A917B7BB)==false and LoadInteger(YDHT,udg_TFjineng,$3F487778)!=100 and GetPlayerState(GetOwningPlayer(GetTriggerUnit()),PLAYER_STATE_RESOURCE_FOOD_USED)>=3+LoadInteger(YDHT,udg_TFjineng,$91FFA42A) then
 call SaveBoolean(YDHT,GetHandleId(GetTriggerPlayer()),$3D82A5E8,true)
 set udg_TFwanjia=GetOwningPlayer(GetTriggerUnit())
 call SaveInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$8B1FFFFC,LoadInteger(YDHT,udg_TFjineng,$3F487778))
-call AdjustPlayerStateBJ(-1-LoadInteger(YDHT,udg_TFjineng,$91FFA42A),udg_TFwanjia,PLAYER_STATE_RESOURCE_FOOD_USED)
+call AdjustPlayerStateBJ(-3-LoadInteger(YDHT,udg_TFjineng,$91FFA42A),udg_TFwanjia,PLAYER_STATE_RESOURCE_FOOD_USED)
 if LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$8B1FFFFC)!=70 and LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$8B1FFFFC)!=88 and LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$8B1FFFFC)!=40 and LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$8B1FFFFC)!=595 then
 if LoadReal(YDHT,GetHandleId(udg_TFwanjia),$7DBA16F6)>=.02 then
 call AdjustPlayerStateBJ(R2I(LoadReal(YDHT,GetHandleId(GetOwningPlayer(GetTriggerUnit())),$7DBA16F6)),GetOwningPlayer(GetTriggerUnit()),PLAYER_STATE_RESOURCE_FOOD_USED)
@@ -11840,8 +11840,8 @@ endif
 else
 endif
 call SaveInteger(YDHT,udg_TFjineng,$91FFA42A,LoadInteger(YDHT,udg_TFjineng,$91FFA42A)+1)
-if LoadInteger(YDHT,udg_TFjineng,$91FFA42A)>4 then
-call SaveInteger(YDHT,udg_TFjineng,$91FFA42A,4)
+if LoadInteger(YDHT,udg_TFjineng,$91FFA42A)>7 then
+call SaveInteger(YDHT,udg_TFjineng,$91FFA42A,7)
 else
 endif
 set udg_TFfanhui[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]=LoadInteger(YDHT,udg_TFjineng,$3F487778)
@@ -11950,7 +11950,7 @@ else
 endif
 else
 call DisplayTextToForce(LoadForceHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$DFB448FB),"该天赋无法重置,或者木头不足")
-call AdjustPlayerStateBJ(1+LoadInteger(YDHT,udg_TFjineng,$91FFA42A),GetOwningPlayer(GetTriggerUnit()),PLAYER_STATE_RESOURCE_FOOD_USED)
+call AdjustPlayerStateBJ(3+LoadInteger(YDHT,udg_TFjineng,$91FFA42A),GetOwningPlayer(GetTriggerUnit()),PLAYER_STATE_RESOURCE_FOOD_USED)
 endif
 else
 if LoadInteger(YDHT,udg_TFjineng,$3F487778)==100 then
@@ -11983,11 +11983,11 @@ call SaveInteger(YDLOC,GetHandleId(GetTriggeringTrigger()),$CFDE6C76,ydl_localva
 call SaveInteger(YDLOC,GetHandleId(GetTriggeringTrigger()),$ECE825E7,ydl_localvar_step)
 call SaveForceHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$DFB448FB,YDWEGetForceOfPlayerNull(GetOwningPlayer(GetTriggerUnit())))
 set udg_TFjineng=GetSpellAbilityId()
-if LoadBoolean(YDHT,GetHandleId(GetOwningPlayer(GetTriggerUnit())),$A917B7BB)==false and LoadInteger(YDHT,udg_TFjineng,$3F487778)!=100 and GetPlayerState(GetOwningPlayer(GetTriggerUnit()),PLAYER_STATE_RESOURCE_FOOD_USED)>=1+LoadInteger(YDHT,udg_TFjineng,$91FFA42A) then
+if LoadBoolean(YDHT,GetHandleId(GetOwningPlayer(GetTriggerUnit())),$A917B7BB)==false and LoadInteger(YDHT,udg_TFjineng,$3F487778)!=100 and GetPlayerState(GetOwningPlayer(GetTriggerUnit()),PLAYER_STATE_RESOURCE_FOOD_USED)>=3+LoadInteger(YDHT,udg_TFjineng,$91FFA42A) then
 call SaveBoolean(YDHT,GetHandleId(GetTriggerPlayer()),$3D82A5E8,true)
 set udg_TFwanjia=GetOwningPlayer(GetTriggerUnit())
 call SaveInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$8B1FFFFC,LoadInteger(YDHT,udg_TFjineng,$3F487778))
-call AdjustPlayerStateBJ(-1-LoadInteger(YDHT,udg_TFjineng,$91FFA42A),udg_TFwanjia,PLAYER_STATE_RESOURCE_FOOD_USED)
+call AdjustPlayerStateBJ(-3-LoadInteger(YDHT,udg_TFjineng,$91FFA42A),udg_TFwanjia,PLAYER_STATE_RESOURCE_FOOD_USED)
 if LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$8B1FFFFC)!=70 and LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$8B1FFFFC)!=88 and LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$8B1FFFFC)!=40 and LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$8B1FFFFC)!=595 then
 if LoadReal(YDHT,GetHandleId(udg_TFwanjia),$7DBA16F6)>=.02 then
 call AdjustPlayerStateBJ(R2I(LoadReal(YDHT,GetHandleId(GetOwningPlayer(GetTriggerUnit())),$7DBA16F6)),GetOwningPlayer(GetTriggerUnit()),PLAYER_STATE_RESOURCE_FOOD_USED)
@@ -12043,8 +12043,8 @@ endif
 else
 endif
 call SaveInteger(YDHT,udg_TFjineng,$91FFA42A,LoadInteger(YDHT,udg_TFjineng,$91FFA42A)+1)
-if LoadInteger(YDHT,udg_TFjineng,$91FFA42A)>4 then
-call SaveInteger(YDHT,udg_TFjineng,$91FFA42A,4)
+if LoadInteger(YDHT,udg_TFjineng,$91FFA42A)>7 then
+call SaveInteger(YDHT,udg_TFjineng,$91FFA42A,7)
 else
 endif
 set udg_TFfanhui[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]=LoadInteger(YDHT,udg_TFjineng,$3F487778)
@@ -12153,7 +12153,7 @@ else
 endif
 else
 call DisplayTextToForce(LoadForceHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$DFB448FB),"该天赋无法重置,或者木头不足")
-call AdjustPlayerStateBJ(1+LoadInteger(YDHT,udg_TFjineng,$91FFA42A),GetOwningPlayer(GetTriggerUnit()),PLAYER_STATE_RESOURCE_FOOD_USED)
+call AdjustPlayerStateBJ(3+LoadInteger(YDHT,udg_TFjineng,$91FFA42A),GetOwningPlayer(GetTriggerUnit()),PLAYER_STATE_RESOURCE_FOOD_USED)
 endif
 else
 if LoadInteger(YDHT,udg_TFjineng,$3F487778)==100 then
@@ -12186,15 +12186,15 @@ call SaveInteger(YDLOC,GetHandleId(GetTriggeringTrigger()),$CFDE6C76,ydl_localva
 call SaveInteger(YDLOC,GetHandleId(GetTriggeringTrigger()),$ECE825E7,ydl_localvar_step)
 call SaveForceHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$DFB448FB,YDWEGetForceOfPlayerNull(GetOwningPlayer(GetTriggerUnit())))
 set udg_TFjineng=GetSpellAbilityId()
-if LoadBoolean(YDHT,GetHandleId(GetOwningPlayer(GetTriggerUnit())),$A917B7BB)==false and LoadInteger(YDHT,udg_TFjineng,$3F487778)!=100 and GetPlayerState(GetOwningPlayer(GetTriggerUnit()),PLAYER_STATE_RESOURCE_FOOD_USED)>=1+LoadInteger(YDHT,udg_TFjineng,$91FFA42A) then
+if LoadBoolean(YDHT,GetHandleId(GetOwningPlayer(GetTriggerUnit())),$A917B7BB)==false and LoadInteger(YDHT,udg_TFjineng,$3F487778)!=100 and GetPlayerState(GetOwningPlayer(GetTriggerUnit()),PLAYER_STATE_RESOURCE_FOOD_USED)>=3+LoadInteger(YDHT,udg_TFjineng,$91FFA42A) then
 call SaveBoolean(YDHT,GetHandleId(GetTriggerPlayer()),$3D82A5E8,true)
 set udg_TFwanjia=GetOwningPlayer(GetTriggerUnit())
 call SaveInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$8B1FFFFC,LoadInteger(YDHT,udg_TFjineng,$3F487778))
-call AdjustPlayerStateBJ(-1-LoadInteger(YDHT,udg_TFjineng,$91FFA42A),udg_TFwanjia,PLAYER_STATE_RESOURCE_FOOD_USED)
+call AdjustPlayerStateBJ(-3-LoadInteger(YDHT,udg_TFjineng,$91FFA42A),udg_TFwanjia,PLAYER_STATE_RESOURCE_FOOD_USED)
 if LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$8B1FFFFC)!=70 and LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$8B1FFFFC)!=88 and LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$8B1FFFFC)!=40 and LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$8B1FFFFC)!=595 then
 call SaveInteger(YDHT,udg_TFjineng,$91FFA42A,LoadInteger(YDHT,udg_TFjineng,$91FFA42A)+1)
-if LoadInteger(YDHT,udg_TFjineng,$91FFA42A)>4 then
-call SaveInteger(YDHT,udg_TFjineng,$91FFA42A,4)
+if LoadInteger(YDHT,udg_TFjineng,$91FFA42A)>7 then
+call SaveInteger(YDHT,udg_TFjineng,$91FFA42A,7)
 else
 endif
 if LoadReal(YDHT,GetHandleId(udg_TFwanjia),$7DBA16F6)>=.02 then
@@ -12356,7 +12356,7 @@ else
 endif
 else
 call DisplayTextToForce(LoadForceHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$DFB448FB),"该天赋无法重置,或者木头不足")
-call AdjustPlayerStateBJ(1+LoadInteger(YDHT,udg_TFjineng,$91FFA42A),GetOwningPlayer(GetTriggerUnit()),PLAYER_STATE_RESOURCE_FOOD_USED)
+call AdjustPlayerStateBJ(3+LoadInteger(YDHT,udg_TFjineng,$91FFA42A),GetOwningPlayer(GetTriggerUnit()),PLAYER_STATE_RESOURCE_FOOD_USED)
 endif
 else
 if LoadInteger(YDHT,udg_TFjineng,$3F487778)==100 then
@@ -12389,11 +12389,11 @@ call SaveInteger(YDLOC,GetHandleId(GetTriggeringTrigger()),$CFDE6C76,ydl_localva
 call SaveInteger(YDLOC,GetHandleId(GetTriggeringTrigger()),$ECE825E7,ydl_localvar_step)
 call SaveForceHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$DFB448FB,YDWEGetForceOfPlayerNull(GetOwningPlayer(GetTriggerUnit())))
 set udg_TFjineng=GetSpellAbilityId()
-if LoadBoolean(YDHT,GetHandleId(GetOwningPlayer(GetTriggerUnit())),$A917B7BB)==false and LoadInteger(YDHT,udg_TFjineng,$3F487778)!=100 and GetPlayerState(GetOwningPlayer(GetTriggerUnit()),PLAYER_STATE_RESOURCE_FOOD_USED)>=1+LoadInteger(YDHT,udg_TFjineng,$91FFA42A) then
+if LoadBoolean(YDHT,GetHandleId(GetOwningPlayer(GetTriggerUnit())),$A917B7BB)==false and LoadInteger(YDHT,udg_TFjineng,$3F487778)!=100 and GetPlayerState(GetOwningPlayer(GetTriggerUnit()),PLAYER_STATE_RESOURCE_FOOD_USED)>=3+LoadInteger(YDHT,udg_TFjineng,$91FFA42A) then
 call SaveBoolean(YDHT,GetHandleId(GetTriggerPlayer()),$3D82A5E8,true)
 set udg_TFwanjia=GetOwningPlayer(GetTriggerUnit())
 call SaveInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$8B1FFFFC,LoadInteger(YDHT,udg_TFjineng,$3F487778))
-call AdjustPlayerStateBJ(-1-LoadInteger(YDHT,udg_TFjineng,$91FFA42A),udg_TFwanjia,PLAYER_STATE_RESOURCE_FOOD_USED)
+call AdjustPlayerStateBJ(-3-LoadInteger(YDHT,udg_TFjineng,$91FFA42A),udg_TFwanjia,PLAYER_STATE_RESOURCE_FOOD_USED)
 if LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$8B1FFFFC)!=70 and LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$8B1FFFFC)!=88 and LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$8B1FFFFC)!=40 and LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$8B1FFFFC)!=595 then
 if LoadReal(YDHT,GetHandleId(udg_TFwanjia),$7DBA16F6)>=.02 then
 call AdjustPlayerStateBJ(R2I(LoadReal(YDHT,GetHandleId(GetOwningPlayer(GetTriggerUnit())),$7DBA16F6)),GetOwningPlayer(GetTriggerUnit()),PLAYER_STATE_RESOURCE_FOOD_USED)
@@ -12449,8 +12449,8 @@ endif
 else
 endif
 call SaveInteger(YDHT,udg_TFjineng,$91FFA42A,LoadInteger(YDHT,udg_TFjineng,$91FFA42A)+1)
-if LoadInteger(YDHT,udg_TFjineng,$91FFA42A)>4 then
-call SaveInteger(YDHT,udg_TFjineng,$91FFA42A,4)
+if LoadInteger(YDHT,udg_TFjineng,$91FFA42A)>7 then
+call SaveInteger(YDHT,udg_TFjineng,$91FFA42A,7)
 else
 endif
 set udg_TFfanhui[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]=LoadInteger(YDHT,udg_TFjineng,$3F487778)
@@ -12559,7 +12559,7 @@ else
 endif
 else
 call DisplayTextToForce(LoadForceHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$DFB448FB),"该天赋无法重置,或者木头不足")
-call AdjustPlayerStateBJ(1+LoadInteger(YDHT,udg_TFjineng,$91FFA42A),GetOwningPlayer(GetTriggerUnit()),PLAYER_STATE_RESOURCE_FOOD_USED)
+call AdjustPlayerStateBJ(3+LoadInteger(YDHT,udg_TFjineng,$91FFA42A),GetOwningPlayer(GetTriggerUnit()),PLAYER_STATE_RESOURCE_FOOD_USED)
 endif
 else
 if LoadInteger(YDHT,udg_TFjineng,$3F487778)==100 then
@@ -12617,7 +12617,7 @@ if udg_TFzhengshu==101 then
 if LoadBoolean(YDHT,GetHandleId(udg_TFwanjia),$2017284E)==true then
 call YDWESetUnitAbilityDataInteger(LoadUnitHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$FDF65382),LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9FDB62AC),1,104,0)
 else
-call YDWESetUnitAbilityDataInteger(LoadUnitHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$FDF65382),LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9FDB62AC),1,104,1+LoadInteger(YDHT,LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9FDB62AC),$91FFA42A))
+call YDWESetUnitAbilityDataInteger(LoadUnitHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$FDF65382),LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9FDB62AC),1,104,3+LoadInteger(YDHT,LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9FDB62AC),$91FFA42A))
 endif
 else
 if LoadBoolean(YDHT,GetHandleId(udg_TFwanjia),$2017284E)==true then
@@ -12626,7 +12626,7 @@ call SaveInteger(YDLOC,GetHandleId(ydl_timer),$9FDB62AC,LoadInteger(YDLOC,GetHan
 call SaveUnitHandle(YDLOC,GetHandleId(ydl_timer),$FDF65382,LoadUnitHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$FDF65382))
 call TimerStart(ydl_timer,.01,false,function Trig________111Func005Func002Func001Func001T)
 else
-call YDWESetUnitAbilityDataInteger(LoadUnitHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$FDF65382),LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9FDB62AC),1,104,1+LoadInteger(YDHT,LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9FDB62AC),$91FFA42A))
+call YDWESetUnitAbilityDataInteger(LoadUnitHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$FDF65382),LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9FDB62AC),1,104,3+LoadInteger(YDHT,LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9FDB62AC),$91FFA42A))
 endif
 endif
 endif
@@ -12711,7 +12711,7 @@ call SaveInteger(YDHT,LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_
 call YDWESetUnitAbilityDataString(udg_TFshangdian[GetConvertedPlayerId(udg_TFwanjia)],LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9FDB62AC),1,215,"天赋选择")
 call YDWESetUnitAbilityDataString(udg_TFshangdian[GetConvertedPlayerId(udg_TFwanjia)],LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9FDB62AC),1,218,LoadStr(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$7613B462)+"点击花费木头从2-4个天赋中选一个")
 call YDWESetUnitAbilityDataString(udg_TFshangdian[GetConvertedPlayerId(udg_TFwanjia)],LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9FDB62AC),1,204,"ReplaceableTextures\\CommandButtons\\BTNWispSplode.blp")
-call YDWESetUnitAbilityDataInteger(udg_TFshangdian[GetConvertedPlayerId(udg_TFwanjia)],LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9FDB62AC),1,104,1+LoadInteger(YDHT,LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9FDB62AC),$91FFA42A))
+call YDWESetUnitAbilityDataInteger(udg_TFshangdian[GetConvertedPlayerId(udg_TFwanjia)],LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9FDB62AC),1,104,3+LoadInteger(YDHT,LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9FDB62AC),$91FFA42A))
 if udg_TFwanjia==GetOwningPlayer(udg_AYX[35]) then
 call YDWESetUnitAbilityDataString(udg_TFshangdian[GetConvertedPlayerId(udg_TFwanjia)],YDWEGetAbilityIDByInteger(GetConvertedPlayerId(udg_TFwanjia),112),1,215,"|cffffff00「光」|r秦心")
 call YDWESetUnitAbilityDataString(udg_TFshangdian[GetConvertedPlayerId(udg_TFwanjia)],YDWEGetAbilityIDByInteger(GetConvertedPlayerId(udg_TFwanjia),112),1,204,"war3mapImported\\TF33.tga")
@@ -12922,13 +12922,13 @@ if udg_TFzhengshu==101 then
 if LoadBoolean(YDHT,GetHandleId(udg_TFwanjia),$2017284E)==true then
 call YDWESetUnitAbilityDataInteger(LoadUnitHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$FDF65382),LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9FDB62AC),1,104,0)
 else
-call YDWESetUnitAbilityDataInteger(LoadUnitHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$FDF65382),LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9FDB62AC),1,104,1+LoadInteger(YDHT,LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9FDB62AC),$91FFA42A))
+call YDWESetUnitAbilityDataInteger(LoadUnitHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$FDF65382),LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9FDB62AC),1,104,3+LoadInteger(YDHT,LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9FDB62AC),$91FFA42A))
 endif
 else
 if LoadBoolean(YDHT,GetHandleId(udg_TFwanjia),$2017284E)==true then
 call YDWESetUnitAbilityDataInteger(LoadUnitHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$FDF65382),LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9FDB62AC),1,104,0)
 else
-call YDWESetUnitAbilityDataInteger(LoadUnitHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$FDF65382),LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9FDB62AC),1,104,1+LoadInteger(YDHT,LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9FDB62AC),$91FFA42A))
+call YDWESetUnitAbilityDataInteger(LoadUnitHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$FDF65382),LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9FDB62AC),1,104,3+LoadInteger(YDHT,LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9FDB62AC),$91FFA42A))
 endif
 endif
 endif
@@ -13101,13 +13101,13 @@ if udg_TFzhengshu==101 then
 if LoadBoolean(YDHT,GetHandleId(udg_TFwanjia),$2017284E)==true then
 call YDWESetUnitAbilityDataInteger(LoadUnitHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$FDF65382),LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9FDB62AC),1,104,0)
 else
-call YDWESetUnitAbilityDataInteger(LoadUnitHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$FDF65382),LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9FDB62AC),1,104,1+LoadInteger(YDHT,LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9FDB62AC),$91FFA42A))
+call YDWESetUnitAbilityDataInteger(LoadUnitHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$FDF65382),LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9FDB62AC),1,104,3+LoadInteger(YDHT,LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9FDB62AC),$91FFA42A))
 endif
 else
 if LoadBoolean(YDHT,GetHandleId(udg_TFwanjia),$2017284E)==true then
 call YDWESetUnitAbilityDataInteger(LoadUnitHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$FDF65382),LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9FDB62AC),1,104,0)
 else
-call YDWESetUnitAbilityDataInteger(LoadUnitHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$FDF65382),LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9FDB62AC),1,104,1+LoadInteger(YDHT,LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9FDB62AC),$91FFA42A))
+call YDWESetUnitAbilityDataInteger(LoadUnitHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$FDF65382),LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9FDB62AC),1,104,3+LoadInteger(YDHT,LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9FDB62AC),$91FFA42A))
 endif
 endif
 endif
@@ -13204,7 +13204,7 @@ call TimerStart(ydl_timer,.01,false,function Trig________113Func015Func001T)
 call YDWESetUnitAbilityDataString(udg_TFshangdian[GetConvertedPlayerId(udg_TFwanjia)],LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9FDB62AC),1,215,"天赋选择")
 call YDWESetUnitAbilityDataString(udg_TFshangdian[GetConvertedPlayerId(udg_TFwanjia)],LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9FDB62AC),1,218,LoadStr(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$7613B462)+"点击花费木头从2-4个天赋中选一个")
 call YDWESetUnitAbilityDataString(udg_TFshangdian[GetConvertedPlayerId(udg_TFwanjia)],LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9FDB62AC),1,204,"ReplaceableTextures\\CommandButtons\\BTNWispSplode.blp")
-call YDWESetUnitAbilityDataInteger(udg_TFshangdian[GetConvertedPlayerId(udg_TFwanjia)],LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9FDB62AC),1,104,1+LoadInteger(YDHT,LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9FDB62AC),$91FFA42A))
+call YDWESetUnitAbilityDataInteger(udg_TFshangdian[GetConvertedPlayerId(udg_TFwanjia)],LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9FDB62AC),1,104,3+LoadInteger(YDHT,LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9FDB62AC),$91FFA42A))
 else
 endif
 if udg_TFzhengshu==512 then
@@ -13307,13 +13307,13 @@ if udg_TFzhengshu==101 then
 if LoadBoolean(YDHT,GetHandleId(udg_TFwanjia),$2017284E)==true then
 call YDWESetUnitAbilityDataInteger(LoadUnitHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$FDF65382),LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9FDB62AC),1,104,0)
 else
-call YDWESetUnitAbilityDataInteger(LoadUnitHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$FDF65382),LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9FDB62AC),1,104,1+LoadInteger(YDHT,LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9FDB62AC),$91FFA42A))
+call YDWESetUnitAbilityDataInteger(LoadUnitHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$FDF65382),LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9FDB62AC),1,104,3+LoadInteger(YDHT,LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9FDB62AC),$91FFA42A))
 endif
 else
 if LoadBoolean(YDHT,GetHandleId(udg_TFwanjia),$2017284E)==true then
 call YDWESetUnitAbilityDataInteger(LoadUnitHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$FDF65382),LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9FDB62AC),1,104,0)
 else
-call YDWESetUnitAbilityDataInteger(LoadUnitHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$FDF65382),LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9FDB62AC),1,104,1+LoadInteger(YDHT,LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9FDB62AC),$91FFA42A))
+call YDWESetUnitAbilityDataInteger(LoadUnitHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$FDF65382),LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9FDB62AC),1,104,3+LoadInteger(YDHT,LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9FDB62AC),$91FFA42A))
 endif
 endif
 endif
@@ -15746,8 +15746,8 @@ set ydul_l5=ydul_l5+1
 endloop
 call SaveInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$96B18D5,LoadInteger(YDHT,GetHandleId(ConvertedPlayer(ydul_l)),$4596B3D2)+LoadInteger(YDHT,GetHandleId(ConvertedPlayer(ydul_l)),$966BEFB3))
 call SaveInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$96B18D5,LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$96B18D5)-LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$D9938245))
-if LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$96B18D5)>4 then
-call SaveInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$96B18D5,4)
+if LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$96B18D5)>7 then
+call SaveInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$96B18D5,7)
 else
 endif
 if LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$96B18D5)<0 then
@@ -15759,7 +15759,7 @@ call SaveInteger(YDHT,udg_MSjineng[ydul_l],$3F487778,0)
 call YDWESetUnitAbilityDataString(LoadUnitHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$71CA3531),udg_MSjineng[ydul_l],1,215,"天赋选择")
 call YDWESetUnitAbilityDataString(LoadUnitHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$71CA3531),udg_MSjineng[ydul_l],1,218,LoadStr(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$7613B462)+"点击花费木头从2-4个天赋中选一个")
 call YDWESetUnitAbilityDataString(LoadUnitHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$71CA3531),udg_MSjineng[ydul_l],1,204,"ReplaceableTextures\\CommandButtons\\BTNWispSplode.blp")
-call YDWESetUnitAbilityDataInteger(LoadUnitHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$71CA3531),udg_MSjineng[ydul_l],1,104,1+LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$96B18D5))
+call YDWESetUnitAbilityDataInteger(LoadUnitHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$71CA3531),udg_MSjineng[ydul_l],1,104,3+LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$96B18D5))
 endif
 set ydul_l=ydul_l+1
 endloop
@@ -17690,7 +17690,7 @@ set udg_TFjineng=YDWEGetAbilityIDByInteger(GetConvertedPlayerId(GetOwningPlayer(
 set udg_TFwanjia=GetOwningPlayer(GetTriggerUnit())
 if udg_TFzhengshu==511 or (udg_TFzhengshu==12 and LoadInteger(YDHT,GetHandleId(udg_TFwanjia),$5C29AF43)>=1) then
 else
-call SaveInteger(YDHT,udg_TFjineng,$91FFA42A,4)
+call SaveInteger(YDHT,udg_TFjineng,$91FFA42A,7)
 endif
 call SaveInteger(YDHT,udg_TFjineng,$3F487778,LoadInteger(YDHT,LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9FDB62AC),$3F487778))
 call SaveBoolean(YDHT,GetHandleId(GetOwningPlayer(GetTriggerUnit())),$A917B7BB,false)
