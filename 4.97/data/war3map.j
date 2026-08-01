@@ -9967,6 +9967,40 @@ endif
 set t=null
 set tag=null
 endfunction
+function YTLuoSpawn takes player p returns nothing
+local integer playerIndex=GetConvertedPlayerId(p)
+local integer level=udg_YTluocishu[playerIndex]
+local location spawnPoint=GetRectCenter(udg_JUXING[playerIndex])
+local force playerForce=YDWEGetForceOfPlayerNull(p)
+local unit boss=CreateUnitAtLoc(Player(PLAYER_NEUTRAL_AGGRESSIVE),$4530344F,spawnPoint,bj_UNIT_FACING)
+set udg_YTheihualuo[playerIndex]=boss
+call SaveInteger(YDHT,GetHandleId(boss),$77D61AAF,playerIndex)
+call SetUnitState(boss,UNIT_STATE_MAX_LIFE,RMinBJ(2000000000.,RMaxBJ(1000000.,200000.*I2R(level)*I2R(level))))
+call SaveReal(YDHT,GetHandleId(boss),StringHash("幼体黑化萝当前护盾"),RMaxBJ(0.,400000000.*I2R(level-100)))
+call YTLuoCreateShieldTag(boss)
+call SetUnitLifePercentBJ(boss,100)
+call ModifyHeroStat(bj_HEROSTAT_INT,boss,bj_MODIFYMETHOD_ADD,(5000+330*LoadInteger(YDHT,StringHash("技能难度"),$AA04A09))*level)
+call SaveReal(YDHT,GetHandleId(boss),$FE9FCB0B,RMinBJ(.95,.15+.008*I2R(level)))
+call SaveBoolean(YDHT,GetHandleId(p),$9763814A,true)
+call DisplayTextToForce(playerForce,"|cffff0000（困难）|r|cffffcc00萝：|r当前魔力系数："+I2S(level))
+call PingMinimapLocForForce(playerForce,spawnPoint,5.)
+call DestroyForce(playerForce)
+call RemoveLocation(spawnPoint)
+set boss=null
+set playerForce=null
+set spawnPoint=null
+set p=null
+endfunction
+function YTLuoAutoSpawnTimer takes nothing returns nothing
+local player p=LoadPlayerHandle(YDLOC,GetHandleId(GetExpiredTimer()),$48656946)
+if LoadBoolean(YDHT,GetHandleId(p),StringHash("幼体黑化萝自动挑战"))==true and LoadBoolean(YDHT,GetHandleId(p),$9763814A)==false then
+call YTLuoSpawn(p)
+else
+endif
+call FlushChildHashtable(YDLOC,GetHandleId(GetExpiredTimer()))
+call DestroyTimer(GetExpiredTimer())
+set p=null
+endfunction
 function Trig_9991___________________________uConditions takes nothing returns boolean
 return GetItemTypeId(GetManipulatedItem())==$4930334F and IsUnitType(GetTriggerUnit(),UNIT_TYPE_HERO)==true
 endfunction
@@ -9980,20 +10014,8 @@ if GetHeroLevel(GetTriggerUnit())>=100 then
 call SavePlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946,GetOwningPlayer(GetTriggerUnit()))
 if LoadInteger(YDHT,GetHandleId(GetOwningPlayer(GetTriggerUnit())),$8654D057)>=0 then
 if LoadBoolean(YDHT,GetHandleId(GetOwningPlayer(GetTriggerUnit())),$9763814A)==false then
-call DisplayTextToForce(LoadForceHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$DFB448FB),"|cffff0000（困难）|r|cffffcc00萝：|r当前魔力系数："+I2S(udg_YTluocishu[GetConvertedPlayerId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946))]))
-call SaveBoolean(YDHT,GetHandleId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946)),$9763814A,true)
-call SaveLocationHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9CD60476,GetRectCenter(udg_JUXING[GetConvertedPlayerId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946))]))
-call CreateNUnitsAtLoc(1,$4530344F,Player(PLAYER_NEUTRAL_AGGRESSIVE),LoadLocationHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9CD60476),bj_UNIT_FACING)
-set udg_YTheihualuo[GetConvertedPlayerId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946))]=bj_lastCreatedUnit
-call SaveInteger(YDHT,GetHandleId(udg_YTheihualuo[GetConvertedPlayerId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946))]),$77D61AAF,GetConvertedPlayerId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946)))
-call SetUnitState(udg_YTheihualuo[GetConvertedPlayerId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946))],UNIT_STATE_MAX_LIFE,RMinBJ(2000000000.,RMaxBJ(1000000.,200000.*I2R(udg_YTluocishu[GetConvertedPlayerId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946))])*I2R(udg_YTluocishu[GetConvertedPlayerId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946))]))))
-call SaveReal(YDHT,GetHandleId(udg_YTheihualuo[GetConvertedPlayerId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946))]),StringHash("幼体黑化萝当前护盾"),RMaxBJ(0.,400000000.*I2R(udg_YTluocishu[GetConvertedPlayerId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946))]-100)))
-call YTLuoCreateShieldTag(udg_YTheihualuo[GetConvertedPlayerId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946))])
-call SetUnitLifePercentBJ(bj_lastCreatedUnit,100)
-call ModifyHeroStat(bj_HEROSTAT_INT,udg_YTheihualuo[GetConvertedPlayerId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946))],bj_MODIFYMETHOD_ADD,(5000+330*LoadInteger(YDHT,StringHash("技能难度"),$AA04A09))*udg_YTluocishu[GetConvertedPlayerId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946))])
-call SaveReal(YDHT,GetHandleId(udg_YTheihualuo[GetConvertedPlayerId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946))]),$FE9FCB0B,RMinBJ(.95,.15+.008*I2R(udg_YTluocishu[GetConvertedPlayerId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946))])))
-call PingMinimapLocForForce(LoadForceHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$DFB448FB),LoadLocationHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9CD60476),5.)
-call RemoveLocation(LoadLocationHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9CD60476))
+call SaveBoolean(YDHT,GetHandleId(GetOwningPlayer(GetTriggerUnit())),StringHash("幼体黑化萝自动挑战"),true)
+call YTLuoSpawn(GetOwningPlayer(GetTriggerUnit()))
 else
 call DisplayTextToForce(LoadForceHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$DFB448FB),"|cffff0000（困难）|r|cffffcc00萝：|r当前魔力系数："+I2S(udg_YTluocishu[GetConvertedPlayerId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946))]))
 call SaveLocationHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9CD60476,GetRectCenter(udg_JUXING[GetConvertedPlayerId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946))]))
@@ -10673,6 +10695,12 @@ else
 endif
 if udg_YTluocishu[LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$8B1FFFFC)]==30 then
 call SetPlayerTechResearchedSwap($52303144,1,ConvertedPlayer(LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$8B1FFFFC)))
+else
+endif
+if LoadBoolean(YDHT,GetHandleId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946)),StringHash("幼体黑化萝自动挑战"))==true then
+set ydl_timer=CreateTimer()
+call SavePlayerHandle(YDLOC,GetHandleId(ydl_timer),$48656946,LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946))
+call TimerStart(ydl_timer,.5,false,function YTLuoAutoSpawnTimer)
 else
 endif
 call DestroyForce(LoadForceHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$DFB448FB))
@@ -34679,6 +34707,7 @@ set ydl_localvar_step=ydl_localvar_step+3
 call SaveInteger(YDLOC,GetHandleId(GetTriggeringTrigger()),$CFDE6C76,ydl_localvar_step)
 call SaveInteger(YDLOC,GetHandleId(GetTriggeringTrigger()),$ECE825E7,ydl_localvar_step)
 if GetOwningPlayer(GetBuyingUnit())==GetOwningPlayer(GetSellingUnit()) then
+call SaveBoolean(YDHT,GetHandleId(GetOwningPlayer(GetBuyingUnit())),StringHash("幼体黑化萝自动挑战"),false)
 call SaveGroupHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$A1614B4D,YDWEGetUnitsInRectMatchingNull(udg_JUXING[GetConvertedPlayerId(GetOwningPlayer(GetBuyingUnit()))],Condition(function Trig_zhongzhi1Func001Func001003002)))
 call ForGroupBJ(LoadGroupHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$A1614B4D),function Trig_zhongzhi1Func001Func002A)
 call DestroyGroup(LoadGroupHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$A1614B4D))
