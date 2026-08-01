@@ -9927,6 +9927,46 @@ call TriggerRegisterAnyUnitEventBJ(gg_trg_9991_____________1,EVENT_PLAYER_UNIT_P
 call TriggerAddCondition(gg_trg_9991_____________1,Condition(function Trig_9991_____________1Conditions))
 call TriggerAddAction(gg_trg_9991_____________1,function Trig_9991_____________1Actions)
 endfunction
+function YTLuoShieldTagText takes unit u returns string
+local real shield=LoadReal(YDHT,GetHandleId(u),StringHash("幼体黑化萝当前护盾"))
+local integer shieldHundredths=R2I(shield/1000000.)
+local integer decimalPart=ModuloInteger(shieldHundredths,100)
+local string decimalText=I2S(decimalPart)
+if decimalPart<10 then
+set decimalText="0"+decimalText
+endif
+return "|cff00ffff护盾："+I2S(shieldHundredths/100)+"."+decimalText+"亿|r"
+endfunction
+function YTLuoShieldTagUpdate takes nothing returns nothing
+local unit u=LoadUnitHandle(YDLOC,GetHandleId(GetExpiredTimer()),$FDF65382)
+local texttag tag=LoadTextTagHandle(YDLOC,GetHandleId(GetExpiredTimer()),$32A9E4C8)
+if u==null or GetWidgetLife(u)<=.405 or LoadReal(YDHT,GetHandleId(u),StringHash("幼体黑化萝当前护盾"))<=0. then
+call DestroyTextTag(tag)
+call FlushChildHashtable(YDLOC,GetHandleId(GetExpiredTimer()))
+call DestroyTimer(GetExpiredTimer())
+else
+call SetTextTagPosUnit(tag,u,20.)
+call SetTextTagText(tag,YTLuoShieldTagText(u),.021)
+endif
+set tag=null
+set u=null
+endfunction
+function YTLuoCreateShieldTag takes unit u returns nothing
+local texttag tag
+local timer t
+if LoadReal(YDHT,GetHandleId(u),StringHash("幼体黑化萝当前护盾"))>0. then
+set tag=CreateTextTag()
+call SetTextTagPermanent(tag,true)
+call SetTextTagPosUnit(tag,u,20.)
+call SetTextTagText(tag,YTLuoShieldTagText(u),.021)
+set t=CreateTimer()
+call SaveUnitHandle(YDLOC,GetHandleId(t),$FDF65382,u)
+call SaveTextTagHandle(YDLOC,GetHandleId(t),$32A9E4C8,tag)
+call TimerStart(t,.03,true,function YTLuoShieldTagUpdate)
+endif
+set t=null
+set tag=null
+endfunction
 function Trig_9991___________________________uConditions takes nothing returns boolean
 return GetItemTypeId(GetManipulatedItem())==$4930334F and IsUnitType(GetTriggerUnit(),UNIT_TYPE_HERO)==true
 endfunction
@@ -9946,18 +9986,12 @@ call SaveLocationHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_s
 call CreateNUnitsAtLoc(1,$4530344F,Player(PLAYER_NEUTRAL_AGGRESSIVE),LoadLocationHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9CD60476),bj_UNIT_FACING)
 set udg_YTheihualuo[GetConvertedPlayerId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946))]=bj_lastCreatedUnit
 call SaveInteger(YDHT,GetHandleId(udg_YTheihualuo[GetConvertedPlayerId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946))]),$77D61AAF,GetConvertedPlayerId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946)))
-if udg_YTluocishu[GetConvertedPlayerId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946))]>=59 then
-call ModifyHeroStat(bj_HEROSTAT_STR,udg_YTheihualuo[GetConvertedPlayerId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946))],bj_MODIFYMETHOD_ADD,10000*59*(59*59))
-else
-call ModifyHeroStat(bj_HEROSTAT_STR,udg_YTheihualuo[GetConvertedPlayerId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946))],bj_MODIFYMETHOD_ADD,10000*udg_YTluocishu[GetConvertedPlayerId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946))]*(udg_YTluocishu[GetConvertedPlayerId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946))]*udg_YTluocishu[GetConvertedPlayerId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946))]))
-endif
-if udg_YTluocishu[GetConvertedPlayerId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946))]>80 then
-call SetUnitState(udg_YTheihualuo[GetConvertedPlayerId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946))],UNIT_STATE_MAX_LIFE,GetUnitState(udg_YTheihualuo[GetConvertedPlayerId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946))],UNIT_STATE_MAX_LIFE)*(1.+.1*I2R(udg_YTluocishu[GetConvertedPlayerId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946))]-80)))
-else
-endif
+call SetUnitState(udg_YTheihualuo[GetConvertedPlayerId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946))],UNIT_STATE_MAX_LIFE,RMinBJ(2000000000.,RMaxBJ(1000000.,200000.*I2R(udg_YTluocishu[GetConvertedPlayerId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946))])*I2R(udg_YTluocishu[GetConvertedPlayerId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946))]))))
+call SaveReal(YDHT,GetHandleId(udg_YTheihualuo[GetConvertedPlayerId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946))]),StringHash("幼体黑化萝当前护盾"),RMaxBJ(0.,400000000.*I2R(udg_YTluocishu[GetConvertedPlayerId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946))]-100)))
+call YTLuoCreateShieldTag(udg_YTheihualuo[GetConvertedPlayerId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946))])
 call SetUnitLifePercentBJ(bj_lastCreatedUnit,100)
 call ModifyHeroStat(bj_HEROSTAT_INT,udg_YTheihualuo[GetConvertedPlayerId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946))],bj_MODIFYMETHOD_ADD,(5000+330*LoadInteger(YDHT,StringHash("技能难度"),$AA04A09))*udg_YTluocishu[GetConvertedPlayerId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946))])
-call SaveReal(YDHT,GetHandleId(udg_YTheihualuo[GetConvertedPlayerId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946))]),$FE9FCB0B,RMinBJ(.95,.15+.01*I2R(udg_YTluocishu[GetConvertedPlayerId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946))])))
+call SaveReal(YDHT,GetHandleId(udg_YTheihualuo[GetConvertedPlayerId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946))]),$FE9FCB0B,RMinBJ(.95,.15+.008*I2R(udg_YTluocishu[GetConvertedPlayerId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946))])))
 call PingMinimapLocForForce(LoadForceHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$DFB448FB),LoadLocationHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9CD60476),5.)
 call RemoveLocation(LoadLocationHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9CD60476))
 else
@@ -10562,20 +10596,20 @@ call SaveForceHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step
 call DisplayTextToForce(LoadForceHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$DFB448FB),"|cffffcc00萝：|r当前魔力系数："+I2S(udg_YTluocishu[GetConvertedPlayerId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946))]))
 set udg_YTluocishu[LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$8B1FFFFC)]=udg_YTluocishu[LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$8B1FFFFC)]+1
 call SaveInteger(YDHT,GetHandleId(GetOwningPlayer(GetKillingUnitBJ())),$8654D057,LoadInteger(YDHT,GetHandleId(GetOwningPlayer(GetKillingUnitBJ())),$8654D057)+3)
-call AdjustPlayerStateBJ(15+6*udg_YTluocishu[LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$8B1FFFFC)],GetOwningPlayer(GetKillingUnitBJ()),PLAYER_STATE_RESOURCE_LUMBER)
-call ModifyHeroStat(bj_HEROSTAT_STR,udg_wjyx[LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$8B1FFFFC)-1],bj_MODIFYMETHOD_ADD,132+7*udg_YTluocishu[LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$8B1FFFFC)])
-call ModifyHeroStat(bj_HEROSTAT_AGI,udg_wjyx[LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$8B1FFFFC)-1],bj_MODIFYMETHOD_ADD,132+7*udg_YTluocishu[LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$8B1FFFFC)])
-call ModifyHeroStat(bj_HEROSTAT_INT,udg_wjyx[LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$8B1FFFFC)-1],bj_MODIFYMETHOD_ADD,132+7*udg_YTluocishu[LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$8B1FFFFC)])
+call AdjustPlayerStateBJ(15+4*udg_YTluocishu[LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$8B1FFFFC)],GetOwningPlayer(GetKillingUnitBJ()),PLAYER_STATE_RESOURCE_LUMBER)
+call ModifyHeroStat(bj_HEROSTAT_STR,udg_wjyx[LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$8B1FFFFC)-1],bj_MODIFYMETHOD_ADD,132+4*udg_YTluocishu[LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$8B1FFFFC)])
+call ModifyHeroStat(bj_HEROSTAT_AGI,udg_wjyx[LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$8B1FFFFC)-1],bj_MODIFYMETHOD_ADD,132+4*udg_YTluocishu[LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$8B1FFFFC)])
+call ModifyHeroStat(bj_HEROSTAT_INT,udg_wjyx[LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$8B1FFFFC)-1],bj_MODIFYMETHOD_ADD,132+4*udg_YTluocishu[LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$8B1FFFFC)])
 call AddHeroXP(udg_wjyx[LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$8B1FFFFC)-1],R2I((5000.+80.*I2R(GetHeroLevel(udg_wjyx[GetPlayerId(GetOwningPlayer(GetKillingUnitBJ()))]))+1500.*I2R(udg_YTluocishu[LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$8B1FFFFC)]))*(1.+udg_JYBL[GetConvertedPlayerId(GetOwningPlayer(GetKillingUnitBJ()))])),true)
 call SaveBoolean(YDHT,GetHandleId(GetOwningPlayer(udg_wjyx[LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$8B1FFFFC)-1])),$9763814A,false)
-call DisplayTextToForce(LoadForceHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$DFB448FB),"|cffffcc00完成压制黑化萝：|r获得|cff00ff00"+(I2S(132+9*udg_YTluocishu[LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$8B1FFFFC)])+"全属性|r和|cff00ff00"+I2S(15+6*udg_YTluocishu[LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$8B1FFFFC)]))+"木头|r")
+call DisplayTextToForce(LoadForceHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$DFB448FB),"|cffffcc00完成压制黑化萝：|r获得|cff00ff00"+(I2S(132+4*udg_YTluocishu[LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$8B1FFFFC)])+"全属性|r和|cff00ff00"+I2S(15+4*udg_YTluocishu[LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$8B1FFFFC)]))+"木头|r")
 if LoadInteger(YDHT,StringHash("多面板显示"),$7615DB3C)>=11 then
 call SaveInteger(YDHT,GetHandleId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946)),$12134290,LoadInteger(YDHT,GetHandleId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946)),$12134290)+1)
 call SaveInteger(YDHT,GetHandleId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946)),$8900B876,LoadInteger(YDHT,GetHandleId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946)),$8900B876)+1)
 call DisplayTextToForce(LoadForceHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$DFB448FB),"|cff00ff00获得1点神力反馈（"+I2S(LoadInteger(YDHT,GetHandleId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946)),$12134290))+("）（"+I2S(LoadInteger(YDHT,GetHandleId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946)),$8900B876))+"）|r"))
 else
 endif
-if udg_YTluocishu[GetConvertedPlayerId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946))]==5 or udg_YTluocishu[GetConvertedPlayerId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946))]==10 or udg_YTluocishu[GetConvertedPlayerId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946))]==15 or udg_YTluocishu[GetConvertedPlayerId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946))]==20 or udg_YTluocishu[GetConvertedPlayerId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946))]==25 or udg_YTluocishu[GetConvertedPlayerId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946))]==30 or udg_YTluocishu[GetConvertedPlayerId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946))]==35 or udg_YTluocishu[GetConvertedPlayerId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946))]==40 or udg_YTluocishu[GetConvertedPlayerId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946))]==45 or udg_YTluocishu[GetConvertedPlayerId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946))]==50 and LoadBoolean(YDHT,StringHash("现世"),$19DAB5F1)==true then
+if udg_YTluocishu[GetConvertedPlayerId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946))]>=5 and udg_YTluocishu[GetConvertedPlayerId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946))]<=80 and ModuloInteger(udg_YTluocishu[GetConvertedPlayerId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946))],5)==0 and LoadBoolean(YDHT,StringHash("现世"),$19DAB5F1)==true then
 call DisplayTextToForce(LoadForceHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$DFB448FB),"|cffffff00获得1次天赋B抽取次数|r")
 call SaveInteger(YDHT,GetHandleId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946)),$684D81C3,LoadInteger(YDHT,GetHandleId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946)),$684D81C3)+1)
 if LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946)==Player(0) then
@@ -116070,6 +116104,30 @@ call TriggerAddAction(checkTrigger,function Trig_ShenliAutoNextCheckActions)
 set chatTrigger=null
 set checkTrigger=null
 endfunction
+function Trig_YTLuoShieldConditions takes nothing returns boolean
+return GetUnitTypeId(GetTriggerUnit())==$4530344F and GetEventDamage()>0. and LoadReal(YDHT,GetHandleId(GetTriggerUnit()),StringHash("幼体黑化萝当前护盾"))>0.
+endfunction
+function Trig_YTLuoShieldActions takes nothing returns nothing
+local unit u=GetTriggerUnit()
+local real shield=LoadReal(YDHT,GetHandleId(u),StringHash("幼体黑化萝当前护盾"))
+local real damage=GetEventDamage()
+if damage<shield then
+call SaveReal(YDHT,GetHandleId(u),StringHash("幼体黑化萝当前护盾"),shield-damage)
+call YDWESetEventDamage(0.)
+else
+call SaveReal(YDHT,GetHandleId(u),StringHash("幼体黑化萝当前护盾"),0.)
+call YDWESetEventDamage(damage-shield)
+call DestroyEffect(AddSpecialEffectTarget("Abilities\\Spells\\Human\\ManaFlare\\ManaFlareBoltImpact.mdl",u,"origin"))
+endif
+set u=null
+endfunction
+function InitTrig_YTLuoShield takes nothing returns nothing
+local trigger shieldTrigger=CreateTrigger()
+call YDWESyStemAnyUnitDamagedRegistTrigger(shieldTrigger)
+call TriggerAddCondition(shieldTrigger,Condition(function Trig_YTLuoShieldConditions))
+call TriggerAddAction(shieldTrigger,function Trig_YTLuoShieldActions)
+set shieldTrigger=null
+endfunction
 function InitCustomTriggers takes nothing returns nothing
 call InitTrig_ShenliAutoNext()
 call InitTrig_999______________________________________________u()
@@ -116741,6 +116799,7 @@ call InitTrig_730_________________________u()
 call InitTrig_7333____________u()
 call InitTrig_7333___________________u()
 call InitTrig_708________________________u()
+call InitTrig_YTLuoShield()
 call InitTrig_708________________________1()
 call InitTrig_708________________________2()
 call InitTrig_723__________________u()
