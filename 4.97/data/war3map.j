@@ -84855,7 +84855,7 @@ call DisplayTextToForce(LoadForceHandle(YDLOC,GetHandleId(GetTriggeringTrigger()
 call UnitAddItemByIdSwapped($49303145,GetTriggerUnit())
 call SetPlayerStateBJ(GetOwningPlayer(GetTriggerUnit()),PLAYER_STATE_RESOURCE_GOLD,GetPlayerState(GetOwningPlayer(GetTriggerUnit()),PLAYER_STATE_RESOURCE_GOLD)+5000)
 call AddHeroXP(GetTriggerUnit(),1800,true)
-if LoadInteger(YDHT,StringHash("送水次数5"),$D57CD2AE)==3+2*udg_ZXRS then
+if LoadInteger(YDHT,StringHash("送水次数5"),$D57CD2AE)==udg_ZXRS then
 call DisplayTextToForce(GetPlayersAll(),"|cffffcc00怪蜀黍：|r你的水我都喝吐了，快gun！")
 if udg_ZXRS==1 then
 call DisplayTextToForce(GetPlayersAll(),"|cffffcc00系统提示：|r完成成就：|cffcc99ff“喝吐的怪蜀黍”|r获得6点成就！")
@@ -85023,7 +85023,7 @@ endif
 call AddHeroXP(GetTriggerUnit(),1800,true)
 call UnitAddItemByIdSwapped($49303145,GetTriggerUnit())
 call SetPlayerStateBJ(GetOwningPlayer(GetTriggerUnit()),PLAYER_STATE_RESOURCE_GOLD,GetPlayerState(GetOwningPlayer(GetTriggerUnit()),PLAYER_STATE_RESOURCE_GOLD)+5000)
-if LoadInteger(YDHT,StringHash("送水次数5"),$D57CD2AE)==3+2*udg_ZXRS then
+if LoadInteger(YDHT,StringHash("送水次数5"),$D57CD2AE)==udg_ZXRS then
 call DisplayTextToForce(GetPlayersAll(),"|cffffcc00怪蜀黍：|r你的水我都喝吐了，快gun！")
 if udg_ZXRS==1 then
 call DisplayTextToForce(GetPlayersAll(),"|cffffcc00系统提示：|r完成成就：|cffcc99ff“喝吐的怪蜀黍”|r获得6点成就！")
