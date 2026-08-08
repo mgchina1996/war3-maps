@@ -1,0 +1,50 @@
+{
+  "version": 1,
+  "files": [
+    {
+      "source": "files/hmltqxz/image273.tga",
+      "target": "war3mapImported\\hmltqxz\\image273.tga",
+      "mode": "replace"
+    },
+    {
+      "source": "files/hmltqxz/image280.tga",
+      "target": "war3mapImported\\hmltqxz\\image280.tga",
+      "mode": "replace"
+    },
+    {
+      "source": "files/hmltqxz/image283.tga",
+      "target": "war3mapImported\\hmltqxz\\image283.tga",
+      "mode": "replace"
+    },
+    {
+      "source": "files/hmltqxz/image286.tga",
+      "target": "war3mapImported\\hmltqxz\\image286.tga",
+      "mode": "replace"
+    },
+    {
+      "source": "files/hmltqxz/image289.tga",
+      "target": "war3mapImported\\hmltqxz\\image289.tga",
+      "mode": "replace"
+    },
+    {
+      "source": "files/hmltqxz/image292.tga",
+      "target": "war3mapImported\\hmltqxz\\image292.tga",
+      "mode": "replace"
+    },
+    {
+      "source": "files/hmltqxz/image295.tga",
+      "target": "war3mapImported\\hmltqxz\\image295.tga",
+      "mode": "replace"
+    },
+    {
+      "source": "files/hmltqxz/image297.tga",
+      "target": "war3mapImported\\hmltqxz\\image297.tga",
+      "mode": "replace"
+    },
+    {
+      "source": "files/hmltqxz/qijianhebi.mp3",
+      "target": "war3mapImported\\hmltqxz\\qijianhebi.mp3",
+      "mode": "replace"
+    }
+  ]
+}

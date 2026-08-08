@@ -737,6 +737,7 @@ sound gg_snd_22222=null
 sound gg_snd_kbyinyue=null
 string gg_snd_yy11
 trigger gg_trg_999______________________________________________u=null
+trigger gg_trg_HMLT_qijian_damage=null
 trigger gg_trg_998__________________u=null
 trigger gg_trg_998__________________2=null
 trigger gg_trg_998__________________2_______u=null
@@ -7752,7 +7753,7 @@ local integer ydul_l
 local timer ydl_timer
 set udg_TFshuliang=45
 set udg_TFshuliang2=78
-set udg_TFshuliang3=518
+set udg_TFshuliang3=525
 set ydul_l=1
 loop
 exitwhen ydul_l>5
@@ -13139,6 +13140,343 @@ call SaveInteger(YDHT,LoadInteger(YDLOC,GetHandleId(GetExpiredTimer()),$9FDB62AC
 call FlushChildHashtable(YDLOC,GetHandleId(GetExpiredTimer()))
 call DestroyTimer(GetExpiredTimer())
 endfunction
+function HMLT_UnitAllAttrPct takes unit u,real r returns nothing
+call SaveReal(YDHT,GetHandleId(u),$9049C539,LoadReal(YDHT,GetHandleId(u),$9049C539)+r)
+call SaveReal(YDHT,GetHandleId(u),$1E7EDE15,LoadReal(YDHT,GetHandleId(u),$1E7EDE15)+r)
+call SaveReal(YDHT,GetHandleId(u),$F2C728F,LoadReal(YDHT,GetHandleId(u),$F2C728F)+r)
+endfunction
+function HMLT_UnitAllElement takes unit u,real r returns nothing
+call SaveReal(YDHT,GetHandleId(u),$6C118F38,LoadReal(YDHT,GetHandleId(u),$6C118F38)+r)
+call SaveReal(YDHT,GetHandleId(u),$CAAE0DB,LoadReal(YDHT,GetHandleId(u),$CAAE0DB)+r)
+call SaveReal(YDHT,GetHandleId(u),$AA243FD1,LoadReal(YDHT,GetHandleId(u),$AA243FD1)+r)
+call SaveReal(YDHT,GetHandleId(u),$B2FF67BE,LoadReal(YDHT,GetHandleId(u),$B2FF67BE)+r)
+endfunction
+function HMLT_UnitAllElementAmp takes unit u,real r returns nothing
+call SaveReal(YDHT,GetHandleId(u),$ADBA5C8F,LoadReal(YDHT,GetHandleId(u),$ADBA5C8F)+r)
+call SaveReal(YDHT,GetHandleId(u),$69000C3A,LoadReal(YDHT,GetHandleId(u),$69000C3A)+r)
+call SaveReal(YDHT,GetHandleId(u),$9585AB93,LoadReal(YDHT,GetHandleId(u),$9585AB93)+r)
+call SaveReal(YDHT,GetHandleId(u),$9AE5205F,LoadReal(YDHT,GetHandleId(u),$9AE5205F)+r)
+endfunction
+function HMLT_PlayerAllGrowth takes player p,integer n returns nothing
+call SaveInteger(YDHT,GetHandleId(p),$F3DBC647,LoadInteger(YDHT,GetHandleId(p),$F3DBC647)+n)
+call SaveInteger(YDHT,GetHandleId(p),$B744D4B2,LoadInteger(YDHT,GetHandleId(p),$B744D4B2)+n)
+call SaveInteger(YDHT,GetHandleId(p),$B520370D,LoadInteger(YDHT,GetHandleId(p),$B520370D)+n)
+endfunction
+function HMLT_SetTalentText takes unit shop,integer abil,integer id,string tail returns nothing
+if id==519 then
+call YDWESetUnitAbilityDataString(shop,abil,1,215,"|cffff0000「火」|r长虹剑主")
+call YDWESetUnitAbilityDataString(shop,abil,1,218,"|cffffffcc（|r|cffeeffd0特|r|cffdcfed4殊|r|cffcbfed9天|r|cffb9fddd赋|r|cffa7fce2）|r|n作为七剑之首，用长虹剑法带领众侠迎战强敌的勇敢少侠。|n"+tail+"|cffffcc00「长虹剑」：|n最终伤害+5%|n全属性+10%|n造成伤害时获得1层火舞旋风，最多13层，持续10秒|n每层：伤害增幅+1%、伤害增加+5%、元素增幅+1%、元素强化+5%|n集齐七剑后自动进化为七剑合璧。|r")
+call YDWESetUnitAbilityDataString(shop,abil,1,204,"war3mapImported\\hmltqxz\\image273.tga")
+else
+if id==520 then
+call YDWESetUnitAbilityDataString(shop,abil,1,215,"|cffccffff「冰」|r冰魄剑主")
+call YDWESetUnitAbilityDataString(shop,abil,1,218,"作为玉蟾宫主，用冰魄剑法攻守兼备的聪慧女侠。|n"+tail+"|cffccffff「冰魄剑」：|n冰元素+20%|n全属性+10%|n全属性成长+30|r")
+call YDWESetUnitAbilityDataString(shop,abil,1,204,"war3mapImported\\hmltqxz\\image280.tga")
+else
+if id==521 then
+call YDWESetUnitAbilityDataString(shop,abil,1,215,"|cffc0c0c0「暗」|r紫云剑主")
+call YDWESetUnitAbilityDataString(shop,abil,1,218,"作为客栈老板娘，用左手重拾紫云剑法的坚强女侠。|n"+tail+"|cffcc99ff「紫云剑」：|n暗元素+20%|n全属性+10%|n伤害减免+10%|r")
+call YDWESetUnitAbilityDataString(shop,abil,1,204,"war3mapImported\\hmltqxz\\image283.tga")
+else
+if id==522 then
+call YDWESetUnitAbilityDataString(shop,abil,1,215,"|cffccffff「冰」|r雨花剑主")
+call YDWESetUnitAbilityDataString(shop,abil,1,218,"作为江湖神医，用医术和毒术支援同伴的热心小神医。|n"+tail+"|cffccffff「雨花剑」：|n全元素+20%|n攻击吸血+10%|n攻击速度+100%|r")
+call YDWESetUnitAbilityDataString(shop,abil,1,204,"war3mapImported\\hmltqxz\\image286.tga")
+else
+if id==523 then
+call YDWESetUnitAbilityDataString(shop,abil,1,215,"|cffffff00「光」|r奔雷剑主")
+call YDWESetUnitAbilityDataString(shop,abil,1,218,"作为混世魔王，用奔雷剑法冲锋陷阵的豪爽大力士。|n"+tail+"|cffffff00「奔雷剑」：|n闪电元素+20%|n全属性+10%|n闪电元素增幅+20%|r")
+call YDWESetUnitAbilityDataString(shop,abil,1,204,"war3mapImported\\hmltqxz\\image289.tga")
+else
+if id==524 then
+call YDWESetUnitAbilityDataString(shop,abil,1,215,"|cffffff00「光」|r青光剑主")
+call YDWESetUnitAbilityDataString(shop,abil,1,218,"作为魔教卧底，用智谋和青光剑法暗助七剑的机敏侠客。|n"+tail+"|cffffff00「青光剑」：|n攻击速度+100%|n敏捷+30%|n伤害减免+10%|r")
+call YDWESetUnitAbilityDataString(shop,abil,1,204,"war3mapImported\\hmltqxz\\image292.tga")
+else
+if id==525 then
+call YDWESetUnitAbilityDataString(shop,abil,1,215,"|cffff0000「火」|r旋风剑主")
+call YDWESetUnitAbilityDataString(shop,abil,1,218,"作为百草谷谷主，用旋风剑法守护家人的儒雅居士。|n"+tail+"|cffffcc00「旋风剑」：|n全属性+10%|n全元素+10%|n伤害增加+10%|n伤害减免+10%|n全属性成长+30|r")
+call YDWESetUnitAbilityDataString(shop,abil,1,204,"war3mapImported\\hmltqxz\\image295.tga")
+else
+if id==88 then
+call YDWESetUnitAbilityDataString(shop,abil,1,215,"|c00DE3C36七|r|c00F5C400剑|r|c0027C74F合|r|c009A38D7璧|r")
+call YDWESetUnitAbilityDataString(shop,abil,1,218,"七位剑主齐心汇聚七剑之力，用以守护麒麟、击败强敌的最强合击。|n"+tail+"|cffffcc00最终伤害+20%|n物理伤害+30%|n魔法伤害+30%|n伤害增幅+42%|n元素增幅+28%|n全属性+42%|n「火」「冰」「暗」「光」+1|r")
+call YDWESetUnitAbilityDataString(shop,abil,1,204,"war3mapImported\\hmltqxz\\image297.tga")
+else
+endif
+endif
+endif
+endif
+endif
+endif
+endif
+endif
+endfunction
+function HMLT_FireDanceExpire takes nothing returns nothing
+local unit u=LoadUnitHandle(YDLOC,GetHandleId(GetExpiredTimer()),$FDF65382)
+local player p=GetOwningPlayer(u)
+if LoadInteger(YDHT,GetHandleId(p),$484D5354)>0 then
+call SaveInteger(YDHT,GetHandleId(p),$484D5354,LoadInteger(YDHT,GetHandleId(p),$484D5354)-1)
+call SaveReal(YDHT,GetHandleId(u),$318D0A33,LoadReal(YDHT,GetHandleId(u),$318D0A33)-.01)
+call SaveReal(YDHT,GetHandleId(u),$618BFD48,LoadReal(YDHT,GetHandleId(u),$618BFD48)-.05)
+call HMLT_UnitAllElementAmp(u,-.01)
+call HMLT_UnitAllElement(u,-.05)
+else
+endif
+call FlushChildHashtable(YDLOC,GetHandleId(GetExpiredTimer()))
+call DestroyTimer(GetExpiredTimer())
+set u=null
+set p=null
+endfunction
+function HMLT_AddFireDance takes unit u returns nothing
+local player p=GetOwningPlayer(u)
+local timer t
+if LoadInteger(YDHT,GetHandleId(p),$484D5354)<13 then
+call SaveInteger(YDHT,GetHandleId(p),$484D5354,LoadInteger(YDHT,GetHandleId(p),$484D5354)+1)
+call SaveReal(YDHT,GetHandleId(u),$318D0A33,LoadReal(YDHT,GetHandleId(u),$318D0A33)+.01)
+call SaveReal(YDHT,GetHandleId(u),$618BFD48,LoadReal(YDHT,GetHandleId(u),$618BFD48)+.05)
+call HMLT_UnitAllElementAmp(u,.01)
+call HMLT_UnitAllElement(u,.05)
+set t=CreateTimer()
+call SaveUnitHandle(YDLOC,GetHandleId(t),$FDF65382,u)
+call TimerStart(t,10.,false,function HMLT_FireDanceExpire)
+else
+endif
+set p=null
+set t=null
+endfunction
+function HMLT_QijianLineT takes nothing returns nothing
+local timer t=GetExpiredTimer()
+local player p=LoadPlayerHandle(YDLOC,GetHandleId(t),$48656946)
+local integer i=LoadInteger(YDLOC,GetHandleId(t),$8B1FFFFC)
+local force f=YDWEGetForceOfPlayerNull(p)
+if i==1 then
+call DisplayTextToForce(f,"|c00DE3C36「虹猫」：长虹剑|r")
+else
+if i==2 then
+call DisplayTextToForce(f,"|c00F88825「逗逗」：雨花剑|r")
+else
+if i==3 then
+call DisplayTextToForce(f,"|c0000A3F5「蓝兔」：冰魄剑|r")
+else
+if i==4 then
+call DisplayTextToForce(f,"|c00277C4F「达达」：旋风剑|r")
+else
+if i==5 then
+call DisplayTextToForce(f,"|c009A38D7「莎丽」：紫云剑|r")
+else
+if i==6 then
+call DisplayTextToForce(f,"|c0099BEFF「跳跳」：青光剑|r")
+else
+if i==7 then
+call DisplayTextToForce(f,"|c00F5C400「大奔」：奔雷剑|r")
+else
+call DisplayTextToForce(f,"|c00DE3C36七剑合璧|r")
+endif
+endif
+endif
+endif
+endif
+endif
+endif
+call DestroyForce(f)
+call FlushChildHashtable(YDLOC,GetHandleId(t))
+call DestroyTimer(t)
+set f=null
+set p=null
+set t=null
+endfunction
+function HMLT_StartQijianDisplay takes player p returns nothing
+local timer t
+local integer i=1
+loop
+exitwhen i>8
+set t=CreateTimer()
+call SavePlayerHandle(YDLOC,GetHandleId(t),$48656946,p)
+call SaveInteger(YDLOC,GetHandleId(t),$8B1FFFFC,i)
+call TimerStart(t,.6*I2R(i-1),false,function HMLT_QijianLineT)
+set i=i+1
+endloop
+set t=null
+endfunction
+function HMLT_PlayQijianSound takes unit u returns nothing
+local sound sd=CreateSound("war3mapImported\\hmltqxz\\qijianhebi.mp3",false,true,true,10,10,"DefaultEAXON")
+call SetSoundDuration(sd,15000)
+call SetSoundChannel(sd,0)
+call SetSoundVolume(sd,127)
+call SetSoundPitch(sd,1.)
+call SetSoundDistances(sd,1000.,10000.)
+call SetSoundDistanceCutoff(sd,3000.)
+call SetSoundConeAngles(sd,0.,0.,127)
+call SetSoundConeOrientation(sd,0.,0.,0.)
+call PlaySoundOnUnitBJ(sd,100,u)
+set sd=null
+set u=null
+endfunction
+function HMLT_TalentApply takes integer id,unit u,player p returns nothing
+if (id>=519 and id<=525) or id==88 then
+call YDWESaveBooleanByInteger(GetConvertedPlayerId(p),id,true)
+else
+endif
+if id==519 then
+call SaveInteger(YDHT,GetHandleId(p),$484D4C54,udg_TFjineng)
+call SaveInteger(YDHT,GetHandleId(p),$4C50E554,LoadInteger(YDHT,GetHandleId(p),$4C50E554)+1)
+call HMLT_UnitAllAttrPct(u,.1)
+call SaveReal(YDHT,GetHandleId(p),$F72F08DF,LoadReal(YDHT,GetHandleId(p),$F72F08DF)+.05)
+else
+if id==520 then
+call SaveInteger(YDHT,GetHandleId(p),$BD395453,LoadInteger(YDHT,GetHandleId(p),$BD395453)+1)
+call SaveReal(YDHT,GetHandleId(u),$AA243FD1,LoadReal(YDHT,GetHandleId(u),$AA243FD1)+.2)
+call HMLT_UnitAllAttrPct(u,.1)
+call HMLT_PlayerAllGrowth(p,30)
+else
+if id==521 then
+call SaveInteger(YDHT,GetHandleId(p),$24AAB9AA,LoadInteger(YDHT,GetHandleId(p),$24AAB9AA)+1)
+call SaveReal(YDHT,GetHandleId(u),$CAAE0DB,LoadReal(YDHT,GetHandleId(u),$CAAE0DB)+.2)
+call HMLT_UnitAllAttrPct(u,.1)
+call SaveReal(YDHT,GetHandleId(u),$FE9FCB0B,LoadReal(YDHT,GetHandleId(u),$FE9FCB0B)+.1)
+else
+if id==522 then
+call SaveInteger(YDHT,GetHandleId(p),$BD395453,LoadInteger(YDHT,GetHandleId(p),$BD395453)+1)
+call HMLT_UnitAllElement(u,.2)
+call SaveReal(YDHT,GetHandleId(p),$30F8459,LoadReal(YDHT,GetHandleId(p),$30F8459)+.1)
+call SetUnitState(u,ConvertUnitState(81),GetUnitState(u,ConvertUnitState(81))+1.)
+else
+if id==523 then
+call SaveInteger(YDHT,GetHandleId(p),$7C26FD13,LoadInteger(YDHT,GetHandleId(p),$7C26FD13)+1)
+call SaveReal(YDHT,GetHandleId(u),$B2FF67BE,LoadReal(YDHT,GetHandleId(u),$B2FF67BE)+.2)
+call HMLT_UnitAllAttrPct(u,.1)
+call SaveReal(YDHT,GetHandleId(u),$9AE5205F,LoadReal(YDHT,GetHandleId(u),$9AE5205F)+.2)
+else
+if id==524 then
+call SaveInteger(YDHT,GetHandleId(p),$7C26FD13,LoadInteger(YDHT,GetHandleId(p),$7C26FD13)+1)
+call SetUnitState(u,ConvertUnitState(81),GetUnitState(u,ConvertUnitState(81))+1.)
+call SaveReal(YDHT,GetHandleId(u),$1E7EDE15,LoadReal(YDHT,GetHandleId(u),$1E7EDE15)+.3)
+call SaveReal(YDHT,GetHandleId(u),$FE9FCB0B,LoadReal(YDHT,GetHandleId(u),$FE9FCB0B)+.1)
+else
+if id==525 then
+call SaveInteger(YDHT,GetHandleId(p),$4C50E554,LoadInteger(YDHT,GetHandleId(p),$4C50E554)+1)
+call HMLT_UnitAllAttrPct(u,.1)
+call HMLT_UnitAllElement(u,.1)
+call SaveReal(YDHT,GetHandleId(u),$618BFD48,LoadReal(YDHT,GetHandleId(u),$618BFD48)+.1)
+call SaveReal(YDHT,GetHandleId(u),$FE9FCB0B,LoadReal(YDHT,GetHandleId(u),$FE9FCB0B)+.1)
+call HMLT_PlayerAllGrowth(p,30)
+else
+if id==88 then
+call SaveInteger(YDHT,GetHandleId(p),$4596B3D2,LoadInteger(YDHT,GetHandleId(p),$4596B3D2)+1)
+call SaveInteger(YDHT,GetHandleId(p),$4C50E554,LoadInteger(YDHT,GetHandleId(p),$4C50E554)+1)
+call SaveInteger(YDHT,GetHandleId(p),$BD395453,LoadInteger(YDHT,GetHandleId(p),$BD395453)+1)
+call SaveInteger(YDHT,GetHandleId(p),$24AAB9AA,LoadInteger(YDHT,GetHandleId(p),$24AAB9AA)+1)
+call SaveInteger(YDHT,GetHandleId(p),$7C26FD13,LoadInteger(YDHT,GetHandleId(p),$7C26FD13)+1)
+call SaveReal(YDHT,GetHandleId(p),$F72F08DF,LoadReal(YDHT,GetHandleId(p),$F72F08DF)+.2)
+call SaveReal(YDHT,GetHandleId(p),$27D42F79,LoadReal(YDHT,GetHandleId(p),$27D42F79)+.3)
+call SaveReal(YDHT,GetHandleId(p),$E63D3789,LoadReal(YDHT,GetHandleId(p),$E63D3789)+.3)
+call SaveReal(YDHT,GetHandleId(u),$318D0A33,LoadReal(YDHT,GetHandleId(u),$318D0A33)+.42)
+call HMLT_UnitAllElementAmp(u,.28)
+call HMLT_UnitAllAttrPct(u,.42)
+else
+endif
+endif
+endif
+endif
+endif
+endif
+endif
+endif
+endfunction
+function HMLT_TalentRemove takes integer id,unit u,player p returns nothing
+if id==519 then
+call SaveInteger(YDHT,GetHandleId(p),$4C50E554,LoadInteger(YDHT,GetHandleId(p),$4C50E554)-1)
+call HMLT_UnitAllAttrPct(u,-.1)
+call SaveReal(YDHT,GetHandleId(p),$F72F08DF,LoadReal(YDHT,GetHandleId(p),$F72F08DF)-.05)
+else
+if id==520 then
+call SaveInteger(YDHT,GetHandleId(p),$BD395453,LoadInteger(YDHT,GetHandleId(p),$BD395453)-1)
+call SaveReal(YDHT,GetHandleId(u),$AA243FD1,LoadReal(YDHT,GetHandleId(u),$AA243FD1)-.2)
+call HMLT_UnitAllAttrPct(u,-.1)
+call HMLT_PlayerAllGrowth(p,-30)
+else
+if id==521 then
+call SaveInteger(YDHT,GetHandleId(p),$24AAB9AA,LoadInteger(YDHT,GetHandleId(p),$24AAB9AA)-1)
+call SaveReal(YDHT,GetHandleId(u),$CAAE0DB,LoadReal(YDHT,GetHandleId(u),$CAAE0DB)-.2)
+call HMLT_UnitAllAttrPct(u,-.1)
+call SaveReal(YDHT,GetHandleId(u),$FE9FCB0B,LoadReal(YDHT,GetHandleId(u),$FE9FCB0B)-.1)
+else
+if id==522 then
+call SaveInteger(YDHT,GetHandleId(p),$BD395453,LoadInteger(YDHT,GetHandleId(p),$BD395453)-1)
+call HMLT_UnitAllElement(u,-.2)
+call SaveReal(YDHT,GetHandleId(p),$30F8459,LoadReal(YDHT,GetHandleId(p),$30F8459)-.1)
+call SetUnitState(u,ConvertUnitState(81),GetUnitState(u,ConvertUnitState(81))-1.)
+else
+if id==523 then
+call SaveInteger(YDHT,GetHandleId(p),$7C26FD13,LoadInteger(YDHT,GetHandleId(p),$7C26FD13)-1)
+call SaveReal(YDHT,GetHandleId(u),$B2FF67BE,LoadReal(YDHT,GetHandleId(u),$B2FF67BE)-.2)
+call HMLT_UnitAllAttrPct(u,-.1)
+call SaveReal(YDHT,GetHandleId(u),$9AE5205F,LoadReal(YDHT,GetHandleId(u),$9AE5205F)-.2)
+else
+if id==524 then
+call SaveInteger(YDHT,GetHandleId(p),$7C26FD13,LoadInteger(YDHT,GetHandleId(p),$7C26FD13)-1)
+call SetUnitState(u,ConvertUnitState(81),GetUnitState(u,ConvertUnitState(81))-1.)
+call SaveReal(YDHT,GetHandleId(u),$1E7EDE15,LoadReal(YDHT,GetHandleId(u),$1E7EDE15)-.3)
+call SaveReal(YDHT,GetHandleId(u),$FE9FCB0B,LoadReal(YDHT,GetHandleId(u),$FE9FCB0B)-.1)
+else
+if id==525 then
+call SaveInteger(YDHT,GetHandleId(p),$4C50E554,LoadInteger(YDHT,GetHandleId(p),$4C50E554)-1)
+call HMLT_UnitAllAttrPct(u,-.1)
+call HMLT_UnitAllElement(u,-.1)
+call SaveReal(YDHT,GetHandleId(u),$618BFD48,LoadReal(YDHT,GetHandleId(u),$618BFD48)-.1)
+call SaveReal(YDHT,GetHandleId(u),$FE9FCB0B,LoadReal(YDHT,GetHandleId(u),$FE9FCB0B)-.1)
+call HMLT_PlayerAllGrowth(p,-30)
+else
+endif
+endif
+endif
+endif
+endif
+endif
+endif
+endfunction
+function HMLT_CheckQijianHebi takes nothing returns nothing
+local integer pid=GetConvertedPlayerId(udg_TFwanjia)
+if YDWEGetBooleanByInteger(pid,88)==false then
+if YDWEGetBooleanByInteger(pid,519)==true and YDWEGetBooleanByInteger(pid,520)==true and YDWEGetBooleanByInteger(pid,521)==true and YDWEGetBooleanByInteger(pid,522)==true then
+if YDWEGetBooleanByInteger(pid,523)==true and YDWEGetBooleanByInteger(pid,524)==true and YDWEGetBooleanByInteger(pid,525)==true then
+set udg_TFfanhui[pid]=519
+call TriggerExecute(gg_trg______________________555_____________________________u)
+else
+endif
+else
+endif
+else
+endif
+endfunction
+function Trig_HMLT_qijian_damageConditions takes nothing returns boolean
+local unit s=GetEventDamageSource()
+local player p=GetOwningPlayer(s)
+local boolean b=false
+if GetEventDamage()>=3. and IsUnitType(s,UNIT_TYPE_HERO)==true and LoadBoolean(YDHT,GetHandleId(p),$514A5255)==false then
+set b=YDWEGetBooleanByInteger(GetConvertedPlayerId(p),519)==true
+else
+endif
+set s=null
+set p=null
+return b
+endfunction
+function Trig_HMLT_qijian_damageActions takes nothing returns nothing
+local unit s=GetEventDamageSource()
+local unit t=GetTriggerUnit()
+local player p=GetOwningPlayer(s)
+call HMLT_AddFireDance(s)
+set s=null
+set t=null
+set p=null
+endfunction
+function InitTrig_HMLT_qijian_damage takes nothing returns nothing
+set gg_trg_HMLT_qijian_damage=CreateTrigger()
+call YDWESyStemAnyUnitDamagedRegistTrigger(gg_trg_HMLT_qijian_damage)
+call TriggerAddCondition(gg_trg_HMLT_qijian_damage,Condition(function Trig_HMLT_qijian_damageConditions))
+call TriggerAddAction(gg_trg_HMLT_qijian_damage,function Trig_HMLT_qijian_damageActions)
+endfunction
 function Trig________113Actions takes nothing returns nothing
 local integer ydul_l
 local timer ydl_timer
@@ -13311,6 +13649,7 @@ call YDWESetUnitAbilityDataString(LoadUnitHandle(YDLOC,GetHandleId(GetTriggering
 call YDWESetUnitAbilityDataString(LoadUnitHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$FDF65382),LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9FDB62AC),1,204,"war3mapImported\\TF110.tga")
 else
 endif
+call HMLT_SetTalentText(LoadUnitHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$FDF65382),LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9FDB62AC),udg_TFzhengshu,LoadStr(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$A1C0385F))
 if udg_TFzhengshu==598 then
 call YDWESetUnitAbilityDataString(LoadUnitHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$FDF65382),LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9FDB62AC),1,215,"阿卡林")
 call YDWESetUnitAbilityDataString(LoadUnitHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$FDF65382),LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9FDB62AC),1,218,"存在感稀薄的阿卡林~"+LoadStr(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$A1C0385F)+"|cffccffcc|n效果：|n恢复20点天赋蓝量并增加2次天赋B的抽取次数|n使自身透明度降低至20%，并且每分钟变换一次透明度|n当自身透明度达到95%时，该天赋进化|r"+"")
@@ -14069,6 +14408,7 @@ call YDWESetUnitAbilityDataString(LoadUnitHandle(YDLOC,GetHandleId(GetTriggering
 call YDWESetUnitAbilityDataString(LoadUnitHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$FDF65382),LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9FDB62AC),1,204,"war3mapImported\\TF110.tga")
 else
 endif
+call HMLT_SetTalentText(LoadUnitHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$FDF65382),LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9FDB62AC),udg_TFzhengshu,LoadStr(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$A1C0385F))
 if udg_TFzhengshu==599 then
 call YDWESetUnitAbilityDataString(LoadUnitHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$FDF65382),LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9FDB62AC),1,215,"阿卡林")
 call YDWESetUnitAbilityDataString(LoadUnitHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$FDF65382),LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9FDB62AC),1,218,"存在感稀薄的阿卡林~（找到存在同样稀薄的恋恋，有概率觉醒该天赋，同时吃下无忧草有极低概率觉醒）"+LoadStr(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$A1C0385F)+("|cffccffcc|n效果：|n自身透明度降低到30%|n斩杀上限+5%|n幻想乡计数+1|n红魔馆计数+1|n空白计数+1|n魔法少女计数+1|n"+"神力成功率+1%|n冷却缩减上限+5%|n「火」「冰」「暗」「光」+1|r"+"")+"")
@@ -15152,6 +15492,8 @@ endif
 endif
 endif
 endif
+call HMLT_TalentApply(LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$8B1FFFFC),LoadUnitHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$FDF65382),udg_TFwanjia)
+call HMLT_CheckQijianHebi()
 call ConditionalTriggerExecute(gg_trg________________________________5555__________________u)
 call DestroyForce(LoadForceHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$DFB448FB))
 call FlushChildHashtable(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step)
@@ -16733,6 +17075,7 @@ endif
 endif
 endif
 endif
+call HMLT_TalentRemove(LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$8B1FFFFC),LoadUnitHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$FDF65382),udg_TFwanjia)
 call FlushChildHashtable(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step)
 endfunction
 function InitTrig__________________________116 takes nothing returns nothing
@@ -20361,6 +20704,21 @@ call SaveReal(YDHT,GetHandleId(udg_TFwanjia),$F72F08DF,LoadReal(YDHT,GetHandleId
 call SaveLocationHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9CD60476,GetUnitLoc(udg_wjyx[GetPlayerId(udg_TFwanjia)]))
 call CreateItemLoc($49304344,LoadLocationHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9CD60476))
 call RemoveLocation(LoadLocationHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9CD60476))
+else
+endif
+if udg_TFfanhui[GetConvertedPlayerId(udg_TFwanjia)]==519 then
+call HMLT_StartQijianDisplay(udg_TFwanjia)
+call HMLT_PlayQijianSound(udg_wjyx[GetPlayerId(udg_TFwanjia)])
+call TriggerExecute(gg_trg___________________6666)
+call YDWESaveBooleanByInteger(GetConvertedPlayerId(udg_TFwanjia),88,true)
+call YDWESaveBooleanByInteger(GetConvertedPlayerId(udg_TFwanjia),519,false)
+call YDWESaveBooleanByInteger(GetConvertedPlayerId(udg_TFwanjia),288,true)
+call SaveInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9FDB62AC,LoadInteger(YDHT,GetHandleId(udg_TFwanjia),$484D4C54))
+call SaveInteger(YDHT,LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9FDB62AC),$3F487778,88)
+call HMLT_SetTalentText(udg_TFshangdian[GetConvertedPlayerId(udg_TFwanjia)],LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9FDB62AC),88,LoadStr(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$A1C0385F))
+call HMLT_SetTalentText(udg_TFBshangdian[GetConvertedPlayerId(udg_TFwanjia)],LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9FDB62AC),88,LoadStr(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$A1C0385F))
+call SaveUnitHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$FDF65382,udg_wjyx[GetPlayerId(udg_TFwanjia)])
+call HMLT_TalentApply(88,LoadUnitHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$FDF65382),udg_TFwanjia)
 else
 endif
 call ConditionalTriggerExecute(gg_trg________________________________5555__________________u)
@@ -116258,6 +116616,7 @@ call InitTrig_____________777()
 call InitTrig___________________888()
 call InitTrig_____________444____________u()
 call InitTrig______________________555_____________________________u()
+call InitTrig_HMLT_qijian_damage()
 call InitTrig______________________2_555()
 call InitTrig___________________6666()
 call InitTrig_____________0003()
