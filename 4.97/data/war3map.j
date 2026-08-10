@@ -21954,7 +21954,7 @@ if DzAPI_Map_GetMapLevel(ConvertedPlayer(ydul_l))>=7 then
 call SaveInteger(YDHT,GetHandleId(ConvertedPlayer(ydul_l)),$9B52D0E0,LoadInteger(YDHT,GetHandleId(ConvertedPlayer(ydul_l)),$9B52D0E0)+1)
 else
 endif
-call SaveInteger(YDHT,GetHandleId(ConvertedPlayer(ydul_l)),$9B52D0E0,10)
+call SaveInteger(YDHT,GetHandleId(ConvertedPlayer(ydul_l)),$9B52D0E0,5)
 else
 call DoNothing()
 endif
