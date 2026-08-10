@@ -7751,9 +7751,9 @@ endfunction
 function Trig_996__________________3_______uActions takes nothing returns nothing
 local integer ydul_l
 local timer ydl_timer
-set udg_TFshuliang=45
+set udg_TFshuliang=48
 set udg_TFshuliang2=78
-set udg_TFshuliang3=526
+set udg_TFshuliang3=527
 set ydul_l=1
 loop
 exitwhen ydul_l>5
@@ -12665,6 +12665,25 @@ call YDWESetUnitAbilityDataInteger(LoadUnitHandle(YDLOC,GetHandleId(GetExpiredTi
 call FlushChildHashtable(YDLOC,GetHandleId(GetExpiredTimer()))
 call DestroyTimer(GetExpiredTimer())
 endfunction
+function HMLT_YXWSetTalentText takes unit shop,integer abil,integer id,string tail returns nothing
+if id==46 then
+call YDWESetUnitAbilityDataString(shop,abil,1,215,"|cffffff00「光」|r拉的翼神龙")
+call YDWESetUnitAbilityDataString(shop,abil,1,218,"三幻神中象征太阳的最高神祇。能够将祭品与生命转化为力量，并化身不死鸟，以神焰焚尽一切敌人。|n"+tail+"|cffffcc00太阳神的加护：|n全属性+10%|n天赋回蓝+0.01|r|n|cffff0000每20点天赋蓝量，全元素强化+2%，元素增幅+1%|r")
+call YDWESetUnitAbilityDataString(shop,abil,1,204,"war3mapImported\\yxw\\la.blp")
+elseif id==47 then
+call YDWESetUnitAbilityDataString(shop,abil,1,215,"|cffff0000「火」|r欧西利斯的天空龙")
+call YDWESetUnitAbilityDataString(shop,abil,1,218,"掌管天空与雷霆的三幻神。其力量会随持有的力量不断增长，并以召雷弹压制所有降临战场的敌人。|n"+tail+"|cffffcc00召雷弹：|n全属性+10%|n天赋回蓝+0.01|r|n|cffff0000每20点天赋蓝量，伤害增加+3%，伤害增幅+2%|r")
+call YDWESetUnitAbilityDataString(shop,abil,1,204,"war3mapImported\\yxw\\tiankonglong.blp")
+elseif id==48 then
+call YDWESetUnitAbilityDataString(shop,abil,1,215,"|cffccffff「冰」|r欧贝里克斯的巨神兵")
+call YDWESetUnitAbilityDataString(shop,abil,1,218,"象征大地与破坏的三幻神。拥有绝对的力量与坚不可摧的神躯，挥动神拳即可将敌阵彻底粉碎。|n"+tail+"|cffffcc00神拳粉碎：|n全属性+10%|n天赋回蓝+0.01|r|n|cffff0000每20点天赋蓝量，全属性+2%|r")
+call YDWESetUnitAbilityDataString(shop,abil,1,204,"war3mapImported\\yxw\\jushenbing.blp")
+elseif id==527 then
+call YDWESetUnitAbilityDataString(shop,abil,1,215,"光之创造神")
+call YDWESetUnitAbilityDataString(shop,abil,1,218,"|cffffffcc（|r|cffeeffd0特|r|cffdcfed4殊|r|cffcbfed9天|r|cffb9fddd赋|r|cffa7fce2）|r|n由三幻神合一后降临的光明创造神。她的出现意味着黑暗的终结，其神圣之光能够裁定一切胜负。|n"+tail+"|cffccffcc光创世：|n最终伤害+10%|n天赋回蓝+0.05|n「火」「冰」「光」+1|n每20点天赋蓝量，全元素强化+2%，元素增幅+1%，伤害增加+3%，伤害增幅+2%，全属性+2%|r")
+call YDWESetUnitAbilityDataString(shop,abil,1,204,"war3mapImported\\yxw\\gzczs.blp")
+endif
+endfunction
 function Trig________111Actions takes nothing returns nothing
 local timer ydl_timer
 local integer ydl_localvar_step=LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger()),$CFDE6C76)
@@ -12968,6 +12987,7 @@ call YDWESetUnitAbilityDataString(LoadUnitHandle(YDLOC,GetHandleId(GetTriggering
 call YDWESetUnitAbilityDataString(LoadUnitHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$FDF65382),udg_TFjineng,1,204,"ReplaceableTextures\\CommandButtons\\BTNWispSplode.blp")
 else
 endif
+call HMLT_YXWSetTalentText(LoadUnitHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$FDF65382),LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9FDB62AC),udg_TFzhengshu,LoadStr(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$A1C0385F))
 call FlushChildHashtable(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step)
 set ydl_timer=null
 endfunction
@@ -13141,6 +13161,7 @@ endif
 endif
 endif
 endif
+call HMLT_YXWSetTalentText(LoadUnitHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$FDF65382),LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9FDB62AC),udg_TFzhengshu,LoadStr(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$A1C0385F))
 call FlushChildHashtable(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step)
 endfunction
 function InitTrig________112 takes nothing returns nothing
@@ -13577,7 +13598,109 @@ call TriggerRegisterPlayerChatEvent(t,Player(4),"-ssjs",true)
 call TriggerAddAction(t,function SSJS_Chat)
 set t=null
 endfunction
+function HMLT_YXWApplyTier takes integer id,unit u,integer delta returns nothing
+local real r=I2R(delta)
+if id==46 then
+call HMLT_UnitAllElement(u,.02*r)
+call HMLT_UnitAllElementAmp(u,.01*r)
+elseif id==47 then
+call SaveReal(YDHT,GetHandleId(u),$618BFD48,LoadReal(YDHT,GetHandleId(u),$618BFD48)+.03*r)
+call SaveReal(YDHT,GetHandleId(u),$318D0A33,LoadReal(YDHT,GetHandleId(u),$318D0A33)+.02*r)
+elseif id==48 then
+call HMLT_UnitAllAttrPct(u,.02*r)
+elseif id==527 then
+call HMLT_UnitAllElement(u,.02*r)
+call HMLT_UnitAllElementAmp(u,.01*r)
+call SaveReal(YDHT,GetHandleId(u),$618BFD48,LoadReal(YDHT,GetHandleId(u),$618BFD48)+.03*r)
+call SaveReal(YDHT,GetHandleId(u),$318D0A33,LoadReal(YDHT,GetHandleId(u),$318D0A33)+.02*r)
+call HMLT_UnitAllAttrPct(u,.02*r)
+endif
+endfunction
+function HMLT_YXWRefreshOne takes player p,unit u,integer id returns nothing
+local integer tier=0
+local integer old=LoadInteger(YDHT,GetHandleId(p),StringHash("YXW_T"+I2S(id)))
+if YDWEGetBooleanByInteger(GetConvertedPlayerId(p),800+id)==true then
+set tier=GetPlayerState(p,PLAYER_STATE_RESOURCE_FOOD_USED)/20
+endif
+if tier!=old then
+call HMLT_YXWApplyTier(id,u,tier-old)
+call SaveInteger(YDHT,GetHandleId(p),StringHash("YXW_T"+I2S(id)),tier)
+endif
+endfunction
+function HMLT_YXWTick takes nothing returns nothing
+local integer i=1
+local player p
+local unit u
+local real regen
+local real carry
+loop
+exitwhen i>5
+set p=ConvertedPlayer(i)
+set u=udg_wjyx[i-1]
+if u!=null then
+call HMLT_YXWRefreshOne(p,u,46)
+call HMLT_YXWRefreshOne(p,u,47)
+call HMLT_YXWRefreshOne(p,u,48)
+call HMLT_YXWRefreshOne(p,u,527)
+set regen=0.
+if YDWEGetBooleanByInteger(i,846)==true then
+set regen=regen+.01
+endif
+if YDWEGetBooleanByInteger(i,847)==true then
+set regen=regen+.01
+endif
+if YDWEGetBooleanByInteger(i,848)==true then
+set regen=regen+.01
+endif
+if YDWEGetBooleanByInteger(i,1327)==true then
+set regen=regen+.05
+endif
+if regen<=0. then
+set carry=0.
+else
+set carry=LoadReal(YDHT,GetHandleId(p),StringHash("YXW_REGEN"))+regen
+if carry>=1. then
+call AdjustPlayerStateBJ(R2I(carry),p,PLAYER_STATE_RESOURCE_FOOD_USED)
+set carry=carry-I2R(R2I(carry))
+endif
+endif
+call SaveReal(YDHT,GetHandleId(p),StringHash("YXW_REGEN"),carry)
+endif
+set i=i+1
+endloop
+set p=null
+set u=null
+endfunction
+function InitTrig_HMLT_yxw takes nothing returns nothing
+local timer t=CreateTimer()
+call TimerStart(t,1.,true,function HMLT_YXWTick)
+set t=null
+endfunction
 function HMLT_SetTalentText takes unit shop,integer abil,integer id,string tail returns nothing
+if id==46 then
+call YDWESetUnitAbilityDataString(shop,abil,1,215,"|cffffff00「光」|r拉的翼神龙")
+call YDWESetUnitAbilityDataString(shop,abil,1,218,"三幻神中象征太阳的最高神祇。能够将祭品与生命转化为力量，并化身不死鸟，以神焰焚尽一切敌人。|n"+tail+"|cffffcc00太阳神的加护：|n全属性+10%|n天赋回蓝+0.01|r|n|n|cffff0000每20点天赋蓝量，全元素强化+2%，元素增幅+1%|r")
+call YDWESetUnitAbilityDataString(shop,abil,1,204,"war3mapImported\\yxw\\la.blp")
+return
+endif
+if id==47 then
+call YDWESetUnitAbilityDataString(shop,abil,1,215,"|cffff0000「火」|r欧西利斯的天空龙")
+call YDWESetUnitAbilityDataString(shop,abil,1,218,"掌管天空与雷霆的三幻神。其力量会随持有的力量不断增长，并以召雷弹压制所有降临战场的敌人。|n"+tail+"|cffffcc00召雷弹：|n全属性+10%|n天赋回蓝+0.01|r|n|n|cffff0000每20点天赋蓝量，伤害增加+3%，伤害增幅+2%|r")
+call YDWESetUnitAbilityDataString(shop,abil,1,204,"war3mapImported\\yxw\\tiankonglong.blp")
+return
+endif
+if id==48 then
+call YDWESetUnitAbilityDataString(shop,abil,1,215,"|cffccffff「冰」|r欧贝里克斯的巨神兵")
+call YDWESetUnitAbilityDataString(shop,abil,1,218,"象征大地与破坏的三幻神。拥有绝对的力量与坚不可摧的神躯，挥动神拳即可将敌阵彻底粉碎。|n"+tail+"|cffffcc00神拳粉碎：|n全属性+10%|n天赋回蓝+0.01|r|n|n|cffff0000每20点天赋蓝量，全属性+2%|r")
+call YDWESetUnitAbilityDataString(shop,abil,1,204,"war3mapImported\\yxw\\jushenbing.blp")
+return
+endif
+if id==527 then
+call YDWESetUnitAbilityDataString(shop,abil,1,215,"光之创造神")
+call YDWESetUnitAbilityDataString(shop,abil,1,218,"|cffffffcc（|r|cffeeffd0特|r|cffdcfed4殊|r|cffcbfed9天|r|cffb9fddd赋|r|cffa7fce2）|r|n由三幻神合一后降临的光明创造神。她的出现意味着黑暗的终结，其神圣之光能够裁定一切胜负。|n"+tail+"|cffccffcc光创世：|n最终伤害+10%|n天赋回蓝+0.05|n「火」「冰」「光」+1|n每20点天赋蓝量，全元素强化+2%，元素增幅+1%，伤害增加+3%，伤害增幅+2%，全属性+2%|r")
+call YDWESetUnitAbilityDataString(shop,abil,1,204,"war3mapImported\\yxw\\gzczs.blp")
+return
+endif
 if id==519 then
 call YDWESetUnitAbilityDataString(shop,abil,1,215,"|cffff0000「火」|r长虹剑主")
 call YDWESetUnitAbilityDataString(shop,abil,1,218,"|cffffffcc（|r|cffeeffd0特|r|cffdcfed4殊|r|cffcbfed9天|r|cffb9fddd赋|r|cffa7fce2）|r|n作为七剑之首，用长虹剑法带领众侠迎战强敌的勇敢少侠。|n"+tail+"|cffffcc00「长虹剑」：|n最终伤害+5%|n全属性+10%|n造成伤害时获得1层火舞旋风，最多13层，持续10秒|n每层：伤害增幅+1%、伤害增加+5%、元素增幅+1%、元素强化+5%|n集齐七剑后自动进化为七剑合璧。|r")
@@ -13734,8 +13857,53 @@ call PlaySoundOnUnitBJ(sd,100,u)
 set sd=null
 set u=null
 endfunction
+function HMLT_YXWConsumeBase takes player p,integer id returns nothing
+local integer pid=GetConvertedPlayerId(p)
+local integer abil=LoadInteger(YDHT,GetHandleId(p),StringHash("YXW_A"+I2S(id)))
+if abil!=0 then
+call SaveInteger(YDHT,abil,$FB2A442D,0)
+call SaveInteger(YDHT,abil,$3F487778,0)
+call SaveInteger(YDHT,abil,$91FFA42A,0)
+call YDWESetUnitAbilityDataString(udg_TFshangdian[pid],abil,1,215,"天赋选择")
+call YDWESetUnitAbilityDataString(udg_TFshangdian[pid],abil,1,218,"点击花费木头从2-4个天赋中选一个")
+call YDWESetUnitAbilityDataString(udg_TFshangdian[pid],abil,1,204,"ReplaceableTextures\\CommandButtons\\BTNWispSplode.blp")
+call YDWESetUnitAbilityDataInteger(udg_TFshangdian[pid],abil,1,104,3)
+call YDWESetUnitAbilityDataString(udg_TFBshangdian[pid],abil,1,215,"天赋选择")
+call YDWESetUnitAbilityDataString(udg_TFBshangdian[pid],abil,1,218,"点击花费木头从2-4个天赋中选一个")
+call YDWESetUnitAbilityDataString(udg_TFBshangdian[pid],abil,1,204,"ReplaceableTextures\\CommandButtons\\BTNWispSplode.blp")
+call YDWESetUnitAbilityDataInteger(udg_TFBshangdian[pid],abil,1,104,3)
+endif
+set udg_TFfanhui[pid]=id
+call TriggerExecute(gg_trg__________________________113)
+call TriggerExecute(gg_trg__________________________114)
+call YDWESaveBooleanByInteger(pid,200+id,true)
+call YDWESaveBooleanByInteger(pid,id,false)
+call SaveInteger(YDHT,GetHandleId(p),StringHash("YXW_A"+I2S(id)),0)
+endfunction
 function HMLT_TalentApply takes integer id,unit u,player p returns nothing
-if (id>=519 and id<=526) or id==88 then
+local integer pid=GetConvertedPlayerId(p)
+if id>=46 and id<=48 then
+call YDWESaveBooleanByInteger(pid,800+id,true)
+call SaveInteger(YDHT,GetHandleId(p),StringHash("YXW_A"+I2S(id)),udg_TFjineng)
+call HMLT_UnitAllAttrPct(u,.1)
+call HMLT_YXWRefreshOne(p,u,id)
+return
+endif
+if id==527 then
+call YDWESaveBooleanByInteger(pid,527,true)
+call YDWESaveBooleanByInteger(pid,727,true)
+call YDWESaveBooleanByInteger(pid,1327,true)
+call HMLT_YXWConsumeBase(p,46)
+call HMLT_YXWConsumeBase(p,47)
+call HMLT_YXWConsumeBase(p,48)
+call SaveReal(YDHT,GetHandleId(p),$F72F08DF,LoadReal(YDHT,GetHandleId(p),$F72F08DF)+.1)
+call SaveInteger(YDHT,GetHandleId(p),$4596B3D2,LoadInteger(YDHT,GetHandleId(p),$4596B3D2)+1)
+call SaveInteger(YDHT,GetHandleId(p),$BD395453,LoadInteger(YDHT,GetHandleId(p),$BD395453)+1)
+call SaveInteger(YDHT,GetHandleId(p),$7C26FD13,LoadInteger(YDHT,GetHandleId(p),$7C26FD13)+1)
+call HMLT_YXWRefreshOne(p,u,527)
+return
+endif
+if (id>=519 and id<=527) or id==88 then
 call YDWESaveBooleanByInteger(GetConvertedPlayerId(p),id,true)
 else
 endif
@@ -13809,6 +13977,26 @@ endif
 endif
 endfunction
 function HMLT_TalentRemove takes integer id,unit u,player p returns nothing
+local integer old
+if id>=46 and id<=48 then
+call YDWESaveBooleanByInteger(GetConvertedPlayerId(p),800+id,false)
+set old=LoadInteger(YDHT,GetHandleId(p),StringHash("YXW_T"+I2S(id)))
+call HMLT_YXWApplyTier(id,u,-old)
+call SaveInteger(YDHT,GetHandleId(p),StringHash("YXW_T"+I2S(id)),0)
+call HMLT_UnitAllAttrPct(u,-.1)
+return
+endif
+if id==527 then
+call YDWESaveBooleanByInteger(GetConvertedPlayerId(p),1327,false)
+set old=LoadInteger(YDHT,GetHandleId(p),StringHash("YXW_T527"))
+call HMLT_YXWApplyTier(527,u,-old)
+call SaveInteger(YDHT,GetHandleId(p),StringHash("YXW_T527"),0)
+call SaveReal(YDHT,GetHandleId(p),$F72F08DF,LoadReal(YDHT,GetHandleId(p),$F72F08DF)-.1)
+call SaveInteger(YDHT,GetHandleId(p),$4596B3D2,LoadInteger(YDHT,GetHandleId(p),$4596B3D2)-1)
+call SaveInteger(YDHT,GetHandleId(p),$BD395453,LoadInteger(YDHT,GetHandleId(p),$BD395453)-1)
+call SaveInteger(YDHT,GetHandleId(p),$7C26FD13,LoadInteger(YDHT,GetHandleId(p),$7C26FD13)-1)
+return
+endif
 if id==519 then
 call SaveInteger(YDHT,GetHandleId(p),$4C50E554,LoadInteger(YDHT,GetHandleId(p),$4C50E554)-1)
 call HMLT_UnitAllAttrPct(u,-.1)
@@ -14535,6 +14723,7 @@ call YDWESetUnitAbilityDataString(LoadUnitHandle(YDLOC,GetHandleId(GetTriggering
 call YDWESetUnitAbilityDataString(LoadUnitHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$FDF65382),LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9FDB62AC),1,204,"war3mapImported\\TF56.tga")
 else
 endif
+call HMLT_SetTalentText(LoadUnitHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$FDF65382),LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9FDB62AC),udg_TFzhengshu,LoadStr(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$A1C0385F))
 call FlushChildHashtable(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step)
 endfunction
 function InitTrig______________11112 takes nothing returns nothing
@@ -14671,6 +14860,7 @@ endif
 endif
 endif
 endif
+call HMLT_SetTalentText(LoadUnitHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$FDF65382),LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9FDB62AC),udg_TFzhengshu,LoadStr(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$A1C0385F))
 call FlushChildHashtable(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step)
 endfunction
 function InitTrig______________11114 takes nothing returns nothing
@@ -18916,6 +19106,11 @@ if YDWEGetBooleanByInteger(GetConvertedPlayerId(udg_TFwanjia),330)==true and YDW
 call YDWESaveBooleanByInteger(GetConvertedPlayerId(udg_TFwanjia),274,false)
 else
 call YDWESaveBooleanByInteger(GetConvertedPlayerId(udg_TFwanjia),274,true)
+endif
+if YDWEGetBooleanByInteger(GetConvertedPlayerId(udg_TFwanjia),846)==true and YDWEGetBooleanByInteger(GetConvertedPlayerId(udg_TFwanjia),847)==true and YDWEGetBooleanByInteger(GetConvertedPlayerId(udg_TFwanjia),848)==true and YDWEGetBooleanByInteger(GetConvertedPlayerId(udg_TFwanjia),727)==false then
+call YDWESaveBooleanByInteger(GetConvertedPlayerId(udg_TFwanjia),527,false)
+else
+call YDWESaveBooleanByInteger(GetConvertedPlayerId(udg_TFwanjia),527,true)
 endif
 endfunction
 function InitTrig___________________2222 takes nothing returns nothing
@@ -117054,6 +117249,7 @@ call InitTrig___________________888()
 call InitTrig_____________444____________u()
 call InitTrig______________________555_____________________________u()
 call InitTrig_HMLT_qijian_damage()
+call InitTrig_HMLT_yxw()
 call InitTrig_SSJS()
 call InitTrig______________________2_555()
 call InitTrig___________________6666()

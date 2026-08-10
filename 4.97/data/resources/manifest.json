@@ -80,6 +80,26 @@
       "source": "files/ssjs/arthur-t6-yy1.mp3",
       "target": "Sound\\JJ\\arthur-t6-yy1.mp3",
       "mode": "replace"
+    },
+    {
+      "source": "files/yxw/la.blp",
+      "target": "war3mapImported\\yxw\\la.blp",
+      "mode": "replace"
+    },
+    {
+      "source": "files/yxw/tiankonglong.blp",
+      "target": "war3mapImported\\yxw\\tiankonglong.blp",
+      "mode": "replace"
+    },
+    {
+      "source": "files/yxw/jushenbing.blp",
+      "target": "war3mapImported\\yxw\\jushenbing.blp",
+      "mode": "replace"
+    },
+    {
+      "source": "files/yxw/gzczs.blp",
+      "target": "war3mapImported\\yxw\\gzczs.blp",
+      "mode": "replace"
     }
   ]
 }
