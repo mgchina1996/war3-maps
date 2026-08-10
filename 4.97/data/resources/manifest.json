@@ -45,6 +45,41 @@
       "source": "files/hmltqxz/qijianhebi.mp3",
       "target": "war3mapImported\\hmltqxz\\qijianhebi.mp3",
       "mode": "replace"
+    },
+    {
+      "source": "files/ssjs/sjs.blp",
+      "target": "war3mapImported\\ssjs\\sjs.blp",
+      "mode": "replace"
+    },
+    {
+      "source": "files/ssjs/arthur-t1-yy1.mp3",
+      "target": "Sound\\JJ\\arthur-t1-yy1.mp3",
+      "mode": "replace"
+    },
+    {
+      "source": "files/ssjs/arthur-t2-yy1.mp3",
+      "target": "Sound\\JJ\\arthur-t2-yy1.mp3",
+      "mode": "replace"
+    },
+    {
+      "source": "files/ssjs/arthur-t3-yy1.mp3",
+      "target": "Sound\\JJ\\arthur-t3-yy1.mp3",
+      "mode": "replace"
+    },
+    {
+      "source": "files/ssjs/arthur-t4-yy1.mp3",
+      "target": "Sound\\JJ\\arthur-t4-yy1.mp3",
+      "mode": "replace"
+    },
+    {
+      "source": "files/ssjs/arthur-t5-yy1.mp3",
+      "target": "Sound\\JJ\\arthur-t5-yy1.mp3",
+      "mode": "replace"
+    },
+    {
+      "source": "files/ssjs/arthur-t6-yy1.mp3",
+      "target": "Sound\\JJ\\arthur-t6-yy1.mp3",
+      "mode": "replace"
     }
   ]
 }

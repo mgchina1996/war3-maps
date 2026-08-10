@@ -7753,7 +7753,7 @@ local integer ydul_l
 local timer ydl_timer
 set udg_TFshuliang=45
 set udg_TFshuliang2=78
-set udg_TFshuliang3=525
+set udg_TFshuliang3=526
 set ydul_l=1
 loop
 exitwhen ydul_l>5
@@ -9385,6 +9385,11 @@ call DisplayTimedTextToForce(LoadForceHandle(YDLOC,GetHandleId(GetTriggeringTrig
 call DisplayTimedTextToForce(LoadForceHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$DFB448FB),LoadReal(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$2D1E4992),"|cff00ff00智力加成：|r"+(I2S(R2I(LoadReal(YDHT,GetHandleId(LoadUnitHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$FDF65382)),$F2C728F)*101.))+"%"))
 call DisplayTimedTextToForce(LoadForceHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$DFB448FB),LoadReal(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$2D1E4992),"|cff00ff00攻速加成：|r"+(I2S(R2I(GetUnitState(LoadUnitHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$FDF65382),ConvertUnitState(81))*101.))+"%"))
 call DisplayTimedTextToForce(LoadForceHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$DFB448FB),LoadReal(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$2D1E4992),"|cffff0000最终伤害：|r"+(I2S(R2I(LoadReal(YDHT,GetHandleId(GetTriggerPlayer()),$F72F08DF)*101.))+"%"))
+if LoadBoolean(YDHT,GetHandleId(GetTriggerPlayer()),StringHash("SSJS_U3"))==true then
+call DisplayTimedTextToForce(LoadForceHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$DFB448FB),LoadReal(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$2D1E4992),"|cff00ff00压制幼体黑化萝奖励：|r20%")
+else
+call DisplayTimedTextToForce(LoadForceHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$DFB448FB),LoadReal(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$2D1E4992),"|cff00ff00压制幼体黑化萝奖励：|r0%")
+endif
 call DestroyForce(LoadForceHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$DFB448FB))
 call FlushChildHashtable(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step)
 endfunction
@@ -10498,6 +10503,7 @@ call DestroyTimer(GetExpiredTimer())
 endfunction
 function Trig_9993____________uActions takes nothing returns nothing
 local timer ydl_timer
+local real ytl_reward_rate=1.
 local integer ydl_localvar_step=LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger()),$CFDE6C76)
 set ydl_localvar_step=ydl_localvar_step+3
 call SaveInteger(YDLOC,GetHandleId(GetTriggeringTrigger()),$CFDE6C76,ydl_localvar_step)
@@ -10618,14 +10624,20 @@ endif
 call SaveForceHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$DFB448FB,YDWEGetForceOfPlayerNull(GetOwningPlayer(GetKillingUnitBJ())))
 call DisplayTextToForce(LoadForceHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$DFB448FB),"|cffffcc00萝：|r当前魔力系数："+I2S(udg_YTluocishu[GetConvertedPlayerId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946))]))
 set udg_YTluocishu[LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$8B1FFFFC)]=udg_YTluocishu[LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$8B1FFFFC)]+1
+if YDWEGetBooleanByInteger(GetConvertedPlayerId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946)),526)==true and LoadBoolean(YDHT,GetHandleId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946)),StringHash("SSJS_U3"))==false then
+call SaveInteger(YDHT,GetHandleId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946)),StringHash("SSJS_P3"),LoadInteger(YDHT,GetHandleId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946)),StringHash("SSJS_P3"))+1)
+endif
+if LoadBoolean(YDHT,GetHandleId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946)),StringHash("SSJS_U3"))==true then
+set ytl_reward_rate=1.2
+endif
 call SaveInteger(YDHT,GetHandleId(GetOwningPlayer(GetKillingUnitBJ())),$8654D057,LoadInteger(YDHT,GetHandleId(GetOwningPlayer(GetKillingUnitBJ())),$8654D057)+3)
-call AdjustPlayerStateBJ(15+4*udg_YTluocishu[LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$8B1FFFFC)],GetOwningPlayer(GetKillingUnitBJ()),PLAYER_STATE_RESOURCE_LUMBER)
-call ModifyHeroStat(bj_HEROSTAT_STR,udg_wjyx[LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$8B1FFFFC)-1],bj_MODIFYMETHOD_ADD,132+4*udg_YTluocishu[LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$8B1FFFFC)])
-call ModifyHeroStat(bj_HEROSTAT_AGI,udg_wjyx[LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$8B1FFFFC)-1],bj_MODIFYMETHOD_ADD,132+4*udg_YTluocishu[LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$8B1FFFFC)])
-call ModifyHeroStat(bj_HEROSTAT_INT,udg_wjyx[LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$8B1FFFFC)-1],bj_MODIFYMETHOD_ADD,132+4*udg_YTluocishu[LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$8B1FFFFC)])
-call AddHeroXP(udg_wjyx[LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$8B1FFFFC)-1],R2I((5000.+80.*I2R(GetHeroLevel(udg_wjyx[GetPlayerId(GetOwningPlayer(GetKillingUnitBJ()))]))+1500.*I2R(udg_YTluocishu[LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$8B1FFFFC)]))*(1.+udg_JYBL[GetConvertedPlayerId(GetOwningPlayer(GetKillingUnitBJ()))])),true)
+call AdjustPlayerStateBJ(R2I(ytl_reward_rate*I2R(15+4*udg_YTluocishu[LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$8B1FFFFC)])),GetOwningPlayer(GetKillingUnitBJ()),PLAYER_STATE_RESOURCE_LUMBER)
+call ModifyHeroStat(bj_HEROSTAT_STR,udg_wjyx[LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$8B1FFFFC)-1],bj_MODIFYMETHOD_ADD,R2I(ytl_reward_rate*I2R(132+4*udg_YTluocishu[LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$8B1FFFFC)])))
+call ModifyHeroStat(bj_HEROSTAT_AGI,udg_wjyx[LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$8B1FFFFC)-1],bj_MODIFYMETHOD_ADD,R2I(ytl_reward_rate*I2R(132+4*udg_YTluocishu[LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$8B1FFFFC)])))
+call ModifyHeroStat(bj_HEROSTAT_INT,udg_wjyx[LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$8B1FFFFC)-1],bj_MODIFYMETHOD_ADD,R2I(ytl_reward_rate*I2R(132+4*udg_YTluocishu[LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$8B1FFFFC)])))
+call AddHeroXP(udg_wjyx[LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$8B1FFFFC)-1],R2I(ytl_reward_rate*(5000.+80.*I2R(GetHeroLevel(udg_wjyx[GetPlayerId(GetOwningPlayer(GetKillingUnitBJ()))]))+1500.*I2R(udg_YTluocishu[LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$8B1FFFFC)]))*(1.+udg_JYBL[GetConvertedPlayerId(GetOwningPlayer(GetKillingUnitBJ()))])),true)
 call SaveBoolean(YDHT,GetHandleId(GetOwningPlayer(udg_wjyx[LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$8B1FFFFC)-1])),$9763814A,false)
-call DisplayTextToForce(LoadForceHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$DFB448FB),"|cffffcc00完成压制黑化萝：|r获得|cff00ff00"+(I2S(132+4*udg_YTluocishu[LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$8B1FFFFC)])+"全属性|r和|cff00ff00"+I2S(15+4*udg_YTluocishu[LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$8B1FFFFC)]))+"木头|r")
+call DisplayTextToForce(LoadForceHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$DFB448FB),"|cffffcc00完成压制黑化萝：|r获得|cff00ff00"+(I2S(R2I(ytl_reward_rate*I2R(132+4*udg_YTluocishu[LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$8B1FFFFC)])))+"全属性|r和|cff00ff00"+I2S(R2I(ytl_reward_rate*I2R(15+4*udg_YTluocishu[LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$8B1FFFFC)]))))+"木头|r")
 if LoadInteger(YDHT,StringHash("多面板显示"),$7615DB3C)>=11 then
 call SaveInteger(YDHT,GetHandleId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946)),$12134290,LoadInteger(YDHT,GetHandleId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946)),$12134290)+1)
 call SaveInteger(YDHT,GetHandleId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946)),$8900B876,LoadInteger(YDHT,GetHandleId(LoadPlayerHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$48656946)),$8900B876)+1)
@@ -13162,6 +13174,409 @@ call SaveInteger(YDHT,GetHandleId(p),$F3DBC647,LoadInteger(YDHT,GetHandleId(p),$
 call SaveInteger(YDHT,GetHandleId(p),$B744D4B2,LoadInteger(YDHT,GetHandleId(p),$B744D4B2)+n)
 call SaveInteger(YDHT,GetHandleId(p),$B520370D,LoadInteger(YDHT,GetHandleId(p),$B520370D)+n)
 endfunction
+function SSJS_IsActive takes player p returns boolean
+return YDWEGetBooleanByInteger(GetConvertedPlayerId(p),526)==true
+endfunction
+function SSJS_IsUnlocked takes player p,integer i returns boolean
+return LoadBoolean(YDHT,GetHandleId(p),StringHash("SSJS_U"+I2S(i)))
+endfunction
+function SSJS_Name takes integer i returns string
+if i==1 then
+return "凯"
+elseif i==2 then
+return "贝狄威尔"
+elseif i==3 then
+return "加赫雷斯"
+elseif i==4 then
+return "阿格规文"
+elseif i==5 then
+return "兰斯洛特"
+elseif i==6 then
+return "帕西米迪斯"
+elseif i==7 then
+return "莫德雷德"
+elseif i==8 then
+return "加拉哈德"
+elseif i==9 then
+return "高文"
+elseif i==10 then
+return "崔斯坦"
+elseif i==11 then
+return "加雷斯"
+elseif i==12 then
+return "帕西瓦尔"
+endif
+return "亚瑟"
+endfunction
+function SSJS_Reward takes integer i returns string
+if i==1 then
+return "经验获取+100%，全属性成长+60"
+elseif i==2 then
+return "Q/W/E/R/D基础伤害各+20%"
+elseif i==3 then
+return "压制幼体黑化萝奖励+20%"
+elseif i==4 then
+return "全属性+30%"
+elseif i==5 then
+return "伤害增幅+30%"
+elseif i==6 then
+return "最终伤害+10%"
+elseif i==7 then
+return "星陨杀怪词条效果+30%"
+elseif i==8 then
+return "招财猫收益+200%"
+elseif i==9 then
+return "元素增幅+20%"
+elseif i==10 then
+return "物理伤害+25%，魔法伤害+25%"
+elseif i==11 then
+return "神力任务奖励+20%"
+elseif i==12 then
+return "每次抽天赋恢复2蓝量"
+endif
+return "「火」「冰」「暗」「光」+1"
+endfunction
+function SSJS_OathText takes integer i returns string
+if i==2 then
+return "「此战，即为抗争强于自身之人之战」"
+elseif i==6 then
+return "「此战，即为公平之战」"
+elseif i==5 then
+return "「此战，非抗争精灵之战」"
+elseif i==7 then
+return "「此战，乃讨伐邪恶之战」"
+elseif i==8 then
+return "「此战，非为私欲而战」"
+elseif i==13 then
+return "「此战，即拯救世界之战！」"
+endif
+return ""
+endfunction
+function SSJS_OathSound takes integer i returns string
+if i==2 then
+return "Sound\\JJ\\arthur-t1-yy1.mp3"
+elseif i==6 then
+return "Sound\\JJ\\arthur-t2-yy1.mp3"
+elseif i==5 then
+return "Sound\\JJ\\arthur-t3-yy1.mp3"
+elseif i==7 then
+return "Sound\\JJ\\arthur-t4-yy1.mp3"
+elseif i==8 then
+return "Sound\\JJ\\arthur-t5-yy1.mp3"
+elseif i==13 then
+return "Sound\\JJ\\arthur-t6-yy1.mp3"
+endif
+return ""
+endfunction
+function SSJS_PlayOath takes player p,integer i returns nothing
+local string s=SSJS_OathSound(i)
+local sound sd
+if s!="" then
+call DisplayTimedTextToPlayer(p,0.,0.,6.,SSJS_OathText(i))
+set sd=CreateSound(s,false,false,false,10,10,"DefaultEAXON")
+call SetSoundDuration(sd,30000)
+call SetSoundChannel(sd,0)
+call SetSoundVolume(sd,127)
+call SetSoundPitch(sd,1.)
+call StartSoundForPlayerBJ(p,sd)
+set sd=null
+endif
+set s=""
+endfunction
+function SSJS_ApplyReward takes player p,integer i returns nothing
+local unit u=udg_wjyx[GetPlayerId(p)]
+if i==1 then
+set udg_JYBL[GetConvertedPlayerId(p)]=udg_JYBL[GetConvertedPlayerId(p)]+1.
+call SetPlayerHandicapXP(p,1.+udg_JYBL[GetConvertedPlayerId(p)])
+call HMLT_PlayerAllGrowth(p,60)
+elseif i==2 then
+call SaveReal(YDHT,GetHandleId(u),$3B2026CA,LoadReal(YDHT,GetHandleId(u),$3B2026CA)+.2)
+call SaveReal(YDHT,GetHandleId(u),$C47DF1E7,LoadReal(YDHT,GetHandleId(u),$C47DF1E7)+.2)
+call SaveReal(YDHT,GetHandleId(u),$93BEF68F,LoadReal(YDHT,GetHandleId(u),$93BEF68F)+.2)
+call SaveReal(YDHT,GetHandleId(u),$A446FEF3,LoadReal(YDHT,GetHandleId(u),$A446FEF3)+.2)
+call SaveReal(YDHT,GetHandleId(u),$EADBD0F8,LoadReal(YDHT,GetHandleId(u),$EADBD0F8)+.2)
+elseif i==3 then
+call DoNothing()
+elseif i==4 then
+call HMLT_UnitAllAttrPct(u,.3)
+elseif i==5 then
+call SaveReal(YDHT,GetHandleId(u),$318D0A33,LoadReal(YDHT,GetHandleId(u),$318D0A33)+.3)
+elseif i==6 then
+call SaveReal(YDHT,GetHandleId(p),$F72F08DF,LoadReal(YDHT,GetHandleId(p),$F72F08DF)+.1)
+elseif i==7 then
+call SaveReal(YDHT,GetHandleId(p),$5EE9EA6F,LoadReal(YDHT,GetHandleId(p),$5EE9EA6F)+.3)
+elseif i==8 then
+call SaveReal(YDHT,GetHandleId(p),$ECD26B51,LoadReal(YDHT,GetHandleId(p),$ECD26B51)+2.)
+elseif i==9 then
+call HMLT_UnitAllElementAmp(u,.2)
+elseif i==10 then
+call SaveReal(YDHT,GetHandleId(p),$27D42F79,LoadReal(YDHT,GetHandleId(p),$27D42F79)+.25)
+call SaveReal(YDHT,GetHandleId(p),$E63D3789,LoadReal(YDHT,GetHandleId(p),$E63D3789)+.25)
+elseif i==11 then
+call SaveReal(YDHT,GetHandleId(p),$249733C1,LoadReal(YDHT,GetHandleId(p),$249733C1)+.2)
+elseif i==12 then
+call SaveReal(YDHT,GetHandleId(p),$7DBA16F6,LoadReal(YDHT,GetHandleId(p),$7DBA16F6)+2.)
+elseif i==13 then
+call SaveInteger(YDHT,GetHandleId(p),$4C50E554,LoadInteger(YDHT,GetHandleId(p),$4C50E554)+1)
+call SaveInteger(YDHT,GetHandleId(p),$BD395453,LoadInteger(YDHT,GetHandleId(p),$BD395453)+1)
+call SaveInteger(YDHT,GetHandleId(p),$24AAB9AA,LoadInteger(YDHT,GetHandleId(p),$24AAB9AA)+1)
+call SaveInteger(YDHT,GetHandleId(p),$7C26FD13,LoadInteger(YDHT,GetHandleId(p),$7C26FD13)+1)
+endif
+set u=null
+endfunction
+function SSJS_Remove takes player p returns nothing
+local unit u=udg_wjyx[GetPlayerId(p)]
+local integer i=1
+if SSJS_IsUnlocked(p,1)==true then
+set udg_JYBL[GetConvertedPlayerId(p)]=udg_JYBL[GetConvertedPlayerId(p)]-1.
+call SetPlayerHandicapXP(p,1.+udg_JYBL[GetConvertedPlayerId(p)])
+call HMLT_PlayerAllGrowth(p,-60)
+endif
+if SSJS_IsUnlocked(p,2)==true then
+call SaveReal(YDHT,GetHandleId(u),$3B2026CA,LoadReal(YDHT,GetHandleId(u),$3B2026CA)-.2)
+call SaveReal(YDHT,GetHandleId(u),$C47DF1E7,LoadReal(YDHT,GetHandleId(u),$C47DF1E7)-.2)
+call SaveReal(YDHT,GetHandleId(u),$93BEF68F,LoadReal(YDHT,GetHandleId(u),$93BEF68F)-.2)
+call SaveReal(YDHT,GetHandleId(u),$A446FEF3,LoadReal(YDHT,GetHandleId(u),$A446FEF3)-.2)
+call SaveReal(YDHT,GetHandleId(u),$EADBD0F8,LoadReal(YDHT,GetHandleId(u),$EADBD0F8)-.2)
+endif
+if SSJS_IsUnlocked(p,4)==true then
+call HMLT_UnitAllAttrPct(u,-.3)
+endif
+if SSJS_IsUnlocked(p,5)==true then
+call SaveReal(YDHT,GetHandleId(u),$318D0A33,LoadReal(YDHT,GetHandleId(u),$318D0A33)-.3)
+endif
+if SSJS_IsUnlocked(p,6)==true then
+call SaveReal(YDHT,GetHandleId(p),$F72F08DF,LoadReal(YDHT,GetHandleId(p),$F72F08DF)-.1)
+endif
+if SSJS_IsUnlocked(p,7)==true then
+call SaveReal(YDHT,GetHandleId(p),$5EE9EA6F,LoadReal(YDHT,GetHandleId(p),$5EE9EA6F)-.3)
+endif
+if SSJS_IsUnlocked(p,8)==true then
+call SaveReal(YDHT,GetHandleId(p),$ECD26B51,LoadReal(YDHT,GetHandleId(p),$ECD26B51)-2.)
+endif
+if SSJS_IsUnlocked(p,9)==true then
+call HMLT_UnitAllElementAmp(u,-.2)
+endif
+if SSJS_IsUnlocked(p,10)==true then
+call SaveReal(YDHT,GetHandleId(p),$27D42F79,LoadReal(YDHT,GetHandleId(p),$27D42F79)-.25)
+call SaveReal(YDHT,GetHandleId(p),$E63D3789,LoadReal(YDHT,GetHandleId(p),$E63D3789)-.25)
+endif
+if SSJS_IsUnlocked(p,11)==true then
+call SaveReal(YDHT,GetHandleId(p),$249733C1,LoadReal(YDHT,GetHandleId(p),$249733C1)-.2)
+endif
+if SSJS_IsUnlocked(p,12)==true then
+call SaveReal(YDHT,GetHandleId(p),$7DBA16F6,LoadReal(YDHT,GetHandleId(p),$7DBA16F6)-2.)
+endif
+if SSJS_IsUnlocked(p,13)==true then
+call SaveInteger(YDHT,GetHandleId(p),$4C50E554,LoadInteger(YDHT,GetHandleId(p),$4C50E554)-1)
+call SaveInteger(YDHT,GetHandleId(p),$BD395453,LoadInteger(YDHT,GetHandleId(p),$BD395453)-1)
+call SaveInteger(YDHT,GetHandleId(p),$24AAB9AA,LoadInteger(YDHT,GetHandleId(p),$24AAB9AA)-1)
+call SaveInteger(YDHT,GetHandleId(p),$7C26FD13,LoadInteger(YDHT,GetHandleId(p),$7C26FD13)-1)
+endif
+loop
+exitwhen i>13
+call SaveBoolean(YDHT,GetHandleId(p),StringHash("SSJS_U"+I2S(i)),false)
+set i=i+1
+endloop
+call SaveInteger(YDHT,GetHandleId(p),StringHash("SSJS_Count"),0)
+call SaveInteger(YDHT,GetHandleId(p),StringHash("SSJS_P1"),0)
+call SaveInteger(YDHT,GetHandleId(p),StringHash("SSJS_P3"),0)
+call SaveInteger(YDHT,GetHandleId(p),StringHash("SSJS_P5"),0)
+call SaveInteger(YDHT,GetHandleId(p),StringHash("SSJS_P7"),0)
+call SaveInteger(YDHT,GetHandleId(p),StringHash("SSJS_P8"),0)
+call SaveInteger(YDHT,GetHandleId(p),StringHash("SSJS_P9"),0)
+call SaveInteger(YDHT,GetHandleId(p),StringHash("SSJS_P11"),0)
+call SaveInteger(YDHT,GetHandleId(p),StringHash("SSJS_P12"),0)
+set u=null
+endfunction
+function SSJS_Unlock takes player p,integer i returns nothing
+if SSJS_IsActive(p)==true and SSJS_IsUnlocked(p,i)==false then
+call SaveBoolean(YDHT,GetHandleId(p),StringHash("SSJS_U"+I2S(i)),true)
+call SaveInteger(YDHT,GetHandleId(p),StringHash("SSJS_Count"),LoadInteger(YDHT,GetHandleId(p),StringHash("SSJS_Count"))+1)
+call SSJS_ApplyReward(p,i)
+if GetLocalPlayer()==p then
+call ClearTextMessages()
+endif
+call DisplayTimedTextToPlayer(p,0.,0.,20.,"|cffffcc00[十三拘束]："+SSJS_Name(i)+"词条已解锁，奖励"+SSJS_Reward(i)+"|r")
+call SSJS_PlayOath(p,i)
+if LoadInteger(YDHT,GetHandleId(p),StringHash("SSJS_Count"))>=7 then
+call SSJS_Unlock(p,13)
+endif
+endif
+endfunction
+function SSJS_Progress takes player p,integer i returns string
+if SSJS_IsUnlocked(p,i)==true then
+return "|cff00ff00[解锁]|r "+SSJS_Name(i)+"："+SSJS_Reward(i)
+elseif i==1 then
+return "|cff99ccff[进行]|r 凯：生存 "+I2S(LoadInteger(YDHT,GetHandleId(p),StringHash("SSJS_P1")))+"/600秒；奖励 "+SSJS_Reward(i)
+elseif i==2 then
+return "|cff99ccff[进行]|r 贝狄威尔：亲手击败十象轮回最终Boss 0/1；奖励 "+SSJS_Reward(i)
+elseif i==3 then
+return "|cff99ccff[进行]|r 加赫雷斯：压制幼体黑化萝 "+I2S(LoadInteger(YDHT,GetHandleId(p),StringHash("SSJS_P3")))+"/12；奖励 "+SSJS_Reward(i)
+elseif i==4 then
+return "|cff99ccff[进行]|r 阿格规文：白字三属性>=200000；奖励 "+SSJS_Reward(i)
+elseif i==5 then
+return "|cff99ccff[进行]|r 兰斯洛特：等待 "+I2S(LoadInteger(YDHT,GetHandleId(p),StringHash("SSJS_P5")))+"/700秒；奖励 "+SSJS_Reward(i)
+elseif i==6 then
+return "|cff99ccff[进行]|r 帕西米迪斯：每秒1%判定中；奖励 "+SSJS_Reward(i)
+elseif i==7 then
+return "|cff99ccff[进行]|r 莫德雷德：普通小怪 "+I2S(LoadInteger(YDHT,GetHandleId(p),StringHash("SSJS_P7")))+"/500；奖励 "+SSJS_Reward(i)
+elseif i==8 then
+return "|cff99ccff[进行]|r 加拉哈德：招财猫 "+I2S(LoadInteger(YDHT,GetHandleId(p),StringHash("SSJS_P8")))+"/10；奖励 "+SSJS_Reward(i)
+elseif i==9 then
+return "|cff99ccff[进行]|r 高文：圣杯邪念体 "+I2S(LoadInteger(YDHT,GetHandleId(p),StringHash("SSJS_P9")))+"/5；奖励 "+SSJS_Reward(i)
+elseif i==10 then
+return "|cff99ccff[进行]|r 崔斯坦：进攻Boss参与 0/1；奖励 "+SSJS_Reward(i)
+elseif i==11 then
+return "|cff99ccff[进行]|r 加雷斯：神力收集 "+I2S(LoadInteger(YDHT,GetHandleId(p),StringHash("SSJS_P11")))+"/20；奖励 "+SSJS_Reward(i)
+elseif i==12 then
+return "|cff99ccff[进行]|r 帕西瓦尔：基地守护 "+I2S(LoadInteger(YDHT,GetHandleId(p),StringHash("SSJS_P12")))+"/600秒；奖励 "+SSJS_Reward(i)
+endif
+return "|cffffcc00[亚瑟]|r 条件：已解锁词条>=7；奖励 "+SSJS_Reward(i)
+endfunction
+function SSJS_Show takes player p returns nothing
+local force f=YDWEGetForceOfPlayerNull(p)
+local integer i=1
+if SSJS_IsActive(p)==false then
+call DisplayTimedTextToForce(f,10.,"|cffffcc00尚未获得十三拘束。|r")
+else
+call DisplayTimedTextToForce(f,18.,"|cffffcc00十三拘束："+I2S(LoadInteger(YDHT,GetHandleId(p),StringHash("SSJS_Count")))+"/13|r")
+loop
+exitwhen i>13
+call DisplayTimedTextToForce(f,18.,SSJS_Progress(p,i))
+set i=i+1
+endloop
+endif
+call DestroyForce(f)
+set f=null
+endfunction
+function SSJS_Tick takes nothing returns nothing
+local timer t=GetExpiredTimer()
+local player p=LoadPlayerHandle(YDLOC,GetHandleId(t),$48656946)
+local unit u=udg_wjyx[GetPlayerId(p)]
+if SSJS_IsActive(p)==false then
+call SaveBoolean(YDHT,GetHandleId(p),StringHash("SSJS_Timer"),false)
+call FlushChildHashtable(YDLOC,GetHandleId(t))
+call DestroyTimer(t)
+else
+if SSJS_IsUnlocked(p,1)==false then
+if IsUnitType(u,UNIT_TYPE_DEAD)==true then
+call SaveInteger(YDHT,GetHandleId(p),StringHash("SSJS_P1"),0)
+else
+call SaveInteger(YDHT,GetHandleId(p),StringHash("SSJS_P1"),LoadInteger(YDHT,GetHandleId(p),StringHash("SSJS_P1"))+1)
+if LoadInteger(YDHT,GetHandleId(p),StringHash("SSJS_P1"))>=600 then
+call SSJS_Unlock(p,1)
+endif
+endif
+endif
+if SSJS_IsUnlocked(p,4)==false and GetHeroStr(u,false)>=200000 and GetHeroAgi(u,false)>=200000 and GetHeroInt(u,false)>=200000 then
+call SSJS_Unlock(p,4)
+endif
+if SSJS_IsUnlocked(p,5)==false then
+call SaveInteger(YDHT,GetHandleId(p),StringHash("SSJS_P5"),LoadInteger(YDHT,GetHandleId(p),StringHash("SSJS_P5"))+1)
+if LoadInteger(YDHT,GetHandleId(p),StringHash("SSJS_P5"))>=700 then
+call SSJS_Unlock(p,5)
+endif
+endif
+if SSJS_IsUnlocked(p,6)==false and GetRandomInt(1,100)==1 then
+call SSJS_Unlock(p,6)
+endif
+if SSJS_IsUnlocked(p,3)==false and LoadInteger(YDHT,GetHandleId(p),StringHash("SSJS_P3"))>=12 then
+call SSJS_Unlock(p,3)
+endif
+if SSJS_IsUnlocked(p,11)==false then
+call SaveInteger(YDHT,GetHandleId(p),StringHash("SSJS_P11"),LoadInteger(YDHT,GetHandleId(p),$8654D057)-LoadInteger(YDHT,GetHandleId(p),StringHash("SSJS_BaseShenli")))
+if LoadInteger(YDHT,GetHandleId(p),StringHash("SSJS_P11"))>=20 then
+call SSJS_Unlock(p,11)
+endif
+endif
+if SSJS_IsUnlocked(p,12)==false then
+if GetUnitState(gg_unit_h000_0002,UNIT_STATE_LIFE)>=.5*GetUnitState(gg_unit_h000_0002,UNIT_STATE_MAX_LIFE) then
+call SaveInteger(YDHT,GetHandleId(p),StringHash("SSJS_P12"),LoadInteger(YDHT,GetHandleId(p),StringHash("SSJS_P12"))+1)
+if LoadInteger(YDHT,GetHandleId(p),StringHash("SSJS_P12"))>=600 then
+call SSJS_Unlock(p,12)
+endif
+else
+call SaveInteger(YDHT,GetHandleId(p),StringHash("SSJS_P12"),0)
+endif
+endif
+endif
+set u=null
+set p=null
+set t=null
+endfunction
+function SSJS_Start takes player p returns nothing
+local timer t
+if LoadBoolean(YDHT,GetHandleId(p),StringHash("SSJS_Timer"))==false then
+call SaveBoolean(YDHT,GetHandleId(p),StringHash("SSJS_Timer"),true)
+call SaveInteger(YDHT,GetHandleId(p),StringHash("SSJS_BaseShenli"),LoadInteger(YDHT,GetHandleId(p),$8654D057))
+set t=CreateTimer()
+call SavePlayerHandle(YDLOC,GetHandleId(t),$48656946,p)
+call TimerStart(t,1.,true,function SSJS_Tick)
+set t=null
+endif
+endfunction
+function SSJS_IsAttackBoss takes unit u returns boolean
+local integer id=GetUnitTypeId(u)
+return GetOwningPlayer(u)==Player(6) and (id==$48303038 or id==$48303041 or id==$45303053 or id==$48303037 or id==$48303043)
+endfunction
+function SSJS_OnUnitDeath takes nothing returns nothing
+local unit d=GetDyingUnit()
+local unit k=GetKillingUnit()
+local player p=GetOwningPlayer(k)
+local player bp
+local integer bi=0
+if SSJS_IsAttackBoss(d)==true then
+loop
+exitwhen bi>=5
+set bp=Player(bi)
+if SSJS_IsActive(bp)==true and SSJS_IsUnlocked(bp,10)==false and LoadReal(YDHT,GetHandleId(bp),$9DB8AD30)>0. then
+call SSJS_Unlock(bp,10)
+endif
+set bi=bi+1
+endloop
+endif
+if k!=null and GetPlayerId(p)>=0 and GetPlayerId(p)<5 and SSJS_IsActive(p)==true then
+if SSJS_IsUnlocked(p,7)==false and GetOwningPlayer(d)==Player(PLAYER_NEUTRAL_AGGRESSIVE) and IsUnitType(d,UNIT_TYPE_HERO)==false and GetUnitTypeId(d)!=$4530344F and GetUnitTypeId(d)!=$45303531 then
+call SaveInteger(YDHT,GetHandleId(p),StringHash("SSJS_P7"),LoadInteger(YDHT,GetHandleId(p),StringHash("SSJS_P7"))+1)
+if LoadInteger(YDHT,GetHandleId(p),StringHash("SSJS_P7"))>=500 then
+call SSJS_Unlock(p,7)
+endif
+endif
+if SSJS_IsUnlocked(p,8)==false and GetUnitTypeId(d)==$45303531 then
+call SaveInteger(YDHT,GetHandleId(p),StringHash("SSJS_P8"),LoadInteger(YDHT,GetHandleId(p),StringHash("SSJS_P8"))+1)
+if LoadInteger(YDHT,GetHandleId(p),StringHash("SSJS_P8"))>=10 then
+call SSJS_Unlock(p,8)
+endif
+endif
+if SSJS_IsUnlocked(p,9)==false and GetUnitTypeId(d)==$45304133 then
+call SaveInteger(YDHT,GetHandleId(p),StringHash("SSJS_P9"),LoadInteger(YDHT,GetHandleId(p),StringHash("SSJS_P9"))+1)
+if LoadInteger(YDHT,GetHandleId(p),StringHash("SSJS_P9"))>=5 then
+call SSJS_Unlock(p,9)
+endif
+endif
+endif
+set d=null
+set k=null
+set p=null
+set bp=null
+endfunction
+function SSJS_Chat takes nothing returns nothing
+call SSJS_Show(GetTriggerPlayer())
+endfunction
+function InitTrig_SSJS takes nothing returns nothing
+local trigger t=CreateTrigger()
+call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_DEATH)
+call TriggerAddAction(t,function SSJS_OnUnitDeath)
+set t=CreateTrigger()
+call TriggerRegisterPlayerChatEvent(t,Player(0),"-ssjs",true)
+call TriggerRegisterPlayerChatEvent(t,Player(1),"-ssjs",true)
+call TriggerRegisterPlayerChatEvent(t,Player(2),"-ssjs",true)
+call TriggerRegisterPlayerChatEvent(t,Player(3),"-ssjs",true)
+call TriggerRegisterPlayerChatEvent(t,Player(4),"-ssjs",true)
+call TriggerAddAction(t,function SSJS_Chat)
+set t=null
+endfunction
 function HMLT_SetTalentText takes unit shop,integer abil,integer id,string tail returns nothing
 if id==519 then
 call YDWESetUnitAbilityDataString(shop,abil,1,215,"|cffff0000「火」|r长虹剑主")
@@ -13198,11 +13613,17 @@ call YDWESetUnitAbilityDataString(shop,abil,1,215,"|cffff0000「火」|r旋风�
 call YDWESetUnitAbilityDataString(shop,abil,1,218,"作为百草谷谷主，用旋风剑法守护家人的儒雅居士。|n"+tail+"|cffffcc00「旋风剑」：|n全属性+10%|n全元素+10%|n伤害增加+10%|n伤害减免+10%|n全属性成长+30|r")
 call YDWESetUnitAbilityDataString(shop,abil,1,204,"war3mapImported\\hmltqxz\\image295.tga")
 else
+if id==526 then
+call YDWESetUnitAbilityDataString(shop,abil,1,215,"十三拘束")
+call YDWESetUnitAbilityDataString(shop,abil,1,218,"|cffffffcc（|r|cffeeffd0特|r|cffdcfed4殊|r|cffcbfed9天|r|cffb9fddd赋|r|cffa7fce2）|r|n十三位圆桌骑士以誓约封缄其真正力量，唯有满足对应信条，拘束方可逐一解除。获得圆桌承认之时，圣剑将显现足以拯救世界的光辉。|n|n|cffdce9ff圆桌议决：|n获得后开启十三条拘束挑战，每条词条只可解锁一次并立即获得奖励。|n输入 -ssjs 查询解锁状态、当前进度和奖励。|n|r")
+call YDWESetUnitAbilityDataString(shop,abil,1,204,"war3mapImported\\ssjs\\sjs.blp")
+else
 if id==88 then
 call YDWESetUnitAbilityDataString(shop,abil,1,215,"|c00DE3C36七|r|c00F5C400剑|r|c0027C74F合|r|c009A38D7璧|r")
 call YDWESetUnitAbilityDataString(shop,abil,1,218,"七位剑主齐心汇聚七剑之力，用以守护麒麟、击败强敌的最强合击。|n"+tail+"|cffffcc00最终伤害+20%|n物理伤害+30%|n魔法伤害+30%|n伤害增幅+42%|n元素增幅+28%|n全属性+42%|n「火」「冰」「暗」「光」+1|r")
 call YDWESetUnitAbilityDataString(shop,abil,1,204,"war3mapImported\\hmltqxz\\image297.tga")
 else
+endif
 endif
 endif
 endif
@@ -13314,7 +13735,7 @@ set sd=null
 set u=null
 endfunction
 function HMLT_TalentApply takes integer id,unit u,player p returns nothing
-if (id>=519 and id<=525) or id==88 then
+if (id>=519 and id<=526) or id==88 then
 call YDWESaveBooleanByInteger(GetConvertedPlayerId(p),id,true)
 else
 endif
@@ -13362,6 +13783,10 @@ call SaveReal(YDHT,GetHandleId(u),$618BFD48,LoadReal(YDHT,GetHandleId(u),$618BFD
 call SaveReal(YDHT,GetHandleId(u),$FE9FCB0B,LoadReal(YDHT,GetHandleId(u),$FE9FCB0B)+.1)
 call HMLT_PlayerAllGrowth(p,30)
 else
+if id==526 then
+call YDWESaveBooleanByInteger(GetConvertedPlayerId(p),726,true)
+call SSJS_Start(p)
+else
 if id==88 then
 call SaveInteger(YDHT,GetHandleId(p),$4596B3D2,LoadInteger(YDHT,GetHandleId(p),$4596B3D2)+1)
 call SaveInteger(YDHT,GetHandleId(p),$4C50E554,LoadInteger(YDHT,GetHandleId(p),$4C50E554)+1)
@@ -13375,6 +13800,7 @@ call SaveReal(YDHT,GetHandleId(u),$318D0A33,LoadReal(YDHT,GetHandleId(u),$318D0A
 call HMLT_UnitAllElementAmp(u,.28)
 call HMLT_UnitAllAttrPct(u,.42)
 else
+endif
 endif
 endif
 endif
@@ -13428,6 +13854,10 @@ call SaveReal(YDHT,GetHandleId(u),$618BFD48,LoadReal(YDHT,GetHandleId(u),$618BFD
 call SaveReal(YDHT,GetHandleId(u),$FE9FCB0B,LoadReal(YDHT,GetHandleId(u),$FE9FCB0B)-.1)
 call HMLT_PlayerAllGrowth(p,-30)
 else
+if id==526 then
+call SSJS_Remove(p)
+else
+endif
 endif
 endif
 endif
@@ -93857,6 +94287,9 @@ call AddItemToStockBJ($49304547,gg_unit_n02N_0101,LoadInteger(YDHT,StringHash("�
 call AddItemToStockBJ($49304547,gg_unit_n02N_0101,LoadInteger(YDHT,StringHash("神力石头九阶"),$14283328),LoadInteger(YDHT,StringHash("神力石头九阶"),$14283328))
 else
 if LoadInteger(YDHT,StringHash("十象轮回数"),$D47A321F)==10 then
+if GetKillingUnitBJ()==udg_wjyx[GetPlayerId(GetOwningPlayer(GetKillingUnitBJ()))] then
+call SSJS_Unlock(GetOwningPlayer(GetKillingUnitBJ()),2)
+endif
 if udg_ZXRS>=3 then
 call SaveInteger(YDHT,StringHash("神力石头十阶"),$604C656,LoadInteger(YDHT,StringHash("神力石头十阶"),$604C656)+GetRandomInt(1,2))
 else
@@ -115505,7 +115938,7 @@ endfunction
 function Trig_____________9553Func001Func012T takes nothing returns nothing
 local integer ydul_l
 local timer ydl_timer
-call SaveReal(YDLOC,GetHandleId(GetExpiredTimer()),$D8D093FA,0.)
+call SaveReal(YDLOC,GetHandleId(GetExpiredTimer()),$D8D093FA,.000001)
 set ydul_l=1
 loop
 exitwhen ydul_l>5
@@ -115564,7 +115997,7 @@ endfunction
 function Trig_____________9553Func002Func011T takes nothing returns nothing
 local integer ydul_l
 local timer ydl_timer
-call SaveReal(YDLOC,GetHandleId(GetExpiredTimer()),$D8D093FA,0.)
+call SaveReal(YDLOC,GetHandleId(GetExpiredTimer()),$D8D093FA,.000001)
 set ydul_l=1
 loop
 exitwhen ydul_l>5
@@ -115623,7 +116056,7 @@ endfunction
 function Trig_____________9553Func003Func012T takes nothing returns nothing
 local integer ydul_l
 local timer ydl_timer
-call SaveReal(YDLOC,GetHandleId(GetExpiredTimer()),$D8D093FA,0.)
+call SaveReal(YDLOC,GetHandleId(GetExpiredTimer()),$D8D093FA,.000001)
 set ydul_l=1
 loop
 exitwhen ydul_l>5
@@ -115682,7 +116115,7 @@ endfunction
 function Trig_____________9553Func004Func013T takes nothing returns nothing
 local integer ydul_l
 local timer ydl_timer
-call SaveReal(YDLOC,GetHandleId(GetExpiredTimer()),$D8D093FA,0.)
+call SaveReal(YDLOC,GetHandleId(GetExpiredTimer()),$D8D093FA,.000001)
 set ydul_l=1
 loop
 exitwhen ydul_l>5
@@ -115741,7 +116174,7 @@ endfunction
 function Trig_____________9553Func005Func012T takes nothing returns nothing
 local integer ydul_l
 local timer ydl_timer
-call SaveReal(YDLOC,GetHandleId(GetExpiredTimer()),$D8D093FA,0.)
+call SaveReal(YDLOC,GetHandleId(GetExpiredTimer()),$D8D093FA,.000001)
 set ydul_l=1
 loop
 exitwhen ydul_l>5
@@ -115800,7 +116233,7 @@ endfunction
 function Trig_____________9553Func006Func012T takes nothing returns nothing
 local integer ydul_l
 local timer ydl_timer
-call SaveReal(YDLOC,GetHandleId(GetExpiredTimer()),$D8D093FA,0.)
+call SaveReal(YDLOC,GetHandleId(GetExpiredTimer()),$D8D093FA,.000001)
 set ydul_l=1
 loop
 exitwhen ydul_l>5
@@ -115859,7 +116292,7 @@ endfunction
 function Trig_____________9553Func007Func012T takes nothing returns nothing
 local integer ydul_l
 local timer ydl_timer
-call SaveReal(YDLOC,GetHandleId(GetExpiredTimer()),$D8D093FA,0.)
+call SaveReal(YDLOC,GetHandleId(GetExpiredTimer()),$D8D093FA,.000001)
 set ydul_l=1
 loop
 exitwhen ydul_l>5
@@ -115918,7 +116351,7 @@ endfunction
 function Trig_____________9553Func008Func013T takes nothing returns nothing
 local integer ydul_l
 local timer ydl_timer
-call SaveReal(YDLOC,GetHandleId(GetExpiredTimer()),$D8D093FA,0.)
+call SaveReal(YDLOC,GetHandleId(GetExpiredTimer()),$D8D093FA,.000001)
 set ydul_l=1
 loop
 exitwhen ydul_l>5
@@ -115977,7 +116410,7 @@ endfunction
 function Trig_____________9553Func009Func013T takes nothing returns nothing
 local integer ydul_l
 local timer ydl_timer
-call SaveReal(YDLOC,GetHandleId(GetExpiredTimer()),$D8D093FA,0.)
+call SaveReal(YDLOC,GetHandleId(GetExpiredTimer()),$D8D093FA,.000001)
 set ydul_l=1
 loop
 exitwhen ydul_l>5
@@ -116617,6 +117050,7 @@ call InitTrig___________________888()
 call InitTrig_____________444____________u()
 call InitTrig______________________555_____________________________u()
 call InitTrig_HMLT_qijian_damage()
+call InitTrig_SSJS()
 call InitTrig______________________2_555()
 call InitTrig___________________6666()
 call InitTrig_____________0003()
