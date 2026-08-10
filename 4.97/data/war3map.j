@@ -9039,6 +9039,12 @@ set ydul_l=1
 loop
 exitwhen ydul_l>5
 call SaveReal(YDHT,GetHandleId(ConvertedPlayer(ydul_l)),$C7DCE311,LoadReal(YDHT,GetHandleId(ConvertedPlayer(ydul_l)),$C7DCE311)+.01)
+if LoadInteger(YDHT,StringHash("多面板显示"),$7615DB3C)>=16 then
+if LoadReal(YDHT,GetHandleId(ConvertedPlayer(ydul_l)),$C7DCE311)>=.72 then
+call SaveReal(YDHT,GetHandleId(ConvertedPlayer(ydul_l)),$C7DCE311,.72)
+else
+endif
+else
 if LoadInteger(YDHT,StringHash("多面板显示"),$7615DB3C)>=15 then
 if LoadReal(YDHT,GetHandleId(ConvertedPlayer(ydul_l)),$C7DCE311)>=.7 then
 call SaveReal(YDHT,GetHandleId(ConvertedPlayer(ydul_l)),$C7DCE311,.7)
@@ -9064,6 +9070,18 @@ endif
 endif
 endif
 endif
+endif
+if LoadInteger(YDHT,StringHash("多面板显示"),$7615DB3C)>=16 then
+if LoadReal(YDHT,GetHandleId(ConvertedPlayer(ydul_l)),$95AB126C)>=.5 then
+call SaveReal(YDHT,GetHandleId(ConvertedPlayer(ydul_l)),$95AB126C,LoadReal(YDHT,GetHandleId(ConvertedPlayer(ydul_l)),$95AB126C)+.02)
+else
+call SaveReal(YDHT,GetHandleId(ConvertedPlayer(ydul_l)),$95AB126C,LoadReal(YDHT,GetHandleId(ConvertedPlayer(ydul_l)),$95AB126C)+.01)
+endif
+if LoadReal(YDHT,GetHandleId(ConvertedPlayer(ydul_l)),$95AB126C)>=.93 then
+call SaveReal(YDHT,GetHandleId(ConvertedPlayer(ydul_l)),$95AB126C,.93)
+else
+endif
+else
 if LoadInteger(YDHT,StringHash("多面板显示"),$7615DB3C)>=15 then
 if LoadReal(YDHT,GetHandleId(ConvertedPlayer(ydul_l)),$95AB126C)>=.53 then
 call SaveReal(YDHT,GetHandleId(ConvertedPlayer(ydul_l)),$95AB126C,LoadReal(YDHT,GetHandleId(ConvertedPlayer(ydul_l)),$95AB126C)+.02)
@@ -9108,6 +9126,7 @@ call SaveReal(YDHT,GetHandleId(ConvertedPlayer(ydul_l)),$95AB126C,LoadReal(YDHT,
 if LoadReal(YDHT,GetHandleId(ConvertedPlayer(ydul_l)),$95AB126C)>=.15 then
 call SaveReal(YDHT,GetHandleId(ConvertedPlayer(ydul_l)),$95AB126C,.15)
 else
+endif
 endif
 endif
 endif
@@ -32511,6 +32530,8 @@ call DialogAddButtonBJ(udg_DHK,"|cffcc99ff天赋模式难14（按\"V/B\"进天�
 set udg_DHKanniu[16]=bj_lastCreatedButton
 call DialogAddButtonBJ(udg_DHK,"|cffcc99ff天赋模式难15（按\"V/B\"进天赋）|r")
 set udg_DHKanniu[17]=bj_lastCreatedButton
+call DialogAddButtonBJ(udg_DHK,"|cffcc99ff天赋模式难16（高难挑战，按\"V/B\"进天赋）|r")
+set udg_DHKanniu[18]=bj_lastCreatedButton
 call DialogDisplay(Player(0),udg_DHK,true)
 call ShowUnit(gg_unit_E012_0221,true)
 call SetMapFlag(MAP_LOCK_RESOURCE_TRADING,true)
@@ -33226,13 +33247,18 @@ call CreateNUnitsAtLoc(1,$6E303257,Player(4),LoadLocationHandle(YDLOC,GetHandleI
 set udg_TFBshangdian[5]=bj_lastCreatedUnit
 call RemoveLocation(LoadLocationHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9CD60476))
 else
-if GetClickedButtonBJ()==udg_DHKanniu[17] then
+if GetClickedButtonBJ()==udg_DHKanniu[17] or GetClickedButtonBJ()==udg_DHKanniu[18] then
 call SaveBoolean(YDHT,StringHash("现世"),$19DAB5F1,true)
 set ydul_l=1
 loop
 exitwhen ydul_l>5
+if GetClickedButtonBJ()==udg_DHKanniu[18] then
+call SaveReal(YDHT,GetHandleId(ConvertedPlayer(ydul_l)),$95AB126C,.42)
+call SaveReal(YDHT,GetHandleId(ConvertedPlayer(ydul_l)),$C7DCE311,.47)
+else
 call SaveReal(YDHT,GetHandleId(ConvertedPlayer(ydul_l)),$95AB126C,.37)
 call SaveReal(YDHT,GetHandleId(ConvertedPlayer(ydul_l)),$C7DCE311,.42)
+endif
 set ydul_l=ydul_l+1
 endloop
 call UnitAddAbility(gg_unit_E012_0221,$41496E76)
@@ -33241,7 +33267,11 @@ call UnitRemoveAbility(gg_unit_E012_0221,$41304450)
 call UnitRemoveAbility(gg_unit_E012_0221,$41305650)
 call UnitRemoveAbility(gg_unit_E012_0221,$41305651)
 call UnitRemoveAbility(gg_unit_E012_0221,$41305332)
+if GetClickedButtonBJ()==udg_DHKanniu[18] then
+call DisplayTextToForce(GetPlayersAll(),"|cffffcc00当前游戏难度为16（高难挑战，按\"V/B\"进入天赋）|r")
+else
 call DisplayTextToForce(GetPlayersAll(),"|cffffcc00当前游戏难度为15（按\"V/B\"进入天赋）|r")
+endif
 call SetPlayerTechResearchedSwap($52303030,18,Player(6))
 call SetPlayerTechResearchedSwap($52303031,26,Player(6))
 call SetPlayerTechResearchedSwap($52303030,18,Player(PLAYER_NEUTRAL_AGGRESSIVE))
@@ -33257,14 +33287,24 @@ call SetPlayerTechResearchedSwap($52303132,9,Player(6))
 call SetPlayerTechResearchedSwap($52303036,30,Player(PLAYER_NEUTRAL_AGGRESSIVE))
 call SetPlayerTechResearchedSwap($52303051,8,Player(PLAYER_NEUTRAL_AGGRESSIVE))
 call SetPlayerTechResearchedSwap($52303051,8,Player(6))
+if GetClickedButtonBJ()==udg_DHKanniu[18] then
+call SetPlayerTechResearchedSwap($52303133,44,Player(6))
+call SetPlayerTechResearchedSwap($52303133,44,Player(PLAYER_NEUTRAL_AGGRESSIVE))
+else
 call SetPlayerTechResearchedSwap($52303133,40,Player(6))
 call SetPlayerTechResearchedSwap($52303133,40,Player(PLAYER_NEUTRAL_AGGRESSIVE))
+endif
 call SetPlayerTechResearchedSwap($52303042,15,Player(PLAYER_NEUTRAL_AGGRESSIVE))
 call SetPlayerTechResearchedSwap($52303042,15,Player(6))
 call SetPlayerTechResearchedSwap($52303045,4,Player(6))
 call SetPlayerTechResearchedSwap($52303045,4,Player(PLAYER_NEUTRAL_AGGRESSIVE))
+if GetClickedButtonBJ()==udg_DHKanniu[18] then
+call SetPlayerTechResearchedSwap($5230314B,20,Player(6))
+call SetPlayerTechResearchedSwap($5230314B,20,Player(PLAYER_NEUTRAL_AGGRESSIVE))
+else
 call SetPlayerTechResearchedSwap($5230314B,18,Player(6))
 call SetPlayerTechResearchedSwap($5230314B,18,Player(PLAYER_NEUTRAL_AGGRESSIVE))
+endif
 call SetPlayerTechResearchedSwap($52303053,7,Player(6))
 call SetPlayerTechResearchedSwap($52303053,7,Player(PLAYER_NEUTRAL_AGGRESSIVE))
 call SetPlayerTechResearchedSwap($5230314A,1,Player(6))
@@ -33272,8 +33312,13 @@ call SetPlayerTechResearchedSwap($5230314A,1,Player(PLAYER_NEUTRAL_AGGRESSIVE))
 call MultiboardSetTitleText(udg_DMB,"\"讨伐大魔王！\" ")
 call SaveInteger(YDHT,StringHash("难度"),$F1B419D0,5)
 call SaveInteger(YDHT,StringHash("技能难度"),$AA04A09,6)
+if GetClickedButtonBJ()==udg_DHKanniu[18] then
+call SaveInteger(YDHT,StringHash("多面板显示"),$7615DB3C,16)
+call SaveInteger(YDHT,StringHash("技能伤害"),$4D696D8F,95)
+else
 call SaveInteger(YDHT,StringHash("多面板显示"),$7615DB3C,15)
 call SaveInteger(YDHT,StringHash("技能伤害"),$4D696D8F,85)
+endif
 call DialogDisplay(Player(0),udg_DHK,false)
 set ydul_l=1
 loop
