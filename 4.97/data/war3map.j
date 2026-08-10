@@ -13620,7 +13620,7 @@ call YDWESetUnitAbilityDataString(shop,abil,1,204,"war3mapImported\\ssjs\\sjs.bl
 else
 if id==88 then
 call YDWESetUnitAbilityDataString(shop,abil,1,215,"|c00DE3C36七|r|c00F5C400剑|r|c0027C74F合|r|c009A38D7璧|r")
-call YDWESetUnitAbilityDataString(shop,abil,1,218,"七位剑主齐心汇聚七剑之力，用以守护麒麟、击败强敌的最强合击。|n"+tail+"|cffffcc00最终伤害+20%|n物理伤害+30%|n魔法伤害+30%|n伤害增幅+42%|n元素增幅+28%|n全属性+42%|n「火」「冰」「暗」「光」+1|r")
+call YDWESetUnitAbilityDataString(shop,abil,1,218,"七位剑主齐心汇聚七剑之力，用以守护麒麟、击败强敌的最强合击。|n"+tail+"|cffffcc00最终伤害+20%|n伤害增幅+42%|n元素增幅+28%|n全属性+30%|n「火」「冰」「暗」「光」+1|r")
 call YDWESetUnitAbilityDataString(shop,abil,1,204,"war3mapImported\\hmltqxz\\image297.tga")
 else
 endif
@@ -13794,11 +13794,9 @@ call SaveInteger(YDHT,GetHandleId(p),$BD395453,LoadInteger(YDHT,GetHandleId(p),$
 call SaveInteger(YDHT,GetHandleId(p),$24AAB9AA,LoadInteger(YDHT,GetHandleId(p),$24AAB9AA)+1)
 call SaveInteger(YDHT,GetHandleId(p),$7C26FD13,LoadInteger(YDHT,GetHandleId(p),$7C26FD13)+1)
 call SaveReal(YDHT,GetHandleId(p),$F72F08DF,LoadReal(YDHT,GetHandleId(p),$F72F08DF)+.2)
-call SaveReal(YDHT,GetHandleId(p),$27D42F79,LoadReal(YDHT,GetHandleId(p),$27D42F79)+.3)
-call SaveReal(YDHT,GetHandleId(p),$E63D3789,LoadReal(YDHT,GetHandleId(p),$E63D3789)+.3)
 call SaveReal(YDHT,GetHandleId(u),$318D0A33,LoadReal(YDHT,GetHandleId(u),$318D0A33)+.42)
 call HMLT_UnitAllElementAmp(u,.28)
-call HMLT_UnitAllAttrPct(u,.42)
+call HMLT_UnitAllAttrPct(u,.3)
 else
 endif
 endif
@@ -13885,7 +13883,7 @@ local unit s=GetEventDamageSource()
 local player p=GetOwningPlayer(s)
 local boolean b=false
 if GetEventDamage()>=3. and IsUnitType(s,UNIT_TYPE_HERO)==true and LoadBoolean(YDHT,GetHandleId(p),$514A5255)==false then
-set b=YDWEGetBooleanByInteger(GetConvertedPlayerId(p),519)==true
+set b=YDWEGetBooleanByInteger(GetConvertedPlayerId(p),519)==true and YDWEGetBooleanByInteger(GetConvertedPlayerId(p),88)==false
 else
 endif
 set s=null
@@ -21141,8 +21139,14 @@ call HMLT_StartQijianDisplay(udg_TFwanjia)
 call HMLT_PlayQijianSound(udg_wjyx[GetPlayerId(udg_TFwanjia)])
 call TriggerExecute(gg_trg___________________6666)
 call YDWESaveBooleanByInteger(GetConvertedPlayerId(udg_TFwanjia),88,true)
-call YDWESaveBooleanByInteger(GetConvertedPlayerId(udg_TFwanjia),519,false)
 call YDWESaveBooleanByInteger(GetConvertedPlayerId(udg_TFwanjia),288,true)
+call YDWESaveBooleanByInteger(GetConvertedPlayerId(udg_TFwanjia),719,true)
+call YDWESaveBooleanByInteger(GetConvertedPlayerId(udg_TFwanjia),720,true)
+call YDWESaveBooleanByInteger(GetConvertedPlayerId(udg_TFwanjia),721,true)
+call YDWESaveBooleanByInteger(GetConvertedPlayerId(udg_TFwanjia),722,true)
+call YDWESaveBooleanByInteger(GetConvertedPlayerId(udg_TFwanjia),723,true)
+call YDWESaveBooleanByInteger(GetConvertedPlayerId(udg_TFwanjia),724,true)
+call YDWESaveBooleanByInteger(GetConvertedPlayerId(udg_TFwanjia),725,true)
 call SaveInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9FDB62AC,LoadInteger(YDHT,GetHandleId(udg_TFwanjia),$484D4C54))
 call SaveInteger(YDHT,LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9FDB62AC),$3F487778,88)
 call HMLT_SetTalentText(udg_TFshangdian[GetConvertedPlayerId(udg_TFwanjia)],LoadInteger(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$9FDB62AC),88,LoadStr(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$A1C0385F))
