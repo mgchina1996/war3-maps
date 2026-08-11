@@ -13535,6 +13535,34 @@ call SaveInteger(YDHT,GetHandleId(p),StringHash("SSJS_P11"),0)
 call SaveInteger(YDHT,GetHandleId(p),StringHash("SSJS_P12"),0)
 set u=null
 endfunction
+function SSJS_Complete takes player p returns nothing
+local integer pid=GetConvertedPlayerId(p)
+local integer abil=LoadInteger(YDHT,GetHandleId(p),StringHash("SSJS_A"))
+if LoadBoolean(YDHT,GetHandleId(p),StringHash("SSJS_Completed"))==false then
+call SaveBoolean(YDHT,GetHandleId(p),StringHash("SSJS_Completed"),true)
+if abil!=0 then
+call SaveInteger(YDHT,abil,$FB2A442D,0)
+call SaveInteger(YDHT,abil,$3F487778,0)
+call SaveInteger(YDHT,abil,$91FFA42A,0)
+call YDWESetUnitAbilityDataString(udg_TFshangdian[pid],abil,1,215,"天赋选择")
+call YDWESetUnitAbilityDataString(udg_TFshangdian[pid],abil,1,218,"点击花费木头从2-4个天赋中选一个")
+call YDWESetUnitAbilityDataString(udg_TFshangdian[pid],abil,1,204,"ReplaceableTextures\\CommandButtons\\BTNWispSplode.blp")
+call YDWESetUnitAbilityDataInteger(udg_TFshangdian[pid],abil,1,104,3)
+call YDWESetUnitAbilityDataString(udg_TFBshangdian[pid],abil,1,215,"天赋选择")
+call YDWESetUnitAbilityDataString(udg_TFBshangdian[pid],abil,1,218,"点击花费木头从2-4个天赋中选一个")
+call YDWESetUnitAbilityDataString(udg_TFBshangdian[pid],abil,1,204,"ReplaceableTextures\\CommandButtons\\BTNWispSplode.blp")
+call YDWESetUnitAbilityDataInteger(udg_TFBshangdian[pid],abil,1,104,3)
+endif
+set udg_TFwanjia=p
+set udg_TFfanhui[pid]=526
+call TriggerExecute(gg_trg__________________________113)
+call TriggerExecute(gg_trg__________________________114)
+call YDWESaveBooleanByInteger(pid,726,true)
+call YDWESaveBooleanByInteger(pid,526,false)
+call SaveInteger(YDHT,GetHandleId(p),StringHash("SSJS_A"),0)
+call DisplayTimedTextToPlayer(p,0.,0.,20.,"|cffffcc00[十三拘束]：13条拘束已全部解开，天赋格已还原。所有词条奖励永久保留。|r")
+endif
+endfunction
 function SSJS_Unlock takes player p,integer i returns nothing
 if SSJS_IsActive(p)==true and SSJS_IsUnlocked(p,i)==false then
 call SaveBoolean(YDHT,GetHandleId(p),StringHash("SSJS_U"+I2S(i)),true)
@@ -13547,6 +13575,9 @@ call DisplayTimedTextToPlayer(p,0.,0.,20.,"|cffffcc00[十三拘束]："+SSJS_Nam
 call SSJS_PlayOath(p,i)
 if LoadInteger(YDHT,GetHandleId(p),StringHash("SSJS_Count"))>=7 then
 call SSJS_Unlock(p,13)
+endif
+if LoadInteger(YDHT,GetHandleId(p),StringHash("SSJS_Count"))>=13 then
+call SSJS_Complete(p)
 endif
 endif
 endfunction
@@ -14078,6 +14109,7 @@ call HMLT_PlayerAllGrowth(p,30)
 else
 if id==526 then
 call YDWESaveBooleanByInteger(GetConvertedPlayerId(p),726,true)
+call SaveInteger(YDHT,GetHandleId(p),StringHash("SSJS_A"),udg_TFjineng)
 call SSJS_Start(p)
 else
 if id==88 then
@@ -14166,7 +14198,7 @@ call SaveReal(YDHT,GetHandleId(u),$FE9FCB0B,LoadReal(YDHT,GetHandleId(u),$FE9FCB
 call HMLT_PlayerAllGrowth(p,-30)
 else
 if id==526 then
-call SSJS_Remove(p)
+call DoNothing()
 else
 endif
 endif
