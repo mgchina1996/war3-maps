@@ -12805,7 +12805,7 @@ call YDWESetUnitAbilityDataString(shop,abil,1,218,"象征大地与破坏的三�
 call YDWESetUnitAbilityDataString(shop,abil,1,204,"war3mapImported\\yxw\\jushenbing.blp")
 elseif id==527 then
 call YDWESetUnitAbilityDataString(shop,abil,1,215,"光之创造神")
-call YDWESetUnitAbilityDataString(shop,abil,1,218,"|cffffffcc（|r|cffeeffd0特|r|cffdcfed4殊|r|cffcbfed9天|r|cffb9fddd赋|r|cffa7fce2）|r|n由三幻神合一后降临的光明创造神。她的出现意味着黑暗的终结，其神圣之光能够裁定一切胜负。|n"+tail+"|cffccffcc光创世：|n最终伤害+10%|n天赋回蓝+0.05|n「火」「冰」「光」+1|n每20点天赋蓝量，全元素强化+2%，元素增幅+1%，伤害增加+3%，伤害增幅+2%，全属性+2%|r")
+call YDWESetUnitAbilityDataString(shop,abil,1,218,"|cffffffcc（|r|cffeeffd0特|r|cffdcfed4殊|r|cffcbfed9天|r|cffb9fddd赋|r|cffa7fce2）|r|n由三幻神合一后降临的光明创造神。她的出现意味着黑暗的终结，其神圣之光能够裁定一切胜负。|n"+tail+"|cffccffcc光创世：|n最终伤害+10%|n天赋回蓝+0.05|n「火」「冰」「光」+1|n每20点天赋蓝量，全元素强化+2%，元素增幅+1%，伤害增加+3%，伤害增幅+2%，全属性+2%|n输入 -gzzh 木头数量，每200木头兑换1点天赋蓝量|r")
 call YDWESetUnitAbilityDataString(shop,abil,1,204,"war3mapImported\\yxw\\gzczs.blp")
 endif
 endfunction
@@ -13853,7 +13853,7 @@ return
 endif
 if id==527 then
 call YDWESetUnitAbilityDataString(shop,abil,1,215,"光之创造神")
-call YDWESetUnitAbilityDataString(shop,abil,1,218,"|cffffffcc（|r|cffeeffd0特|r|cffdcfed4殊|r|cffcbfed9天|r|cffb9fddd赋|r|cffa7fce2）|r|n由三幻神合一后降临的光明创造神。她的出现意味着黑暗的终结，其神圣之光能够裁定一切胜负。|n"+tail+"|cffccffcc光创世：|n最终伤害+10%|n天赋回蓝+0.05|n「火」「冰」「光」+1|n每20点天赋蓝量，全元素强化+2%，元素增幅+1%，伤害增加+3%，伤害增幅+2%，全属性+2%|r")
+call YDWESetUnitAbilityDataString(shop,abil,1,218,"|cffffffcc（|r|cffeeffd0特|r|cffdcfed4殊|r|cffcbfed9天|r|cffb9fddd赋|r|cffa7fce2）|r|n由三幻神合一后降临的光明创造神。她的出现意味着黑暗的终结，其神圣之光能够裁定一切胜负。|n"+tail+"|cffccffcc光创世：|n最终伤害+10%|n天赋回蓝+0.05|n「火」「冰」「光」+1|n每20点天赋蓝量，全元素强化+2%，元素增幅+1%，伤害增加+3%，伤害增幅+2%，全属性+2%|n输入 -gzzh 木头数量，每200木头兑换1点天赋蓝量|r")
 call YDWESetUnitAbilityDataString(shop,abil,1,204,"war3mapImported\\yxw\\gzczs.blp")
 return
 endif
@@ -117355,6 +117355,38 @@ call TriggerAddCondition(shieldTrigger,Condition(function Trig_N16BossShieldCond
 call TriggerAddAction(shieldTrigger,function Trig_N16BossShieldActions)
 set shieldTrigger=null
 endfunction
+function Trig_YXWCreateGodConvertConditions takes nothing returns boolean
+return SubString(GetEventPlayerChatString(),0,6)=="-gzzh "
+endfunction
+function Trig_YXWCreateGodConvertActions takes nothing returns nothing
+local player p=GetTriggerPlayer()
+local integer lumber=S2I(SubString(GetEventPlayerChatString(),6,StringLength(GetEventPlayerChatString())))
+local integer mana=lumber/200
+if YDWEGetBooleanByInteger(GetConvertedPlayerId(p),527)==false then
+call DisplayTextToPlayer(p,0.,0.,"|cffff0000未拥有光之创造神，无法进行转换。|r")
+elseif lumber<=0 or ModuloInteger(lumber,200)!=0 then
+call DisplayTextToPlayer(p,0.,0.,"|cffff0000请输入正的木头数量，数量必须是200的正整数倍。|r")
+elseif GetPlayerState(p,PLAYER_STATE_RESOURCE_LUMBER)<lumber then
+call DisplayTextToPlayer(p,0.,0.,"|cffff0000木头不足，无法进行转换。|r")
+else
+call SetPlayerState(p,PLAYER_STATE_RESOURCE_LUMBER,GetPlayerState(p,PLAYER_STATE_RESOURCE_LUMBER)-lumber)
+call AdjustPlayerStateBJ(mana,p,PLAYER_STATE_RESOURCE_FOOD_USED)
+call DisplayTextToPlayer(p,0.,0.,"|cff00ffff光创世：消耗"+I2S(lumber)+"木头，获得"+I2S(mana)+"点天赋蓝量。|r")
+endif
+set p=null
+endfunction
+function InitTrig_YXWCreateGodConvert takes nothing returns nothing
+local trigger convertTrigger=CreateTrigger()
+local integer i=0
+loop
+exitwhen i>4
+call TriggerRegisterPlayerChatEvent(convertTrigger,Player(i),"-gzzh ",false)
+set i=i+1
+endloop
+call TriggerAddCondition(convertTrigger,Condition(function Trig_YXWCreateGodConvertConditions))
+call TriggerAddAction(convertTrigger,function Trig_YXWCreateGodConvertActions)
+set convertTrigger=null
+endfunction
 function InitCustomTriggers takes nothing returns nothing
 call InitTrig_ShenliAutoNext()
 call InitTrig_999______________________________________________u()
@@ -118031,6 +118063,7 @@ call InitTrig_7333___________________u()
 call InitTrig_708________________________u()
 call InitTrig_YTLuoShield()
 call InitTrig_N16BossShieldEnter()
+call InitTrig_YXWCreateGodConvert()
 call InitTrig_708________________________1()
 call InitTrig_708________________________2()
 call InitTrig_723__________________u()
