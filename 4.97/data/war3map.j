@@ -7793,6 +7793,21 @@ set gg_trg_998____________4=CreateTrigger()
 call TriggerRegisterTimerEventSingle(gg_trg_998____________4,1.5)
 call TriggerAddAction(gg_trg_998____________4,function Trig_998____________4Actions)
 endfunction
+function FormatLargeDamage takes real damage returns string
+local integer hundredths
+local integer decimalPart
+local string decimalText
+if damage<=2147483647. then
+return I2S(R2I(damage))
+endif
+set hundredths=R2I(damage/1000000.)
+set decimalPart=ModuloInteger(hundredths,100)
+set decimalText=I2S(decimalPart)
+if decimalPart<10 then
+set decimalText="0"+decimalText
+endif
+return I2S(hundredths/100)+"."+decimalText+"亿"
+endfunction
 function Trig_7112_____________________________________________uConditions takes nothing returns boolean
 return YDWEIsEventAttackType(ATTACK_TYPE_MELEE)==true or YDWEIsEventAttackType(ATTACK_TYPE_HERO)==true or YDWEIsEventAttackType(ATTACK_TYPE_PIERCE)==true or YDWEIsEventAttackType(ATTACK_TYPE_SIEGE)==true and GetEventDamage()>=3. and GetUnitTypeId(GetEventDamageSource())!=$65303048 and IsUnitType(GetEventDamageSource(),UNIT_TYPE_HERO)==true
 endfunction
@@ -7801,20 +7816,20 @@ call YDWESetEventDamage(GetEventDamage()*(1.+LoadReal(YDHT,GetHandleId(GetOwning
 if RectContainsUnit(gg_rct______________198,GetTriggerUnit())==false and RectContainsUnit(gg_rct______________159,GetTriggerUnit())==false then
 if IsUnitType(GetTriggerUnit(),UNIT_TYPE_HERO)==true or LoadBoolean(YDHT,GetUnitTypeId(GetTriggerUnit()),$3D0297BA)==true then
 if GetEventDamage()*(1.*(1+LoadReal(YDHT,GetHandleId(GetEventDamageSource()),$C9328D65)))<=GetUnitState(GetTriggerUnit(),UNIT_STATE_MAX_LIFE)*1.7 and GetEventDamage()*(1.*(1+LoadReal(YDHT,GetHandleId(GetEventDamageSource()),$C9328D65)))>=GetUnitState(GetTriggerUnit(),UNIT_STATE_MAX_LIFE)*.2 and 15.*(1+udg_SXQH[GetPlayerId(GetOwningPlayer(GetEventDamageSource()))])*(I2R(udg_SXzuigao[GetPlayerId(GetOwningPlayer(GetEventDamageSource()))+1])*(1.*(1+LoadReal(YDHT,GetHandleId(GetEventDamageSource()),$618BFD48))))<=GetUnitState(GetTriggerUnit(),UNIT_STATE_MAX_LIFE) then
-call CreateTextTagUnitBJ("|cffffcc00"+(I2S(R2I(GetEventDamage()))+"|r"),GetTriggerUnit(),0,15.4,100,100,100,0)
+call CreateTextTagUnitBJ("|cffffcc00"+(FormatLargeDamage(GetEventDamage())+"|r"),GetTriggerUnit(),0,15.4,100,100,100,0)
 call SetTextTagVelocityBJ(GetLastCreatedTextTag(),126.,GetRandomReal(30.,130.))
 call SetTextTagPermanent(GetLastCreatedTextTag(),false)
 call SetTextTagLifespan(GetLastCreatedTextTag(),1.6)
 call SetTextTagFadepoint(GetLastCreatedTextTag(),.6)
 else
-call CreateTextTagUnitBJ("|cffffcc00"+(I2S(R2I(GetEventDamage()))+"|r"),GetTriggerUnit(),0,8.7,100,100,100,0)
+call CreateTextTagUnitBJ("|cffffcc00"+(FormatLargeDamage(GetEventDamage())+"|r"),GetTriggerUnit(),0,8.7,100,100,100,0)
 call SetTextTagVelocityBJ(GetLastCreatedTextTag(),126.,115.)
 call SetTextTagPermanent(GetLastCreatedTextTag(),false)
 call SetTextTagLifespan(GetLastCreatedTextTag(),.9)
 call SetTextTagFadepoint(GetLastCreatedTextTag(),.5)
 endif
 else
-call CreateTextTagUnitBJ("|cffffcc00"+(I2S(R2I(GetEventDamage()))+"|r"),GetTriggerUnit(),0,8.7,100,100,100,0)
+call CreateTextTagUnitBJ("|cffffcc00"+(FormatLargeDamage(GetEventDamage())+"|r"),GetTriggerUnit(),0,8.7,100,100,100,0)
 call SetTextTagVelocityBJ(GetLastCreatedTextTag(),126.,115.)
 call SetTextTagPermanent(GetLastCreatedTextTag(),false)
 call SetTextTagLifespan(GetLastCreatedTextTag(),.9)
@@ -7838,20 +7853,20 @@ call YDWESetEventDamage(GetEventDamage()*(1.+LoadReal(YDHT,GetHandleId(GetOwning
 if IsUnitType(GetTriggerUnit(),UNIT_TYPE_HERO)==true or LoadBoolean(YDHT,GetUnitTypeId(GetTriggerUnit()),$3D0297BA)==true then
 if IsUnitType(GetTriggerUnit(),UNIT_TYPE_HERO)==true or LoadBoolean(YDHT,GetUnitTypeId(GetTriggerUnit()),$3D0297BA)==true then
 if GetEventDamage()*(1.*(1+LoadReal(YDHT,GetHandleId(GetEventDamageSource()),$C9328D65)))<=GetUnitState(GetTriggerUnit(),UNIT_STATE_MAX_LIFE)*1.7 and GetEventDamage()*(1.*(1+LoadReal(YDHT,GetHandleId(GetEventDamageSource()),$C9328D65)))>=GetUnitState(GetTriggerUnit(),UNIT_STATE_MAX_LIFE)*.2 and 15.*(1+udg_SXQH[GetPlayerId(GetOwningPlayer(GetEventDamageSource()))])*(I2R(udg_SXzuigao[GetPlayerId(GetOwningPlayer(GetEventDamageSource()))+1])*(1.*(1+LoadReal(YDHT,GetHandleId(GetEventDamageSource()),$618BFD48))))<=GetUnitState(GetTriggerUnit(),UNIT_STATE_MAX_LIFE) then
-call CreateTextTagUnitBJ("|cffcc99ff"+(I2S(R2I(GetEventDamage()))+"|r"),GetTriggerUnit(),0,15.4,100,100,100,0)
+call CreateTextTagUnitBJ("|cffcc99ff"+(FormatLargeDamage(GetEventDamage())+"|r"),GetTriggerUnit(),0,15.4,100,100,100,0)
 call SetTextTagVelocityBJ(GetLastCreatedTextTag(),126.,GetRandomReal(30.,130.))
 call SetTextTagPermanent(GetLastCreatedTextTag(),false)
 call SetTextTagLifespan(GetLastCreatedTextTag(),1.6)
 call SetTextTagFadepoint(GetLastCreatedTextTag(),.6)
 else
-call CreateTextTagUnitBJ("|cffcc99ff"+(I2S(R2I(GetEventDamage()))+"|r"),GetTriggerUnit(),0,8.7,100,100,100,0)
+call CreateTextTagUnitBJ("|cffcc99ff"+(FormatLargeDamage(GetEventDamage())+"|r"),GetTriggerUnit(),0,8.7,100,100,100,0)
 call SetTextTagVelocityBJ(GetLastCreatedTextTag(),126.,115.)
 call SetTextTagPermanent(GetLastCreatedTextTag(),false)
 call SetTextTagLifespan(GetLastCreatedTextTag(),.9)
 call SetTextTagFadepoint(GetLastCreatedTextTag(),.5)
 endif
 else
-call CreateTextTagUnitBJ("|cffcc99ff"+(I2S(R2I(GetEventDamage()))+"|r"),GetTriggerUnit(),0,8.7,100,100,100,0)
+call CreateTextTagUnitBJ("|cffcc99ff"+(FormatLargeDamage(GetEventDamage())+"|r"),GetTriggerUnit(),0,8.7,100,100,100,0)
 call SetTextTagVelocityBJ(GetLastCreatedTextTag(),126.,115.)
 call SetTextTagPermanent(GetLastCreatedTextTag(),false)
 call SetTextTagLifespan(GetLastCreatedTextTag(),.9)
@@ -8577,15 +8592,15 @@ call SaveReal(YDHT,StringHash("伤害测试"),$28AC98FD,LoadReal(YDHT,StringHash
 else
 endif
 if IsUnitType(GetEventDamageSource(),UNIT_TYPE_HERO)==true then
-call DisplayTextToForce(LoadForceHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$DFB448FB),"|cffccffff基础伤害："+(I2S(R2I(GetEventDamage()))+"|r"))
+call DisplayTextToForce(LoadForceHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$DFB448FB),"|cffccffff基础伤害："+(FormatLargeDamage(GetEventDamage())+"|r"))
 if LoadReal(YDHT,GetHandleId(GetEventDamageSource()),$618BFD48)<.01 then
-call DisplayTextToForce(LoadForceHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$DFB448FB),"伤害总值："+(I2S(R2I(LoadReal(YDHT,GetHandleId(GetOwningPlayer(GetEventDamageSource())),$6F34B4C3)))+""))
+call DisplayTextToForce(LoadForceHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$DFB448FB),"伤害总值："+(FormatLargeDamage(LoadReal(YDHT,GetHandleId(GetOwningPlayer(GetEventDamageSource())),$6F34B4C3))+""))
 else
 call DoNothing()
 endif
 else
-call DisplayTextToForce(LoadForceHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$DFB448FB),"|cffffcc00附加伤害："+(I2S(R2I(GetEventDamage()))+"|r"))
-call DisplayTextToForce(LoadForceHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$DFB448FB),"伤害总值："+(I2S(R2I(LoadReal(YDHT,GetHandleId(GetOwningPlayer(GetEventDamageSource())),$6F34B4C3)))+""))
+call DisplayTextToForce(LoadForceHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$DFB448FB),"|cffffcc00附加伤害："+(FormatLargeDamage(GetEventDamage())+"|r"))
+call DisplayTextToForce(LoadForceHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$DFB448FB),"伤害总值："+(FormatLargeDamage(LoadReal(YDHT,GetHandleId(GetOwningPlayer(GetEventDamageSource())),$6F34B4C3))+""))
 endif
 if LoadInteger(YDHT,GetHandleId(GetOwningPlayer(GetEventDamageSource())),$14FB6AE)>=1 then
 call DoNothing()
@@ -9991,6 +10006,97 @@ call TimerStart(t,.03,true,function YTLuoShieldTagUpdate)
 endif
 set t=null
 set tag=null
+endfunction
+function N16BossShieldAmount takes integer unitId returns real
+if unitId==$48303038 or unitId==$48303041 or unitId==$45303053 or unitId==$48303037 or unitId==$48303043 or unitId==$45303338 or unitId==$45303449 or unitId==$45303856 or unitId==$48303341 then
+return 1.
+endif
+return 0.
+endfunction
+function N16BossShieldOwnerMatches takes unit u returns boolean
+local integer unitId=GetUnitTypeId(u)
+if unitId==$48303038 or unitId==$48303041 or unitId==$45303053 or unitId==$48303037 or unitId==$48303043 then
+return GetOwningPlayer(u)==Player(6)
+endif
+return GetOwningPlayer(u)==Player(PLAYER_NEUTRAL_AGGRESSIVE)
+endfunction
+function N16BossShieldTagText takes unit u returns string
+local real shield=LoadReal(YDHT,GetHandleId(u),StringHash("难度16Boss当前护盾"))
+local integer shieldHundredths=R2I(shield/1000000.)
+local integer decimalPart=ModuloInteger(shieldHundredths,100)
+local string decimalText=I2S(decimalPart)
+if decimalPart<10 then
+set decimalText="0"+decimalText
+endif
+return "|cff00ffff护盾："+I2S(shieldHundredths/100)+"."+decimalText+"亿|r"
+endfunction
+function N16BossShieldTagUpdate takes nothing returns nothing
+local unit u=LoadUnitHandle(YDLOC,GetHandleId(GetExpiredTimer()),$FDF65382)
+local texttag tag=LoadTextTagHandle(YDLOC,GetHandleId(GetExpiredTimer()),$32A9E4C8)
+if u==null or GetWidgetLife(u)<=.405 or LoadReal(YDHT,GetHandleId(u),StringHash("难度16Boss当前护盾"))<=0. then
+call DestroyTextTag(tag)
+call FlushChildHashtable(YDLOC,GetHandleId(GetExpiredTimer()))
+call DestroyTimer(GetExpiredTimer())
+else
+call SetTextTagPosUnit(tag,u,20.)
+call SetTextTagText(tag,N16BossShieldTagText(u),.021)
+endif
+set tag=null
+set u=null
+endfunction
+function N16CreateBossShieldTag takes unit u returns nothing
+local texttag tag=CreateTextTag()
+local timer t=CreateTimer()
+call SetTextTagPermanent(tag,true)
+call SetTextTagPosUnit(tag,u,20.)
+call SetTextTagText(tag,N16BossShieldTagText(u),.021)
+call SaveUnitHandle(YDLOC,GetHandleId(t),$FDF65382,u)
+call SaveTextTagHandle(YDLOC,GetHandleId(t),$32A9E4C8,tag)
+call TimerStart(t,.03,true,function N16BossShieldTagUpdate)
+set t=null
+set tag=null
+endfunction
+function N16InitBossShield takes unit u returns nothing
+local real shield=N16BossShieldAmount(GetUnitTypeId(u))
+if shield>0. then
+set shield=RMaxBJ(0.,GetUnitState(u,UNIT_STATE_MAX_LIFE)-2000000000.)
+endif
+if LoadInteger(YDHT,StringHash("多面板显示"),$7615DB3C)==16 and shield>0. and IsUnitIllusionBJ(u)==false and N16BossShieldOwnerMatches(u) and LoadBoolean(YDHT,GetHandleId(u),StringHash("难度16Boss护盾已初始化"))==false then
+call SaveBoolean(YDHT,GetHandleId(u),StringHash("难度16Boss护盾已初始化"),true)
+call SetUnitState(u,UNIT_STATE_MAX_LIFE,2000000000.)
+call SetUnitLifePercentBJ(u,100.)
+call SaveReal(YDHT,GetHandleId(u),StringHash("难度16Boss当前护盾"),shield)
+call N16CreateBossShieldTag(u)
+endif
+endfunction
+function N16InitBossShieldEnum takes nothing returns nothing
+call N16InitBossShield(GetEnumUnit())
+endfunction
+function N16InitExistingBossShields takes nothing returns nothing
+local group g=CreateGroup()
+call GroupEnumUnitsInRect(g,bj_mapInitialPlayableArea,null)
+call ForGroup(g,function N16InitBossShieldEnum)
+call DestroyGroup(g)
+set g=null
+endfunction
+function N16DelayedBossShieldInit takes nothing returns nothing
+local unit u=LoadUnitHandle(YDLOC,GetHandleId(GetExpiredTimer()),$FDF65382)
+call N16InitBossShield(u)
+call FlushChildHashtable(YDLOC,GetHandleId(GetExpiredTimer()))
+call DestroyTimer(GetExpiredTimer())
+set u=null
+endfunction
+function Trig_N16BossShieldEnterActions takes nothing returns nothing
+local timer t=CreateTimer()
+call SaveUnitHandle(YDLOC,GetHandleId(t),$FDF65382,GetTriggerUnit())
+call TimerStart(t,1.,false,function N16DelayedBossShieldInit)
+set t=null
+endfunction
+function InitTrig_N16BossShieldEnter takes nothing returns nothing
+local trigger enterTrigger=CreateTrigger()
+call YDWETriggerRegisterEnterRectSimpleNull(enterTrigger,bj_mapInitialPlayableArea)
+call TriggerAddAction(enterTrigger,function Trig_N16BossShieldEnterActions)
+set enterTrigger=null
 endfunction
 function YTLuoSpawn takes player p returns nothing
 local integer playerIndex=GetConvertedPlayerId(p)
@@ -32340,7 +32446,7 @@ call DialogAddButtonBJ(udg_DHK2,"困难（7-10）")
 set udg_DHKnandu[2]=bj_lastCreatedButton
 call DialogAddButtonBJ(udg_DHK2,"特殊困难（7-10）")
 set udg_DHKnandu[3]=bj_lastCreatedButton
-call DialogAddButtonBJ(udg_DHK2,"|cffcc99ff天赋模式（11-15）|r")
+call DialogAddButtonBJ(udg_DHK2,"|cffcc99ff天赋模式（11-16）|r")
 set udg_DHKnandu[5]=bj_lastCreatedButton
 call DialogDisplay(Player(0),udg_DHK2,true)
 endfunction
@@ -33315,6 +33421,7 @@ call SaveInteger(YDHT,StringHash("技能难度"),$AA04A09,6)
 if GetClickedButtonBJ()==udg_DHKanniu[18] then
 call SaveInteger(YDHT,StringHash("多面板显示"),$7615DB3C,16)
 call SaveInteger(YDHT,StringHash("技能伤害"),$4D696D8F,95)
+call N16InitExistingBossShields()
 else
 call SaveInteger(YDHT,StringHash("多面板显示"),$7615DB3C,15)
 call SaveInteger(YDHT,StringHash("技能伤害"),$4D696D8F,85)
@@ -116063,7 +116170,7 @@ set ydl_localvar_step=ydl_localvar_step+3
 call SaveInteger(YDLOC,GetHandleId(GetTriggeringTrigger()),$CFDE6C76,ydl_localvar_step)
 call SaveInteger(YDLOC,GetHandleId(GetTriggeringTrigger()),$ECE825E7,ydl_localvar_step)
 if GetUnitTypeId(GetTriggerUnit())==$48303038 or GetUnitTypeId(GetTriggerUnit())==$48303041 or GetUnitTypeId(GetTriggerUnit())==$45303053 or GetUnitTypeId(GetTriggerUnit())==$45304357 or GetUnitTypeId(GetTriggerUnit())==$48303037 or GetUnitTypeId(GetTriggerUnit())==$48303043 or GetUnitTypeId(GetTriggerUnit())==$48303341 and IsUnitIllusionBJ(GetTriggerUnit())==false and IsUnitOwnedByPlayer(GetTriggerUnit(),Player(6))==true then
-call SaveReal(YDHT,GetHandleId(GetOwningPlayer(GetEventDamageSource())),$9DB8AD30,LoadReal(YDHT,GetHandleId(GetOwningPlayer(GetEventDamageSource())),$9DB8AD30)+GetEventDamage()*(.01*.01))
+call SaveReal(YDHT,GetHandleId(GetOwningPlayer(GetEventDamageSource())),$9DB8AD30,LoadReal(YDHT,GetHandleId(GetOwningPlayer(GetEventDamageSource())),$9DB8AD30)+GetEventDamage()*.00000001)
 if GetUnitTypeId(GetTriggerUnit())!=$48303341 and LoadBoolean(YDHT,StringHash("禁木模式"),$83D5CCA8)==true and LoadBoolean(YDHT,GetHandleId(GetOwningPlayer(GetEventDamageSource())),$5B4AB173)==false then
 call SaveReal(YDHT,GetHandleId(GetOwningPlayer(GetEventDamageSource())),$62A13CA6,LoadReal(YDHT,GetHandleId(GetOwningPlayer(GetEventDamageSource())),$62A13CA6)+GetEventDamage())
 if LoadReal(YDHT,GetHandleId(GetOwningPlayer(GetEventDamageSource())),$62A13CA6)>=(.4-.04*I2R(udg_ZXRS))*GetUnitState(GetTriggerUnit(),UNIT_STATE_MAX_LIFE) then
@@ -116102,7 +116209,7 @@ else
 call DoNothing()
 endif
 if GetUnitTypeId(GetTriggerUnit())==$45303338 or GetUnitTypeId(GetTriggerUnit())==$45303332 or GetUnitTypeId(GetTriggerUnit())==$45303449 or GetUnitTypeId(GetTriggerUnit())==$45303856 and IsUnitIllusionBJ(GetTriggerUnit())==false then
-call SaveReal(YDHT,GetHandleId(GetOwningPlayer(GetEventDamageSource())),$9DB8AD30,LoadReal(YDHT,GetHandleId(GetOwningPlayer(GetEventDamageSource())),$9DB8AD30)+GetEventDamage()*(.01*.01))
+call SaveReal(YDHT,GetHandleId(GetOwningPlayer(GetEventDamageSource())),$9DB8AD30,LoadReal(YDHT,GetHandleId(GetOwningPlayer(GetEventDamageSource())),$9DB8AD30)+GetEventDamage()*.00000001)
 if LoadBoolean(YDHT,StringHash("禁木模式"),$83D5CCA8)==true and LoadBoolean(YDHT,GetHandleId(GetOwningPlayer(GetEventDamageSource())),$5B4AB173)==false then
 call SaveReal(YDHT,GetHandleId(GetOwningPlayer(GetEventDamageSource())),$62A13CA6,LoadReal(YDHT,GetHandleId(GetOwningPlayer(GetEventDamageSource())),$62A13CA6)+GetEventDamage())
 if LoadReal(YDHT,GetHandleId(GetOwningPlayer(GetEventDamageSource())),$62A13CA6)>=(.4-.04*I2R(udg_ZXRS))*GetUnitState(GetTriggerUnit(),UNIT_STATE_MAX_LIFE) then
@@ -116692,7 +116799,7 @@ call SaveInteger(YDLOC,GetHandleId(GetTriggeringTrigger()),$CFDE6C76,ydl_localva
 call SaveInteger(YDLOC,GetHandleId(GetTriggeringTrigger()),$ECE825E7,ydl_localvar_step)
 if GetUnitTypeId(GetTriggerUnit())==$48303038 and LoadBoolean(YDHT,StringHash("贤狼排行榜"),$4DD18B10)==false and IsUnitOwnedByPlayer(GetTriggerUnit(),Player(6))==true then
 call SaveBoolean(YDHT,StringHash("贤狼排行榜"),$4DD18B10,true)
-call CreateLeaderboardBJ(GetPlayersAll(),"对贤狼的伤害/万")
+call CreateLeaderboardBJ(GetPlayersAll(),"对贤狼的伤害/亿")
 call SaveLeaderboardHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$32A9E4C8,bj_lastCreatedLeaderboard)
 call SaveUnitHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$FDF65382,GetTriggerUnit())
 call LeaderboardSortItemsBJ(LoadLeaderboardHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$32A9E4C8),bj_SORTTYPE_SORTBYVALUE,false)
@@ -116720,7 +116827,7 @@ call DoNothing()
 endif
 if GetUnitTypeId(GetTriggerUnit())==$48303041 and LoadBoolean(YDHT,StringHash("水银灯排行榜"),$C216F00)==false and IsUnitOwnedByPlayer(GetTriggerUnit(),Player(6))==true then
 call SaveBoolean(YDHT,StringHash("水银灯排行榜"),$C216F00,true)
-call CreateLeaderboardBJ(GetPlayersAll(),"对水银灯的伤害/万")
+call CreateLeaderboardBJ(GetPlayersAll(),"对水银灯的伤害/亿")
 call SaveLeaderboardHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$32A9E4C8,bj_lastCreatedLeaderboard)
 call SaveUnitHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$FDF65382,GetTriggerUnit())
 call LeaderboardSortItemsBJ(LoadLeaderboardHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$32A9E4C8),bj_SORTTYPE_SORTBYVALUE,false)
@@ -116747,7 +116854,7 @@ call DoNothing()
 endif
 if GetUnitTypeId(GetTriggerUnit())==$45303053 and LoadBoolean(YDHT,StringHash("小黑排行榜"),$4206C905)==false and IsUnitOwnedByPlayer(GetTriggerUnit(),Player(6))==true then
 call SaveBoolean(YDHT,StringHash("小黑排行榜"),$4206C905,true)
-call CreateLeaderboardBJ(GetPlayersAll(),"对小黑的伤害/万")
+call CreateLeaderboardBJ(GetPlayersAll(),"对小黑的伤害/亿")
 call SaveLeaderboardHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$32A9E4C8,bj_lastCreatedLeaderboard)
 call SaveUnitHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$FDF65382,GetTriggerUnit())
 call LeaderboardSortItemsBJ(LoadLeaderboardHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$32A9E4C8),bj_SORTTYPE_SORTBYVALUE,false)
@@ -116774,7 +116881,7 @@ call DoNothing()
 endif
 if GetUnitTypeId(GetTriggerUnit())==$48303037 and IsUnitOwnedByPlayer(GetTriggerUnit(),Player(6))==true and LoadBoolean(YDHT,StringHash("黑卡蒂排行榜"),$579DD248)==false then
 call SaveBoolean(YDHT,StringHash("黑卡蒂排行榜"),$579DD248,true)
-call CreateLeaderboardBJ(GetPlayersAll(),"对黑卡蒂的伤害/万")
+call CreateLeaderboardBJ(GetPlayersAll(),"对黑卡蒂的伤害/亿")
 call SaveLeaderboardHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$32A9E4C8,bj_lastCreatedLeaderboard)
 call SaveUnitHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$FDF65382,GetTriggerUnit())
 call LeaderboardSortItemsBJ(LoadLeaderboardHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$32A9E4C8),bj_SORTTYPE_SORTBYVALUE,false)
@@ -116801,7 +116908,7 @@ call DoNothing()
 endif
 if GetUnitTypeId(GetTriggerUnit())==$48303043 and LoadBoolean(YDHT,StringHash("魔王排行榜"),$EBC31153)==false and IsUnitOwnedByPlayer(GetTriggerUnit(),Player(6))==true then
 call SaveBoolean(YDHT,StringHash("魔王排行榜"),$EBC31153,true)
-call CreateLeaderboardBJ(GetPlayersAll(),"对魔王的伤害/万")
+call CreateLeaderboardBJ(GetPlayersAll(),"对魔王的伤害/亿")
 call SaveLeaderboardHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$32A9E4C8,bj_lastCreatedLeaderboard)
 call SaveUnitHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$FDF65382,GetTriggerUnit())
 call LeaderboardSortItemsBJ(LoadLeaderboardHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$32A9E4C8),bj_SORTTYPE_SORTBYVALUE,false)
@@ -116828,7 +116935,7 @@ call DoNothing()
 endif
 if GetUnitTypeId(GetTriggerUnit())==$45303338 and LoadBoolean(YDHT,StringHash("萝排行榜"),$A7ACFCDE)==false then
 call SaveBoolean(YDHT,StringHash("萝排行榜"),$A7ACFCDE,true)
-call CreateLeaderboardBJ(GetPlayersAll(),"对萝的伤害/万")
+call CreateLeaderboardBJ(GetPlayersAll(),"对萝的伤害/亿")
 call SaveLeaderboardHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$32A9E4C8,bj_lastCreatedLeaderboard)
 call SaveUnitHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$FDF65382,GetTriggerUnit())
 call LeaderboardSortItemsBJ(LoadLeaderboardHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$32A9E4C8),bj_SORTTYPE_SORTBYVALUE,false)
@@ -116855,7 +116962,7 @@ call DoNothing()
 endif
 if GetUnitTypeId(GetTriggerUnit())==$45303449 and LoadBoolean(YDHT,StringHash("黑化萝排行榜"),$11834556)==false then
 call SaveBoolean(YDHT,StringHash("黑化萝排行榜"),$11834556,true)
-call CreateLeaderboardBJ(GetPlayersAll(),"对黑化萝的伤害/万")
+call CreateLeaderboardBJ(GetPlayersAll(),"对黑化萝的伤害/亿")
 call SaveLeaderboardHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$32A9E4C8,bj_lastCreatedLeaderboard)
 call SaveUnitHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$FDF65382,GetTriggerUnit())
 call LeaderboardSortItemsBJ(LoadLeaderboardHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$32A9E4C8),bj_SORTTYPE_SORTBYVALUE,false)
@@ -116889,7 +116996,7 @@ call SaveReal(YDHT,GetHandleId(ConvertedPlayer(ydul_l)),$62A13CA6,0.)
 set ydul_l=ydul_l+1
 endloop
 call SaveBoolean(YDHT,StringHash("神玲排行榜"),$4D3ABA94,true)
-call CreateLeaderboardBJ(GetPlayersAll(),"对神玲的伤害/万")
+call CreateLeaderboardBJ(GetPlayersAll(),"对神玲的伤害/亿")
 call SaveLeaderboardHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$32A9E4C8,bj_lastCreatedLeaderboard)
 call SaveUnitHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$FDF65382,GetTriggerUnit())
 call LeaderboardSortItemsBJ(LoadLeaderboardHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$32A9E4C8),bj_SORTTYPE_SORTBYVALUE,false)
@@ -116923,7 +117030,7 @@ call SaveReal(YDHT,GetHandleId(ConvertedPlayer(ydul_l)),$62A13CA6,0.)
 set ydul_l=ydul_l+1
 endloop
 call SaveBoolean(YDHT,StringHash("小天使排行榜"),$38547CA8,true)
-call CreateLeaderboardBJ(GetPlayersAll(),"对小天使的伤害/万")
+call CreateLeaderboardBJ(GetPlayersAll(),"对小天使的伤害/亿")
 call SaveLeaderboardHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$32A9E4C8,bj_lastCreatedLeaderboard)
 call SaveUnitHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$FDF65382,GetTriggerUnit())
 call LeaderboardSortItemsBJ(LoadLeaderboardHandle(YDLOC,GetHandleId(GetTriggeringTrigger())*ydl_localvar_step,$32A9E4C8),bj_SORTTYPE_SORTBYVALUE,false)
@@ -117190,6 +117297,30 @@ local trigger shieldTrigger=CreateTrigger()
 call YDWESyStemAnyUnitDamagedRegistTrigger(shieldTrigger)
 call TriggerAddCondition(shieldTrigger,Condition(function Trig_YTLuoShieldConditions))
 call TriggerAddAction(shieldTrigger,function Trig_YTLuoShieldActions)
+set shieldTrigger=null
+endfunction
+function Trig_N16BossShieldConditions takes nothing returns boolean
+return GetEventDamage()>0. and LoadReal(YDHT,GetHandleId(GetTriggerUnit()),StringHash("难度16Boss当前护盾"))>0.
+endfunction
+function Trig_N16BossShieldActions takes nothing returns nothing
+local unit u=GetTriggerUnit()
+local real shield=LoadReal(YDHT,GetHandleId(u),StringHash("难度16Boss当前护盾"))
+local real damage=GetEventDamage()
+if damage<shield then
+call SaveReal(YDHT,GetHandleId(u),StringHash("难度16Boss当前护盾"),shield-damage)
+call YDWESetEventDamage(0.)
+else
+call SaveReal(YDHT,GetHandleId(u),StringHash("难度16Boss当前护盾"),0.)
+call YDWESetEventDamage(damage-shield)
+call DestroyEffect(AddSpecialEffectTarget("Abilities\\Spells\\Human\\ManaFlare\\ManaFlareBoltImpact.mdl",u,"origin"))
+endif
+set u=null
+endfunction
+function InitTrig_N16BossShield takes nothing returns nothing
+local trigger shieldTrigger=CreateTrigger()
+call YDWESyStemAnyUnitDamagedRegistTrigger(shieldTrigger)
+call TriggerAddCondition(shieldTrigger,Condition(function Trig_N16BossShieldConditions))
+call TriggerAddAction(shieldTrigger,function Trig_N16BossShieldActions)
 set shieldTrigger=null
 endfunction
 function InitCustomTriggers takes nothing returns nothing
@@ -117867,6 +117998,7 @@ call InitTrig_7333____________u()
 call InitTrig_7333___________________u()
 call InitTrig_708________________________u()
 call InitTrig_YTLuoShield()
+call InitTrig_N16BossShieldEnter()
 call InitTrig_708________________________1()
 call InitTrig_708________________________2()
 call InitTrig_723__________________u()
@@ -118357,6 +118489,7 @@ call InitTrig_8010________________________________u()
 call InitTrig_8010_______________________________________u()
 call InitTrig_8011___________________u()
 call InitTrig_9001________________________u()
+call InitTrig_N16BossShield()
 call InitTrig_____________9553()
 call InitTrig_FO_______u()
 call InitTrig_repel_______u()
