@@ -13401,29 +13401,29 @@ function SSJS_Reward takes integer i returns string
 if i==1 then
 return "经验获取+100%，全属性成长+60"
 elseif i==2 then
-return "Q/W/E/R/D基础伤害各+20%"
+return "Q/W/E基础伤害各+20%，R/D基础伤害各+10%"
 elseif i==3 then
 return "压制幼体黑化萝奖励+20%"
 elseif i==4 then
-return "全属性+30%"
+return "全属性+20%"
 elseif i==5 then
-return "伤害增幅+30%"
+return "伤害增幅+15%"
 elseif i==6 then
 return "最终伤害+10%"
 elseif i==7 then
-return "星陨杀怪词条效果+30%"
+return "星陨杀怪词条效果+20%"
 elseif i==8 then
 return "招财猫收益+200%"
 elseif i==9 then
-return "元素增幅+20%"
+return "元素增幅+10%"
 elseif i==10 then
-return "物理伤害+25%，魔法伤害+25%"
+return "物理伤害+15%，魔法伤害+15%"
 elseif i==11 then
 return "神力任务奖励+20%"
 elseif i==12 then
 return "每次抽天赋恢复2蓝量"
 endif
-return "「火」「冰」「暗」「光」+1"
+return "幻想乡、红魔馆、空白、魔法少女计数各+1；神力成功率+1%；「火」「冰」「暗」「光」+1"
 endfunction
 function SSJS_OathText takes integer i returns string
 if i==2 then
@@ -13482,30 +13482,35 @@ elseif i==2 then
 call SaveReal(YDHT,GetHandleId(u),$3B2026CA,LoadReal(YDHT,GetHandleId(u),$3B2026CA)+.2)
 call SaveReal(YDHT,GetHandleId(u),$C47DF1E7,LoadReal(YDHT,GetHandleId(u),$C47DF1E7)+.2)
 call SaveReal(YDHT,GetHandleId(u),$93BEF68F,LoadReal(YDHT,GetHandleId(u),$93BEF68F)+.2)
-call SaveReal(YDHT,GetHandleId(u),$A446FEF3,LoadReal(YDHT,GetHandleId(u),$A446FEF3)+.2)
-call SaveReal(YDHT,GetHandleId(u),$EADBD0F8,LoadReal(YDHT,GetHandleId(u),$EADBD0F8)+.2)
+call SaveReal(YDHT,GetHandleId(u),$A446FEF3,LoadReal(YDHT,GetHandleId(u),$A446FEF3)+.1)
+call SaveReal(YDHT,GetHandleId(u),$EADBD0F8,LoadReal(YDHT,GetHandleId(u),$EADBD0F8)+.1)
 elseif i==3 then
 call DoNothing()
 elseif i==4 then
-call HMLT_UnitAllAttrPct(u,.3)
+call HMLT_UnitAllAttrPct(u,.2)
 elseif i==5 then
-call SaveReal(YDHT,GetHandleId(u),$318D0A33,LoadReal(YDHT,GetHandleId(u),$318D0A33)+.3)
+call SaveReal(YDHT,GetHandleId(u),$318D0A33,LoadReal(YDHT,GetHandleId(u),$318D0A33)+.15)
 elseif i==6 then
 call SaveReal(YDHT,GetHandleId(p),$F72F08DF,LoadReal(YDHT,GetHandleId(p),$F72F08DF)+.1)
 elseif i==7 then
-call SaveReal(YDHT,GetHandleId(p),$5EE9EA6F,LoadReal(YDHT,GetHandleId(p),$5EE9EA6F)+.3)
+call SaveReal(YDHT,GetHandleId(p),$5EE9EA6F,LoadReal(YDHT,GetHandleId(p),$5EE9EA6F)+.2)
 elseif i==8 then
 call SaveReal(YDHT,GetHandleId(p),$ECD26B51,LoadReal(YDHT,GetHandleId(p),$ECD26B51)+2.)
 elseif i==9 then
-call HMLT_UnitAllElementAmp(u,.2)
+call HMLT_UnitAllElementAmp(u,.1)
 elseif i==10 then
-call SaveReal(YDHT,GetHandleId(p),$27D42F79,LoadReal(YDHT,GetHandleId(p),$27D42F79)+.25)
-call SaveReal(YDHT,GetHandleId(p),$E63D3789,LoadReal(YDHT,GetHandleId(p),$E63D3789)+.25)
+call SaveReal(YDHT,GetHandleId(p),$27D42F79,LoadReal(YDHT,GetHandleId(p),$27D42F79)+.15)
+call SaveReal(YDHT,GetHandleId(p),$E63D3789,LoadReal(YDHT,GetHandleId(p),$E63D3789)+.15)
 elseif i==11 then
 call SaveReal(YDHT,GetHandleId(p),$249733C1,LoadReal(YDHT,GetHandleId(p),$249733C1)+.2)
 elseif i==12 then
 call SaveReal(YDHT,GetHandleId(p),$7DBA16F6,LoadReal(YDHT,GetHandleId(p),$7DBA16F6)+2.)
 elseif i==13 then
+call SaveInteger(YDHT,GetHandleId(p),$1867BBE1,LoadInteger(YDHT,GetHandleId(p),$1867BBE1)+1)
+call SaveInteger(YDHT,GetHandleId(p),$EC9BF674,LoadInteger(YDHT,GetHandleId(p),$EC9BF674)+1)
+call SaveInteger(YDHT,GetHandleId(p),$47172FEA,LoadInteger(YDHT,GetHandleId(p),$47172FEA)+1)
+call SaveInteger(YDHT,GetHandleId(p),$38C9337C,LoadInteger(YDHT,GetHandleId(p),$38C9337C)+1)
+call SaveInteger(YDHT,GetHandleId(p),$B69F2C3,LoadInteger(YDHT,GetHandleId(p),$B69F2C3)+1)
 call SaveInteger(YDHT,GetHandleId(p),$4C50E554,LoadInteger(YDHT,GetHandleId(p),$4C50E554)+1)
 call SaveInteger(YDHT,GetHandleId(p),$BD395453,LoadInteger(YDHT,GetHandleId(p),$BD395453)+1)
 call SaveInteger(YDHT,GetHandleId(p),$24AAB9AA,LoadInteger(YDHT,GetHandleId(p),$24AAB9AA)+1)
@@ -13583,6 +13588,7 @@ local integer pid=GetConvertedPlayerId(p)
 local integer abil=LoadInteger(YDHT,GetHandleId(p),StringHash("SSJS_A"))
 if LoadBoolean(YDHT,GetHandleId(p),StringHash("SSJS_Completed"))==false then
 call SaveBoolean(YDHT,GetHandleId(p),StringHash("SSJS_Completed"),true)
+call SaveReal(YDHT,GetHandleId(p),$F72F08DF,LoadReal(YDHT,GetHandleId(p),$F72F08DF)+.1)
 if abil!=0 then
 call SaveInteger(YDHT,abil,$FB2A442D,0)
 call SaveInteger(YDHT,abil,$3F487778,0)
@@ -13603,7 +13609,7 @@ call TriggerExecute(gg_trg__________________________114)
 call YDWESaveBooleanByInteger(pid,726,true)
 call YDWESaveBooleanByInteger(pid,526,false)
 call SaveInteger(YDHT,GetHandleId(p),StringHash("SSJS_A"),0)
-call DisplayTimedTextToPlayer(p,0.,0.,20.,"|cffffcc00[十三拘束]：13条拘束已全部解开，天赋格已还原。所有词条奖励永久保留。|r")
+call DisplayTimedTextToPlayer(p,0.,0.,20.,"|cffffcc00[十三拘束]：13条拘束已全部解开，额外获得最终伤害+10%。天赋格已还原，所有奖励永久保留。|r")
 endif
 endfunction
 function SSJS_Unlock takes player p,integer i returns nothing
@@ -13632,7 +13638,7 @@ return "|cff99ccff[进行]|r 凯：生存 "+I2S(LoadInteger(YDHT,GetHandleId(p),
 elseif i==2 then
 return "|cff99ccff[进行]|r 贝狄威尔：亲手击败十象轮回最终Boss 0/1；奖励 "+SSJS_Reward(i)
 elseif i==3 then
-return "|cff99ccff[进行]|r 加赫雷斯：压制幼体黑化萝 "+I2S(LoadInteger(YDHT,GetHandleId(p),StringHash("SSJS_P3")))+"/12；奖励 "+SSJS_Reward(i)
+return "|cff99ccff[进行]|r 加赫雷斯：压制幼体黑化萝 "+I2S(LoadInteger(YDHT,GetHandleId(p),StringHash("SSJS_P3")))+"/20；奖励 "+SSJS_Reward(i)
 elseif i==4 then
 return "|cff99ccff[进行]|r 阿格规文：白字三属性>=200000；奖励 "+SSJS_Reward(i)
 elseif i==5 then
@@ -13640,7 +13646,7 @@ return "|cff99ccff[进行]|r 兰斯洛特：等待 "+I2S(LoadInteger(YDHT,GetHan
 elseif i==6 then
 return "|cff99ccff[进行]|r 帕西米迪斯：每秒1%判定中；奖励 "+SSJS_Reward(i)
 elseif i==7 then
-return "|cff99ccff[进行]|r 莫德雷德：普通小怪 "+I2S(LoadInteger(YDHT,GetHandleId(p),StringHash("SSJS_P7")))+"/500；奖励 "+SSJS_Reward(i)
+return "|cff99ccff[进行]|r 莫德雷德：普通小怪 "+I2S(LoadInteger(YDHT,GetHandleId(p),StringHash("SSJS_P7")))+"/200；奖励 "+SSJS_Reward(i)
 elseif i==8 then
 return "|cff99ccff[进行]|r 加拉哈德：招财猫 "+I2S(LoadInteger(YDHT,GetHandleId(p),StringHash("SSJS_P8")))+"/10；奖励 "+SSJS_Reward(i)
 elseif i==9 then
@@ -13657,10 +13663,14 @@ endfunction
 function SSJS_Show takes player p returns nothing
 local force f=YDWEGetForceOfPlayerNull(p)
 local integer i=1
-if SSJS_IsActive(p)==false then
+if SSJS_IsActive(p)==false and LoadBoolean(YDHT,GetHandleId(p),StringHash("SSJS_Completed"))==false then
 call DisplayTimedTextToForce(f,10.,"|cffffcc00尚未获得十三拘束。|r")
 else
+if LoadBoolean(YDHT,GetHandleId(p),StringHash("SSJS_Completed"))==true then
+call DisplayTimedTextToForce(f,18.,"|cffffcc00十三拘束：13/13（已全部解锁，额外最终伤害+10%，天赋格已还原）|r")
+else
 call DisplayTimedTextToForce(f,18.,"|cffffcc00十三拘束："+I2S(LoadInteger(YDHT,GetHandleId(p),StringHash("SSJS_Count")))+"/13|r")
+endif
 loop
 exitwhen i>13
 call DisplayTimedTextToForce(f,18.,SSJS_Progress(p,i))
@@ -13701,7 +13711,7 @@ endif
 if SSJS_IsUnlocked(p,6)==false and GetRandomInt(1,100)==1 then
 call SSJS_Unlock(p,6)
 endif
-if SSJS_IsUnlocked(p,3)==false and LoadInteger(YDHT,GetHandleId(p),StringHash("SSJS_P3"))>=12 then
+if SSJS_IsUnlocked(p,3)==false and LoadInteger(YDHT,GetHandleId(p),StringHash("SSJS_P3"))>=20 then
 call SSJS_Unlock(p,3)
 endif
 if SSJS_IsUnlocked(p,11)==false then
@@ -13759,7 +13769,7 @@ endif
 if k!=null and GetPlayerId(p)>=0 and GetPlayerId(p)<5 and SSJS_IsActive(p)==true then
 if SSJS_IsUnlocked(p,7)==false and GetOwningPlayer(d)==Player(PLAYER_NEUTRAL_AGGRESSIVE) and IsUnitType(d,UNIT_TYPE_HERO)==false and GetUnitTypeId(d)!=$4530344F and GetUnitTypeId(d)!=$45303531 then
 call SaveInteger(YDHT,GetHandleId(p),StringHash("SSJS_P7"),LoadInteger(YDHT,GetHandleId(p),StringHash("SSJS_P7"))+1)
-if LoadInteger(YDHT,GetHandleId(p),StringHash("SSJS_P7"))>=500 then
+if LoadInteger(YDHT,GetHandleId(p),StringHash("SSJS_P7"))>=200 then
 call SSJS_Unlock(p,7)
 endif
 endif
