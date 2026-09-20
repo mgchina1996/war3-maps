@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "mapPath": "D:\\www\\jass\\war3-maps\\maps\\世界RPG v0.94a.w3x",
+  "sourceBasename": "D:\\www\\jass\\war3-maps\\maps\\世界RPG v0.94a.w3x",
+  "files": {
+    "war3map.j": "d68f01649ee7e78d78262a0fe5f24ae0d8ea74bad1cb9babb409dbe719690452",
+    "table/w3i.ini": "9acadfe2f7ccca6b98a23edcac31869c8c3df19c5e8b73624d74739337e9fb54",
+    "table/ability.ini": "69017fc07940d55cb6279b0a8bb792161a40962e3ce1a11f129b81c729185f4d",
+    "table/buff.ini": "a07788615d991572b3df91a2bfc5a5a5ba49ea8ebbb60f49136743b19a978fca",
+    "table/upgrade.ini": "1bf40fd187592e7d9d3173444efa5994f137aa66af50534e4066933c42cd0513",
+    "table/item.ini": "af6d6d57ebb22c184200beb296ccb74bf0da0715a7b796ae7714b2963f05f048",
+    "table/unit.ini": "0a18db8b4ffb80898f5450d8625d4d1df509e15c3b53ff6a5773dbc59bea61a5"
+  }
+}
