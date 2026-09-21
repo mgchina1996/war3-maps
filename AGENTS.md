@@ -1,6 +1,6 @@
 ## 数据目录作用
-
-以下路径均以具体版本的 `data/` 目录为根，例如 `讨伐打魔王/4.9.7/data/`。
+具体数据存在 `s2/data` 目录下。
+maps默认不读取。
 
 ### `war3map.j`
 
@@ -28,30 +28,6 @@ table/w3i.ini      地图信息，通常对应 war3map.w3i
 ```
 
 只有需要修改对象编辑器覆盖字段时才编辑 `table/`。
-
-### `slk/`
-
-SLK 数据，常用于优化后的单位、技能、物品、科技等基础数值。
-
-```text
-slk/ability.ini  技能等级、伤害、范围、冷却、魔耗等数值
-slk/buff.ini     魔法效果 SLK 数据
-slk/upgrade.ini  科技等级和效果
-slk/item.ini     物品价格、等级、技能列表等数值
-slk/unit.ini     单位生命、护甲、攻击、技能列表、模型等数据
-```
-
-### `profile/`
-
-界面显示文本和资源引用。
-
-```text
-profile/ability.ini  技能名称、图标、Tip、Ubertip
-profile/buff.ini     魔法效果名称、图标和说明
-profile/upgrade.ini  科技名称、图标和说明
-profile/item.ini     物品名称、图标和说明
-profile/unit.ini     单位名称、图标、提示、英雄称谓
-```
 
 ### `resources/`
 
