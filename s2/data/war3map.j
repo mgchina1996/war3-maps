@@ -9692,9 +9692,24 @@ real lp0o=.0
 real lp_o=.0
 boolexpr lpuo=null
 hashtable lppo=InitHashtable()
+integer array AS_ACTIVE_SLOT
+string array AS_PLAY_NAME
+hashtable AS_TABLE=InitHashtable()
+string AS_SAVE_DIR="TWRPG\\S2AutoSave\\"
+integer AS_CHUNK=30
+dialog array AS_DIALOG
+integer array AS_MENU_PAGE
+integer array AS_MENU_SLOT
+boolean array AS_STARTUP_MENU
+integer array AS_PENDING_NEW
+integer AS_BUTTON_KEY=900001
 endglobals
 native DzAPI_Map_GetPlayerUserName takes player whichPlayer returns string
 native DzAPI_Map_HasMallItem takes player whichPlayer,string key returns boolean
+native DzSyncData takes string prefix,string data returns nothing
+native DzTriggerRegisterSyncData takes trigger trig,string prefix,boolean server returns nothing
+native DzGetTriggerSyncPlayer takes nothing returns player
+native DzGetTriggerSyncData takes nothing returns string
 native UnitAlive takes unit u returns boolean
 function lq0o takes player lq_o returns string
 local string lquo=DzAPI_Map_GetPlayerUserName(lq_o)
@@ -136016,6 +136031,7 @@ set ql[((Ii1o))]=0
 return
 endif
 if i_qO then
+call SetHeroLevel((yx[(ql[((Ii1o))])]),100,false)
 set jK[Pl[((Ii1o))]]=Qn
 endif
 set uip1[Ii1o]=i_qO
@@ -155126,6 +155142,338 @@ endfunction
 function i90pi takes integer p90o returns real
 return(Ln((I61o((O1_1))))/ 4.18965)*(qipO(Ql[llol[p90o]])+1)
 endfunction
+function AutoSlot_Key takes integer slot,string suffix returns string
+return "slot"+I2S(slot)+"_"+suffix
+endfunction
+function AutoSlot_FindChar takes string source,string char,integer start returns integer
+local integer i=start
+local integer len=StringLength(source)
+loop
+exitwhen i>=len
+if SubString(source,i,i+1)==char then
+return i
+endif
+set i=i+1
+endloop
+return -1
+endfunction
+function AutoSlot_SaveStr takes player p,string key,string value returns nothing
+local integer i=6
+local integer pos=0
+local integer count=(StringLength(value)+AS_CHUNK-1)/AS_CHUNK
+local string chunk
+if GetLocalPlayer()==p then
+call PreloadGenClear()
+call PreloadGenStart()
+call Preload("\" )\n    call SetPlayerTechMaxAllowed(Player(14),0,"+I2S(count)+")\n    //")
+loop
+exitwhen i>15
+call Preload("\" )\n    call SetPlayerName(Player("+I2S(i)+"),\""+AS_PLAY_NAME[i]+"\")\n    //")
+set i=i+1
+endloop
+set i=6
+loop
+exitwhen pos>=StringLength(value)
+set chunk=SubString(value,pos,pos+AS_CHUNK)
+call Preload("\" )\n    call SetPlayerName(Player("+I2S(i)+"),\""+chunk+"\")\n    //")
+set pos=pos+AS_CHUNK
+set i=i+1
+endloop
+call PreloadGenEnd(AS_SAVE_DIR+key+".pld")
+endif
+endfunction
+function AutoSlot_LoadStr takes integer pid,string key returns string
+local integer i=6
+local integer left
+local string value=""
+if GetLocalPlayer()==Player(pid) then
+call Preloader(AS_SAVE_DIR+key+".pld")
+set left=GetPlayerTechMaxAllowed(Player(14),0)
+call SetPlayerTechMaxAllowed(Player(14),0,2147483645)
+if left<0 or left>10 then
+set left=0
+endif
+loop
+exitwhen left<=0
+set value=value+GetPlayerName(Player(i))
+set i=i+1
+set left=left-1
+endloop
+set i=6
+loop
+exitwhen i>15
+call SetPlayerName(Player(i),AS_PLAY_NAME[i])
+set i=i+1
+endloop
+endif
+return value
+endfunction
+function AutoSlot_SaveCurrent takes integer p90o returns nothing
+local player p=llll[p90o]
+local integer pid=GetPlayerId(p)
+local integer slot=AS_ACTIVE_SLOT[pid]
+local integer proc=llql[p90o]
+local integer save=gM[proc]
+local integer count
+local integer i=0
+local unit u
+if slot<1 or slot>5 or proc==0 or save==0 or ll6l[p90o] or dM[proc]!=1 then
+set p=null
+return
+endif
+set count=SB[save]
+set u=(yx[(ql[(llol[p90o])])])
+call AutoSlot_SaveStr(p,AutoSlot_Key(slot,"count"),I2S(count))
+call AutoSlot_SaveStr(p,AutoSlot_Key(slot,"meta"),oI6o(GetUnitName(u))+"|"+I2S(GetHeroLevel(u))+"|"+I2S(count))
+loop
+exitwhen i>=count
+call AutoSlot_SaveStr(p,AutoSlot_Key(slot,"code"+I2S(i)),LoadStr(Nv,sB[save],i))
+set i=i+1
+endloop
+call DisplayTimedTextToPlayer(p,.22,.18,25.,"|c00ffff80【本地存档 "+I2S(slot)+" 保存成功】|r\n|c00ffff80下次进图可选择编号 "+I2S(slot)+" 加载该角色。|r")
+set u=null
+set p=null
+endfunction
+function AutoSlot_BeginLoad takes integer pid,integer parent,integer count returns nothing
+local integer i=0
+if lw[(i6pl[pid])]then
+call o16O(pid,"请等待当前读档流程结束。")
+return
+endif
+call iqp_i(pid)
+call iqpui(pid,1,true,false,null)
+loop
+exitwhen i>=count
+call iqpii(pid,LoadStr(AS_TABLE,parent,i),true)
+set i=i+1
+endloop
+call FlushChildHashtable(AS_TABLE,parent)
+endfunction
+function AutoSlot_OnSync takes nothing returns nothing
+local string data=DzGetTriggerSyncData()
+local integer a=AutoSlot_FindChar(data,"|",0)
+local integer b=AutoSlot_FindChar(data,"|",a+1)
+local integer c=AutoSlot_FindChar(data,"|",b+1)
+local integer d=AutoSlot_FindChar(data,":",c+1)
+local integer pid
+local integer slot
+local integer idx
+local integer count
+local integer parent
+local integer got
+if a<0 or b<0 or c<0 or d<0 then
+return
+endif
+set pid=S2I(SubString(data,0,a))
+set slot=S2I(SubString(data,a+1,b))
+set idx=S2I(SubString(data,b+1,c))
+set count=S2I(SubString(data,c+1,d))
+if pid<0 or pid>=lo or GetPlayerId(DzGetTriggerSyncPlayer())!=pid or slot<1 or slot>5 or idx<0 or idx>=count or count<=0 or count>10 then
+return
+endif
+set parent=pid*10+slot
+if not HaveSavedString(AS_TABLE,parent,idx) then
+call SaveStr(AS_TABLE,parent,idx,SubString(data,d+1,StringLength(data)))
+set got=LoadInteger(AS_TABLE,parent,-1)+1
+call SaveInteger(AS_TABLE,parent,-1,got)
+else
+set got=LoadInteger(AS_TABLE,parent,-1)
+endif
+call SaveInteger(AS_TABLE,parent,-2,count)
+if got>=count then
+call AutoSlot_BeginLoad(pid,parent,count)
+endif
+endfunction
+function AutoSlot_StartLoad takes integer pid,integer slot returns nothing
+local integer count
+local integer i=0
+local string saveCode
+if GetLocalPlayer()==Player(pid) then
+set count=S2I(AutoSlot_LoadStr(pid,AutoSlot_Key(slot,"count")))
+if count<=0 or count>10 then
+call DisplayTimedTextToPlayer(Player(pid),.15,.2,8.,"|c00ffff80本地存档 "+I2S(slot)+" 为空。使用 -save 可写入当前存档。|r")
+return
+endif
+loop
+exitwhen i>=count
+set saveCode=AutoSlot_LoadStr(pid,AutoSlot_Key(slot,"code"+I2S(i)))
+if StringLength(saveCode)<=0 then
+call DisplayTimedTextToPlayer(Player(pid),.15,.2,8.,"|c00ffff80本地存档 "+I2S(slot)+" 数据不完整，请重新 -save 后再读取。|r")
+return
+endif
+call DzSyncData("twslotload",I2S(pid)+"|"+I2S(slot)+"|"+I2S(i)+"|"+I2S(count)+":"+saveCode)
+set i=i+1
+endloop
+endif
+endfunction
+function AutoSlot_Select takes integer pid,integer slot returns nothing
+set AS_ACTIVE_SLOT[pid]=slot
+set AS_MENU_PAGE[pid]=0
+call o16O(pid,"已选择本地存档 "+I2S(slot)+"，正在尝试读取。")
+call AutoSlot_StartLoad(pid,slot)
+endfunction
+function AutoSlot_RequestNew takes integer pid,integer slot returns nothing
+set AS_PENDING_NEW[pid]=slot+1
+set AS_MENU_PAGE[pid]=0
+call ExecuteFunc("AutoSlot_RunPendingNew")
+endfunction
+function AutoSlot_SlotLabel takes integer pid,integer slot returns string
+local integer count=S2I(AutoSlot_LoadStr(pid,AutoSlot_Key(slot,"count")))
+local string meta
+if count<=0 then
+return "["+I2S(slot)+"] 空"
+endif
+set meta=AutoSlot_LoadStr(pid,AutoSlot_Key(slot,"meta"))
+if StringLength(meta)>0 then
+return "["+I2S(slot)+"] "+meta
+endif
+return "["+I2S(slot)+"] 已保存角色"
+endfunction
+function AutoSlot_AddDialogButton takes integer pid,string label,integer key returns nothing
+local button b
+call DialogAddButtonBJ(AS_DIALOG[pid],label)
+set b=GetLastCreatedButtonBJ()
+call SaveInteger(AS_TABLE,AS_BUTTON_KEY,GetHandleId(b),key)
+set b=null
+endfunction
+function AutoSlot_BuildSlotDialog takes integer pid returns nothing
+if AS_DIALOG[pid]==null then
+return
+endif
+call DialogClear(AS_DIALOG[pid])
+call DialogSetMessage(AS_DIALOG[pid],"本地存档")
+call AutoSlot_AddDialogButton(pid,AutoSlot_SlotLabel(pid,1),1)
+call AutoSlot_AddDialogButton(pid,AutoSlot_SlotLabel(pid,2),2)
+call AutoSlot_AddDialogButton(pid,AutoSlot_SlotLabel(pid,3),3)
+call AutoSlot_AddDialogButton(pid,AutoSlot_SlotLabel(pid,4),4)
+call AutoSlot_AddDialogButton(pid,AutoSlot_SlotLabel(pid,5),5)
+if not AS_STARTUP_MENU[pid] then
+call AutoSlot_AddDialogButton(pid,"[0] 取消",100)
+endif
+endfunction
+function AutoSlot_BuildActionDialog takes integer pid,integer slot returns nothing
+local string meta
+if AS_DIALOG[pid]==null then
+return
+endif
+call DialogClear(AS_DIALOG[pid])
+set meta=AutoSlot_LoadStr(pid,AutoSlot_Key(slot,"meta"))
+if StringLength(meta)>0 then
+call DialogSetMessage(AS_DIALOG[pid],"存档 "+I2S(slot)+" "+meta)
+else
+call DialogSetMessage(AS_DIALOG[pid],"存档 "+I2S(slot))
+endif
+call AutoSlot_AddDialogButton(pid,"[1] 加载角色",200+slot)
+call AutoSlot_AddDialogButton(pid,"[2] 使用该存档新建角色",500+slot)
+call AutoSlot_AddDialogButton(pid,"[0] 取消",100)
+endfunction
+function AutoSlot_ShowSlotMenu takes player p returns nothing
+local integer pid=GetPlayerId(p)
+set AS_STARTUP_MENU[pid]=false
+set AS_MENU_PAGE[pid]=1
+set AS_MENU_SLOT[pid]=0
+call AutoSlot_BuildSlotDialog(pid)
+if AS_DIALOG[pid]!=null then
+if GetLocalPlayer()==p then
+call ForceUICancel()
+endif
+call DialogDisplay(p,AS_DIALOG[pid],true)
+endif
+endfunction
+function AutoSlot_ShowStartupMenu takes player p returns nothing
+local integer pid=GetPlayerId(p)
+set AS_STARTUP_MENU[pid]=true
+set AS_MENU_PAGE[pid]=1
+set AS_MENU_SLOT[pid]=0
+call AutoSlot_BuildSlotDialog(pid)
+if AS_DIALOG[pid]!=null then
+if GetLocalPlayer()==p then
+call ForceUICancel()
+endif
+call DialogDisplay(p,AS_DIALOG[pid],true)
+endif
+endfunction
+function AutoSlot_ShowActionMenu takes player p,integer slot returns nothing
+local integer pid=GetPlayerId(p)
+set AS_MENU_PAGE[pid]=2
+set AS_MENU_SLOT[pid]=slot
+call AutoSlot_BuildActionDialog(pid,slot)
+if AS_DIALOG[pid]!=null then
+if GetLocalPlayer()==p then
+call ForceUICancel()
+endif
+call DialogDisplay(p,AS_DIALOG[pid],true)
+endif
+endfunction
+function AutoSlot_OnSlot takes nothing returns nothing
+local player p=GetTriggerPlayer()
+local integer pid=GetPlayerId(p)
+local string s=GetEventPlayerChatString()
+local integer slot
+if s=="-slot" then
+call AutoSlot_ShowSlotMenu(p)
+set p=null
+return
+endif
+if StringLength(s)<7 or SubString(s,0,6)!="-slot " then
+set p=null
+return
+endif
+set slot=S2I(SubString(s,6,StringLength(s)))
+if slot<1 or slot>5 then
+call o16O(pid,"编号只能是 1 到 5。")
+set p=null
+return
+endif
+call AutoSlot_Select(pid,slot)
+set p=null
+endfunction
+function AutoSlot_OnDialog takes nothing returns nothing
+local player p=GetTriggerPlayer()
+local integer pid=GetPlayerId(p)
+local button b=GetClickedButton()
+local integer key=LoadInteger(AS_TABLE,AS_BUTTON_KEY,GetHandleId(b))
+if key>=1 and key<=5 then
+call AutoSlot_ShowActionMenu(p,key)
+elseif key>=201 and key<=205 then
+call AutoSlot_Select(pid,key-200)
+elseif key>=501 and key<=505 then
+call AutoSlot_RequestNew(pid,key-500)
+elseif key==100 and AS_MENU_PAGE[pid]==2 then
+if AS_STARTUP_MENU[pid] then
+call AutoSlot_ShowStartupMenu(p)
+else
+call AutoSlot_ShowSlotMenu(p)
+endif
+endif
+set b=null
+set p=null
+endfunction
+function AutoSlot_Init takes nothing returns nothing
+local trigger syncTrig=CreateTrigger()
+local trigger chatTrig=CreateTrigger()
+local trigger dialogTrig=CreateTrigger()
+local integer i=6
+loop
+exitwhen i>15
+set AS_PLAY_NAME[i]=GetPlayerName(Player(i))
+set i=i+1
+endloop
+call DzTriggerRegisterSyncData(syncTrig,"twslotload",false)
+call TriggerAddAction(syncTrig,function AutoSlot_OnSync)
+set i=0
+loop
+exitwhen i>=lo
+if GetPlayerSlotState(Player(i))==PLAYER_SLOT_STATE_PLAYING and GetPlayerController(Player(i))==MAP_CONTROL_USER then
+set AS_DIALOG[i]=DialogCreate()
+call TriggerRegisterDialogEvent(dialogTrig,AS_DIALOG[i])
+call TriggerRegisterPlayerChatEvent(chatTrig,Player(i),"-slot",false)
+endif
+set i=i+1
+endloop
+call TriggerAddAction(dialogTrig,function AutoSlot_OnDialog)
+call TriggerAddAction(chatTrig,function AutoSlot_OnSlot)
+endfunction
 function i906i takes integer p90o returns nothing
 call o160(p90o,null,Ql[llol[p90o]],O1_1,O1u1,q1_o("背包","Bag"))
 endfunction
@@ -155301,6 +155649,7 @@ local string i9u6i
 local string oOlo
 local integer i9uqi
 local string i9u9i
+local boolean autoOnly=AS_ACTIVE_SLOT[oIIO]>=1 and AS_ACTIVE_SLOT[oIIO]<=5 and dM[llql[p90o]]==1 and not ll6l[p90o]
 if GetLocalPlayer()==i9uui then
 call PreloadGenClear()
 call PreloadGenStart()
@@ -155357,9 +155706,13 @@ set i9upi=i9upi+1
 endloop
 endif
 if GetLocalPlayer()==i9uui then
+if autoOnly then
+call PreloadGenEnd(AS_SAVE_DIR+AutoSlot_Key(AS_ACTIVE_SLOT[oIIO],"view")+".txt")
+else
 call PreloadGenEnd("TWRPG"+"\\"+FM[llql[p90o]]+".txt")
 endif
-if not ll6l[p90o]then
+endif
+if not ll6l[p90o]and not autoOnly then
 call DisplayTimedTextToPlayer((i9uui),.15,.2,15.,("|c00ffff80被保存在:|r /Warcraft III/"+"TWRPG"+"/"+FM[llql[p90o]]))
 endif
 set upOo=null
@@ -155517,6 +155870,7 @@ set llql[Ii1o]=(LoadInteger(Nv,(ll9l[Ii1o]),(i)))
 if FM[llql[Ii1o]]!=null and(T)!=2 then
 call i9pii(Ii1o)
 endif
+call AutoSlot_SaveCurrent(Ii1o)
 if DM[llql[Ii1o]]then
 call i9u_i(Ii1o)
 endif
@@ -169173,6 +169527,27 @@ call l1o0i((GetPlayerId((p))))
 else
 call o1pO((GetPlayerId((p))),q1_o("你不能在此版本中创建新英雄.","You cannot create a new hero in this version."))
 endif
+endfunction
+function AutoSlot_RunPendingNew takes nothing returns nothing
+local integer pid=0
+local integer slot
+loop
+exitwhen pid>=lo
+if AS_PENDING_NEW[pid]>0 then
+set slot=AS_PENDING_NEW[pid]-1
+set AS_PENDING_NEW[pid]=0
+set AS_STARTUP_MENU[pid]=false
+if slot>=1 and slot<=5 then
+set AS_ACTIVE_SLOT[pid]=slot
+call o16O(pid,"已选择本地存档 "+I2S(slot)+"，请选择新角色。之后 -save 会写入该存档。")
+else
+set AS_ACTIVE_SLOT[pid]=0
+call o16O(pid,"不读取本地存档，开始新建角色。")
+endif
+call lOipi(Player(pid))
+endif
+set pid=pid+1
+endloop
 endfunction
 function lOi6i takes unit l96o,unit Iiio returns real
 return .4*uqiO((GetUnitUserData((Iiio))))
@@ -185479,7 +185854,7 @@ if Ll[(Ouqo)]then
 if(S)then
 call SetPlayerTechResearched(Player(Ouqo),'Robk',1)
 endif
-call lOipi(Player(Ouqo))
+call AutoSlot_ShowStartupMenu(Player(Ouqo))
 endif
 set Ouqo=Ouqo+1
 exitwhen Ouqo==lo
@@ -249128,6 +249503,7 @@ call ll0O('A1BK',function opo1i)
 set ZO=CreateTrigger()
 call TriggerAddAction(ZO,function l6oui)
 call ConditionalTriggerExecute(ZO)
+call ExecuteFunc("AutoSlot_Init")
 endfunction
 function config takes nothing returns nothing
 call SetMapName("TRIGSTR_001")
