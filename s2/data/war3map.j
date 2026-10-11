@@ -9703,12 +9703,17 @@ integer array AS_MENU_SLOT
 boolean array AS_STARTUP_MENU
 integer array AS_PENDING_NEW
 integer AS_BUTTON_KEY=900001
+integer array H0AI_BY_PLAYER
+unit array H0AI_OWNER
+timer array H0AI_TIMER
 endglobals
 native DzAPI_Map_GetPlayerUserName takes player whichPlayer returns string
 native DzSyncData takes string prefix,string data returns nothing
 native DzTriggerRegisterSyncData takes trigger trig,string prefix,boolean server returns nothing
 native DzGetTriggerSyncPlayer takes nothing returns player
 native DzGetTriggerSyncData takes nothing returns string
+native DzTriggerRegisterKeyEventByCode takes trigger trig,integer key,integer status,boolean sync,code funcHandle returns nothing
+native DzGetTriggerKeyPlayer takes nothing returns player
 native UnitAlive takes unit u returns boolean
 function DzAPI_Map_HasMallItem takes player whichPlayer,string key returns boolean
 if((((GetPlayerController(whichPlayer) == MAP_CONTROL_USER) and (GetPlayerSlotState(whichPlayer) == PLAYER_SLOT_STATE_PLAYING))))then
@@ -136146,6 +136151,96 @@ call ll0O('A0KJ',function ioI6i)
 call ll0O('A16K',function ioI6i)
 call ll0O('A16H',function ioI6i)
 endfunction
+function H0AI_Destroy takes integer Ii1o returns nothing
+local integer p=-1
+if Ii1o==0 then
+return
+endif
+if H0AI_OWNER[Ii1o]!=null then
+set p=GetPlayerId(GetOwningPlayer(H0AI_OWNER[Ii1o]))
+endif
+if H0AI_TIMER[Ii1o]!=null then
+call upqo(H0AI_TIMER[Ii1o])
+set H0AI_TIMER[Ii1o]=null
+endif
+if yx[Ii1o]!=null and GetUnitTypeId(yx[Ii1o])!=0 then
+call pO1O(Ii1o,false)
+call pOOO(Ii1o,false)
+call RemoveUnit(yx[Ii1o])
+endif
+call o9qo(Ii1o)
+set H0AI_OWNER[Ii1o]=null
+if p>=0 and H0AI_BY_PLAYER[p]==Ii1o then
+set H0AI_BY_PLAYER[p]=0
+endif
+endfunction
+function H0AI_FollowOwner takes integer Ii1o returns nothing
+if H0AI_OWNER[Ii1o]==null or GetUnitTypeId(H0AI_OWNER[Ii1o])==0 then
+return
+endif
+call SetUnitX(yx[Ii1o],GetUnitX(H0AI_OWNER[Ii1o]))
+call SetUnitY(yx[Ii1o],GetUnitY(H0AI_OWNER[Ii1o]))
+endfunction
+function H0AI_OnTick takes nothing returns nothing
+local integer Ii1o=LoadInteger(Nv,Kc,GetHandleId(GetExpiredTimer()))
+if H0AI_OWNER[Ii1o]==null or GetUnitTypeId(H0AI_OWNER[Ii1o])==0 then
+call H0AI_Destroy(Ii1o)
+return
+endif
+if not UnitAlive(yx[Ii1o])then
+call ReviveHero(yx[Ii1o],GetUnitX(H0AI_OWNER[Ii1o]),GetUnitY(H0AI_OWNER[Ii1o]),false)
+endif
+if GetHeroLevel(yx[Ii1o])!=GetHeroLevel(H0AI_OWNER[Ii1o])then
+call SuspendHeroXP(yx[Ii1o],false)
+call SetHeroLevel(yx[Ii1o],GetHeroLevel(H0AI_OWNER[Ii1o]),false)
+call SuspendHeroXP(yx[Ii1o],true)
+endif
+call H0AI_FollowOwner(Ii1o)
+endfunction
+function H0AI_OnVKey takes nothing returns nothing
+local player p=DzGetTriggerKeyPlayer()
+local integer pid=GetPlayerId(p)
+local integer Ii1o=H0AI_BY_PLAYER[pid]
+if Ii1o!=0 and yx[Ii1o]!=null and GetUnitTypeId(yx[Ii1o])!=0 and H0AI_OWNER[Ii1o]!=null then
+if GetLocalPlayer()==p then
+if IsUnitSelected(yx[Ii1o],p)then
+call ClearSelection()
+call SelectUnit(H0AI_OWNER[Ii1o],true)
+else
+call ClearSelection()
+call SelectUnit(yx[Ii1o],true)
+endif
+endif
+endif
+set p=null
+endfunction
+function H0AI_InitVKey takes nothing returns nothing
+call DzTriggerRegisterKeyEventByCode(null,86,1,false,function H0AI_OnVKey)
+endfunction
+function H0AI_Create takes unit owner returns integer
+local integer p=GetPlayerId(GetOwningPlayer(owner))
+local integer Ii1o
+if H0AI_BY_PLAYER[p]!=0 then
+call H0AI_Destroy(H0AI_BY_PLAYER[p])
+endif
+set Ii1o=GetUnitUserData(CreateUnit(GetOwningPlayer(owner),'H0AI',GetUnitX(owner),GetUnitY(owner),0.))
+if Ii1o==0 then
+return 0
+endif
+set H0AI_BY_PLAYER[p]=Ii1o
+set H0AI_OWNER[Ii1o]=owner
+set H0AI_TIMER[Ii1o]=uppo(Ii1o)
+call pO1O(Ii1o,true)
+call o96o(Ii1o)
+call pOOO(Ii1o,true)
+call ShowUnit(yx[Ii1o],true)
+call SetUnitVertexColor(yx[Ii1o],255,255,255,0)
+call SetUnitPathing(yx[Ii1o],false)
+call SuspendHeroXP(yx[Ii1o],true)
+call SetHeroLevel(yx[Ii1o],GetHeroLevel(owner),false)
+call TimerStart(H0AI_TIMER[Ii1o],.03125,true,function H0AI_OnTick)
+return Ii1o
+endfunction
 function ioI9i takes integer Ii1o,integer Ii0o,boolean i_qO returns nothing
 if ql[((Ii1o))]!=0 then
 call I99o(true,"UserHeroSetup","start","UserHeroSetup",Ii1o,"user already has a hero (index = "+I2S(ql[((Ii1o))])+", name = "+GetUnitName((yx[(ql[((Ii1o))])]))+")")
@@ -136212,6 +136307,7 @@ call ClearSelection()
 call SelectUnit((yx[(ql[((Ii1o))])]),true)
 endif
 call lpi0(((((Ii1o)))),GetUnitX((yx[(ql[((Ii1o))])])),GetUnitY((yx[(ql[((Ii1o))])])),0)
+set H0AI_BY_PLAYER[Ii1o]=H0AI_Create(yx[ql[Ii1o]])
 if uip1[Ii1o]then
 call SetPlayerState((P[((((Ii1o))))]),PLAYER_STATE_RESOURCE_GOLD,(500))
 call UnitAddItem((yx[(ql[((Ii1o))])]),plqo('I007',GetUnitX((yx[(ql[((Ii1o))])])),GetUnitY((yx[(ql[((Ii1o))])]))))
@@ -136241,6 +136337,9 @@ call OO_O(((((Ii1o)))))
 call q0uO((GetPlayerId(((P[(((Ii1o)))])))))
 call o99O((GetPlayerId(((P[(((Ii1o)))])))))
 call oOpO((P[(((Ii1o)))]),0)
+if H0AI_BY_PLAYER[Ii1o]!=0 then
+call H0AI_Destroy(H0AI_BY_PLAYER[Ii1o])
+endif
 if ql[((Ii1o))]!=0 then
 set g=iouO()
 call GroupEnumUnitsOfPlayer(g,(P[(((Ii1o)))]),null)
@@ -248785,6 +248884,7 @@ local integer o6Io
 local integer o61Ii
 local version v
 local integer l91o
+call H0AI_InitVKey()
 call SetCameraBounds(-29952.+GetCameraMargin(CAMERA_MARGIN_LEFT),-31488.+GetCameraMargin(CAMERA_MARGIN_BOTTOM),31232.-GetCameraMargin(CAMERA_MARGIN_RIGHT),17408.-GetCameraMargin(CAMERA_MARGIN_TOP),-29952.+GetCameraMargin(CAMERA_MARGIN_LEFT),17408.-GetCameraMargin(CAMERA_MARGIN_TOP),31232.-GetCameraMargin(CAMERA_MARGIN_RIGHT),-31488.+GetCameraMargin(CAMERA_MARGIN_BOTTOM))
 call SetDayNightModels("Environment\\DNC\\DNCLordaeron\\DNCLordaeronTerrain\\DNCLordaeronTerrain.mdl","Environment\\DNC\\DNCLordaeron\\DNCLordaeronUnit\\DNCLordaeronUnit.mdl")
 call SetTerrainFogEx(0,80000.,90000.,.0,.0,.0,.0)
